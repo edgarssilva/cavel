@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="8" tileheight="8" nextobjectid="41">
+ <tileset firstgid="1" source="tilesets/cavesofgallet_tiles.tsx"/>
+ <tileset firstgid="97" name="Entities" tilewidth="50" tileheight="37" tilecount="2" columns="0">
+  <tile id="0">
+   <image width="50" height="37" source="tiles/adventurer-idle-00.png"/>
+  </tile>
+  <tile id="1">
+   <image width="24" height="32" source="tiles/idle0.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="99" name="transparent" tilewidth="8" tileheight="8" tilecount="96" columns="8">
+  <image source="tiles/cavesofgallet_tiles.png" trans="ff00ff" width="64" height="96"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="41" duration="200"/>
+    <frame tileid="49" duration="200"/>
+   </animation>
+  </tile>
+ </tileset>
+ <layer name="Background" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwwENAAAMw6DOv+kLOSSsmqqqqqqqqvriARB9Bwk=
+  </data>
+ </layer>
+ <layer name="Walls" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1k0OQDAQBeDZqlWXrNXKIXsUR+nRTG2oSPylHcz7koaFRJ83hCUKpIgl8tJ7KMmi31/T1m/N/Ro+mv2j5+cxVvpmwEvvoSRNeVvO2ijJq6nXSFveSOLbPJS+4UrujjteLl2+z3nDA7nzSna5h/9Hxs1/SHL+dN7flvfI0/4/mDecvZZnYZ4JR8ucSL6rd1zp12bcRylX+v1DXgAAAADQbQJihBUj
+  </data>
+ </layer>
+ <layer name="Enviroment" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztV0tOwzAQtaClrNlyBYTEhnUpKz4bKAKaZoHERXIUjsJROApj1QMPM7Gd2nU+zZNGdpypZ57nE1eptFgbGRLeHe8Wanh8XdhDvpXN15UPXcJFgI7NZYj160Lf+J54nn3QXBeJfOkD9rBf9ZrvC8lrA32pfg/TuZMME5IpPOP8uME+Nl/a55P2nusx1PZZA3vbYmLJtnwxn6dmr6vNWLHODPRJp5Js7hpsby3YjomvxnWca8mB5y31mjq+p8Ka9D2S+J7D/AjmuWs99tsZEl/N7zLSTirE8NU9ifliPSBfzIlnpT4izEXjhuSW5M5aD71j6brnfMYe0LX61SipTz7Q+EiydOjVcec+y/G1+R6kcjQRSvM/jqX06Ev+c35gjmi9exXWh2Z+lWSQ+JJ8GXmrG/Vvn4xwfnCO4NpS+c8wJ2y+uxDk2/YdMxPfeTZCHuSOb9soSFbEebUZf+aS35ZOxWv4vuvxrQNzQ78LuPubc/qjW6j/Z9O1+PoAMW2kj894Tm3CdRfo2j1hxIgRv/gGVExgLA==
+  </data>
+ </layer>
+ <objectgroup name="Collisions">
+  <object id="1" x="8" y="40" width="72" height="32"/>
+  <object id="3" x="0" y="0" width="8" height="40"/>
+  <object id="4" x="56" y="72" width="8" height="16"/>
+  <object id="5" x="64" y="88" width="8" height="31.3333"/>
+  <object id="23" x="64" y="112" width="72" height="40"/>
+  <object id="25" x="214.667" y="127.333" width="48" height="24"/>
+  <object id="26" x="256" y="96" width="48" height="32"/>
+  <object id="28" x="296" y="80" width="8" height="23.6667"/>
+  <object id="29" x="136" y="152" width="80" height="48">
+   <properties>
+    <property name="Water" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities">
+  <object id="9" name="player" gid="97" x="75" y="112" width="37.5" height="27.75"/>
+  <object id="33" name="Enemy" gid="2147483746" x="224" y="128" width="18" height="24"/>
+ </objectgroup>
+</map>

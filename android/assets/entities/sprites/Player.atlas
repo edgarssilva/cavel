@@ -1,0 +1,874 @@
+
+Player.png
+size: 512,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+adventurer-air-attack-1-00
+  rotate: false
+  xy: 0, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-1-01
+  rotate: false
+  xy: 50, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-1-02
+  rotate: false
+  xy: 100, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-1-03
+  rotate: false
+  xy: 150, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-2-00
+  rotate: false
+  xy: 200, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-2-01
+  rotate: false
+  xy: 250, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-2-02
+  rotate: false
+  xy: 300, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-3-end-00
+  rotate: false
+  xy: 350, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-3-end-01
+  rotate: false
+  xy: 400, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack-3-end-02
+  rotate: false
+  xy: 450, 0
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack3-loop-00
+  rotate: false
+  xy: 0, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack3-loop-01
+  rotate: false
+  xy: 50, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-air-attack3-rdy-00
+  rotate: false
+  xy: 100, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack1-00
+  rotate: false
+  xy: 150, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack1-01
+  rotate: false
+  xy: 200, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack1-02
+  rotate: false
+  xy: 250, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack1-03
+  rotate: false
+  xy: 300, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack1-04
+  rotate: false
+  xy: 350, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack2-00
+  rotate: false
+  xy: 400, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack2-01
+  rotate: false
+  xy: 450, 37
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack2-02
+  rotate: false
+  xy: 0, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack2-03
+  rotate: false
+  xy: 50, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack2-04
+  rotate: false
+  xy: 100, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack2-05
+  rotate: false
+  xy: 150, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack3-00
+  rotate: false
+  xy: 200, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack3-01
+  rotate: false
+  xy: 250, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack3-02
+  rotate: false
+  xy: 300, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack3-03
+  rotate: false
+  xy: 350, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack3-04
+  rotate: false
+  xy: 400, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-attack3-05
+  rotate: false
+  xy: 450, 74
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-00
+  rotate: false
+  xy: 0, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-01
+  rotate: false
+  xy: 50, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-02
+  rotate: false
+  xy: 100, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-03
+  rotate: false
+  xy: 150, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-04
+  rotate: false
+  xy: 200, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-05
+  rotate: false
+  xy: 250, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-06
+  rotate: false
+  xy: 300, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-07
+  rotate: false
+  xy: 350, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-08
+  rotate: false
+  xy: 400, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-jump-00
+  rotate: false
+  xy: 450, 111
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-jump-01
+  rotate: false
+  xy: 0, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-jump-02
+  rotate: false
+  xy: 50, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-jump-03
+  rotate: false
+  xy: 100, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-jump-04
+  rotate: false
+  xy: 150, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-bow-jump-05
+  rotate: false
+  xy: 200, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-00
+  rotate: false
+  xy: 250, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-01
+  rotate: false
+  xy: 300, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-02
+  rotate: false
+  xy: 350, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-03
+  rotate: false
+  xy: 400, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-loop-00
+  rotate: false
+  xy: 450, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-loop-02
+  rotate: false
+  xy: 450, 148
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-loop-01
+  rotate: false
+  xy: 0, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-cast-loop-03
+  rotate: false
+  xy: 0, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-clmb-00
+  rotate: false
+  xy: 50, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-clmb-01
+  rotate: false
+  xy: 100, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-clmb-02
+  rotate: false
+  xy: 150, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-clmb-03
+  rotate: false
+  xy: 200, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-clmb-04
+  rotate: false
+  xy: 250, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-grb-00
+  rotate: false
+  xy: 300, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-grb-01
+  rotate: false
+  xy: 350, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-grb-02
+  rotate: false
+  xy: 400, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-grb-03
+  rotate: false
+  xy: 450, 185
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-jmp-00
+  rotate: false
+  xy: 0, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crnr-jmp-01
+  rotate: false
+  xy: 50, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crouch-00
+  rotate: false
+  xy: 100, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crouch-01
+  rotate: false
+  xy: 150, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crouch-02
+  rotate: false
+  xy: 200, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-crouch-03
+  rotate: false
+  xy: 250, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-00
+  rotate: false
+  xy: 300, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-hurt-00
+  rotate: false
+  xy: 300, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-01
+  rotate: false
+  xy: 350, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-hurt-01
+  rotate: false
+  xy: 350, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-02
+  rotate: false
+  xy: 400, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-03
+  rotate: false
+  xy: 450, 222
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-04
+  rotate: false
+  xy: 0, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-06
+  rotate: false
+  xy: 0, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-die-05
+  rotate: false
+  xy: 50, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-fall-00
+  rotate: false
+  xy: 100, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-fall-01
+  rotate: false
+  xy: 150, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-hurt-02
+  rotate: false
+  xy: 200, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-00
+  rotate: false
+  xy: 250, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-01
+  rotate: false
+  xy: 300, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-02
+  rotate: false
+  xy: 350, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-03
+  rotate: false
+  xy: 400, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-2-00
+  rotate: false
+  xy: 450, 259
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-2-01
+  rotate: false
+  xy: 0, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-2-02
+  rotate: false
+  xy: 50, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-idle-2-03
+  rotate: false
+  xy: 100, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-items-00
+  rotate: false
+  xy: 150, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-items-01
+  rotate: false
+  xy: 200, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-items-02
+  rotate: false
+  xy: 250, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-jump-00
+  rotate: false
+  xy: 300, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-jump-01
+  rotate: false
+  xy: 350, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-jump-02
+  rotate: false
+  xy: 400, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-jump-03
+  rotate: false
+  xy: 450, 296
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-ladder-climb-00
+  rotate: false
+  xy: 0, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-ladder-climb-01
+  rotate: false
+  xy: 50, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-ladder-climb-02
+  rotate: false
+  xy: 100, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-ladder-climb-03
+  rotate: false
+  xy: 150, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-run-00
+  rotate: false
+  xy: 200, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-run-01
+  rotate: false
+  xy: 250, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-run-02
+  rotate: false
+  xy: 300, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-run-03
+  rotate: false
+  xy: 350, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-run-04
+  rotate: false
+  xy: 400, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-run-05
+  rotate: false
+  xy: 450, 333
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-slide-00
+  rotate: false
+  xy: 0, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-slide-01
+  rotate: false
+  xy: 50, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-smrslt-00
+  rotate: false
+  xy: 100, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-smrslt-01
+  rotate: false
+  xy: 150, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-smrslt-02
+  rotate: false
+  xy: 200, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-smrslt-03
+  rotate: false
+  xy: 250, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-stand-00
+  rotate: false
+  xy: 300, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-stand-01
+  rotate: false
+  xy: 350, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-stand-02
+  rotate: false
+  xy: 400, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-drw-00
+  rotate: false
+  xy: 450, 370
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-drw-01
+  rotate: false
+  xy: 0, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-drw-02
+  rotate: false
+  xy: 50, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-shte-00
+  rotate: false
+  xy: 100, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-drw-03
+  rotate: false
+  xy: 100, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-shte-01
+  rotate: false
+  xy: 150, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-shte-02
+  rotate: false
+  xy: 200, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-swrd-shte-03
+  rotate: false
+  xy: 250, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-wall-slide-00
+  rotate: false
+  xy: 300, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+adventurer-wall-slide-01
+  rotate: false
+  xy: 350, 407
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1

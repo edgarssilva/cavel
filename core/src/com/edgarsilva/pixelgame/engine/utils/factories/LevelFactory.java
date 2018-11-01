@@ -1,0 +1,190 @@
+package com.edgarsilva.pixelgame.engine.utils.factories;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.CircleMapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
+import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
+import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
+import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
+import com.edgarsilva.pixelgame.screens.PlayScreen;
+
+public class LevelFactory {
+
+    private static World world;
+    private static PooledEngine engine;
+
+    public LevelFactory(PlayScreen screen) {
+        world = screen.getWorld();
+        engine = screen.getEngine();
+    }
+
+
+    public static void createPhysics(TiledMap map, String layerName) {
+        MapLayer layer = map.getLayers().get(layerName);
+
+        MapObjects objects = layer.getObjects();
+
+        for(MapObject object : objects) {
+
+
+            if (object instanceof TextureMapObject) {
+                continue;
+            }
+
+            Shape shape;
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.awake = false;
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+
+            if (object instanceof RectangleMapObject) {
+                shape = BodyFactory.getRectangle((RectangleMapObject) object);
+            } else if (object instanceof PolygonMapObject) {
+                shape = BodyFactory.getPolygon((PolygonMapObject) object);
+            } else if (object instanceof PolylineMapObject) {
+                shape = BodyFactory.getPolyline((PolylineMapObject) object);
+            } else if (object instanceof CircleMapObject) {
+                shape = BodyFactory.getCircle((CircleMapObject) object);
+            } else {
+                Gdx.app.log("Unrecognized shape", "" + object.toString());
+                continue;
+            }
+
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = PhysicsConstants.LEVEL_BITS;
+            fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
+                    PhysicsConstants.ENEMY_BITS |
+                    PhysicsConstants.NEUTRAL_BITS |
+                    PhysicsConstants.FOOT_SENSOR |
+                    PhysicsConstants.RIGHT_WALL_SENSOR |
+                    PhysicsConstants.LEFT_WALL_SENSOR);
+
+            // All collisions need an entity, and all entities need a type to handle collisions
+            Entity levelEntity = engine.createEntity();
+            TypeComponent type = engine.createComponent(TypeComponent.class);
+
+
+            Body body = world.createBody(bodyDef);
+
+            body.setUserData(levelEntity);
+
+            type.type = TypeComponent.SCENERY;
+            levelEntity.add(type);
+            body.createFixture(fixtureDef).setUserData(levelEntity);
+
+
+            fixtureDef.shape = null;
+            shape.dispose();
+        }
+    }
+
+    public static void makeEntities(TiledMap map, String layerName){
+
+        MapObjects objects =  map.getLayers().get(layerName).getObjects();
+        Vector2 position, dimension;
+        for (MapObject object : objects) {
+            position = getObjectPosition(object);
+            dimension = getObjectDimension(object);
+
+            if (object.getProperties().containsKey("player") || object.getName().equalsIgnoreCase("Player"))
+                EntitiesFactory.createPlayer(position.x, position.y, dimension.x, dimension.y);
+            if (object.getProperties().containsKey("enemy") || object.getName().equalsIgnoreCase("Enemy"))
+                EntitiesFactory.createEnemy(position.x, position.y, dimension.x, dimension.y);
+
+        }
+        if (EntityManager.getPlayer() == null)
+            System.out.println("Player spawn point is undefined in the level !");
+    }
+
+    public static void makeObstacles(TiledMap map, String layerName) {
+        MapObjects objects =  map.getLayers().get(layerName).getObjects();
+        for (MapObject object : objects){
+            if (object.getProperties().containsKey("platform")) {
+
+                Vector2 position = getObjectPosition(object);
+
+
+
+                Shape shape = BodyFactory.getRectangle((RectangleMapObject)object);
+                BodyDef bodyDef = new BodyDef();
+                bodyDef.type = BodyDef.BodyType.KinematicBody;
+                bodyDef.gravityScale = 0;
+
+
+                Entity levelEntity = engine.createEntity();
+
+                FixtureDef fixtureDef = new FixtureDef();
+                fixtureDef.shape = shape;
+
+                Body body = world.createBody(bodyDef);
+                body.setUserData(levelEntity);
+                body.createFixture(fixtureDef).setUserData(levelEntity);
+
+
+                fixtureDef.shape = null;
+                shape.dispose();
+
+                TypeComponent type = engine.createComponent(TypeComponent.class);
+                BodyComponent bc = engine.createComponent(BodyComponent.class);
+                TextureComponent tc = engine.createComponent(TextureComponent.class);
+                TransformComponent tfc = engine.createComponent(TransformComponent.class);
+
+                tfc.position.set(position.x, position.y, 1);
+                tfc.width = 16;
+                tfc.height = 16;
+
+                //tc.region = new TextureRegion(new Texture("sprites/swoosh.png"));
+
+                type.type = TypeComponent.SCENERY;
+                bc.body = body;
+
+                levelEntity
+                        .add(type)
+                        .add(bc)
+                        .add(tc)
+                        .add(tfc);
+                engine.addEntity(levelEntity);
+            }else if (object.getProperties().containsKey("drop")){
+
+                Vector2 position = getObjectPosition(object);
+                Vector2 dimension = getObjectDimension(object);
+
+                float odd = Float.parseFloat(object.getProperties().get("drop").toString());
+
+                EntitiesFactory.createDropper(odd, position.x, position.y, dimension.x, dimension.y);
+            }
+        }
+    }
+
+
+    private static Vector2 getObjectPosition(MapObject object){
+        float x = Float.parseFloat(object.getProperties().get("x").toString()) * RenderSystem.PIXELS_TO_METERS;
+        float y = Float.parseFloat(object.getProperties().get("y").toString()) * RenderSystem.PIXELS_TO_METERS;
+        return  new Vector2(x,y);
+    }
+
+    private static Vector2 getObjectDimension(MapObject object){
+        float width = Float.parseFloat(object.getProperties().get("width").toString()) ;
+        float height = Float.parseFloat(object.getProperties().get("height").toString());
+        return  new Vector2(width, height);
+    }
+}
