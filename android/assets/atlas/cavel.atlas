@@ -1,0 +1,2196 @@
+
+cavel.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+witch_attack
+  rotate: false
+  xy: 2, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 8
+witch_slide
+  rotate: false
+  xy: 2, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 23
+witch_slide
+  rotate: false
+  xy: 2, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 17
+witch_slide
+  rotate: false
+  xy: 104, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 15
+witch_slide
+  rotate: false
+  xy: 2, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 11
+witch_slide
+  rotate: false
+  xy: 104, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 21
+witch_slide
+  rotate: false
+  xy: 206, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 24
+witch_slide
+  rotate: false
+  xy: 206, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 18
+witch_attack
+  rotate: false
+  xy: 2, 613
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 2
+witch_attack
+  rotate: false
+  xy: 104, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 0
+witch_slide
+  rotate: false
+  xy: 104, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 0
+witch_attack
+  rotate: false
+  xy: 206, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 4
+witch_slide
+  rotate: false
+  xy: 308, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 12
+witch_attack
+  rotate: false
+  xy: 2, 511
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 10
+witch_attack
+  rotate: false
+  xy: 104, 613
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 9
+witch_attack
+  rotate: false
+  xy: 206, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 5
+witch_slide
+  rotate: false
+  xy: 308, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 22
+witch_slide
+  rotate: false
+  xy: 410, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 19
+witch_slide
+  rotate: false
+  xy: 2, 409
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 13
+witch_attack
+  rotate: false
+  xy: 104, 511
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 3
+witch_attack
+  rotate: false
+  xy: 206, 613
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 6
+witch_attack
+  rotate: false
+  xy: 308, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 11
+witch_attack
+  rotate: false
+  xy: 410, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 1
+witch_slide
+  rotate: false
+  xy: 512, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 9
+witch_slide
+  rotate: false
+  xy: 2, 307
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 4
+witch_slide
+  rotate: false
+  xy: 104, 409
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 7
+witch_slide
+  rotate: false
+  xy: 206, 511
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 6
+witch_slide
+  rotate: false
+  xy: 308, 613
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 10
+witch_slide
+  rotate: false
+  xy: 410, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 2
+witch_slide
+  rotate: false
+  xy: 512, 817
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 1
+witch_slide
+  rotate: false
+  xy: 614, 919
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 16
+witch_attack
+  rotate: false
+  xy: 2, 205
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 7
+witch_slide
+  rotate: false
+  xy: 104, 307
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 3
+witch_slide
+  rotate: false
+  xy: 206, 409
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 14
+witch_slide
+  rotate: false
+  xy: 308, 511
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 5
+witch_slide
+  rotate: false
+  xy: 410, 613
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 20
+witch_slide
+  rotate: false
+  xy: 512, 715
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 8
+slime_death3
+  rotate: false
+  xy: 614, 837
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack3
+  rotate: false
+  xy: 716, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_attack3
+  rotate: false
+  xy: 2, 123
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_idle0
+  rotate: false
+  xy: 104, 225
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_idle1
+  rotate: false
+  xy: 104, 225
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_idle
+  rotate: false
+  xy: 206, 327
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 5
+wizard_idle
+  rotate: false
+  xy: 308, 429
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 9
+wizard_idle
+  rotate: false
+  xy: 410, 531
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 2
+wizard_idle
+  rotate: false
+  xy: 512, 633
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 6
+slime_monster_attack5
+  rotate: false
+  xy: 614, 755
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack1
+  rotate: false
+  xy: 798, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack5
+  rotate: false
+  xy: 2, 41
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 880, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 1
+wizard_idle
+  rotate: false
+  xy: 962, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 3
+slime_death4
+  rotate: false
+  xy: 1044, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack9
+  rotate: false
+  xy: 1126, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_walk1
+  rotate: false
+  xy: 1208, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_death5
+  rotate: false
+  xy: 1290, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_death2
+  rotate: false
+  xy: 1372, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack2
+  rotate: false
+  xy: 1454, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_walk5
+  rotate: false
+  xy: 1536, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 1618, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 2
+slime_attack4
+  rotate: false
+  xy: 1700, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_idle3
+  rotate: false
+  xy: 1782, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_idle2
+  rotate: false
+  xy: 1782, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_attack2
+  rotate: false
+  xy: 1864, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 1946, 939
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 5
+slime_monster_walk6
+  rotate: false
+  xy: 614, 673
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack7
+  rotate: false
+  xy: 696, 837
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack8
+  rotate: false
+  xy: 696, 755
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_attack4
+  rotate: false
+  xy: 696, 673
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 778, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 0
+wizard_idle
+  rotate: false
+  xy: 778, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 0
+wizard_death
+  rotate: false
+  xy: 778, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 3
+wizard_idle
+  rotate: false
+  xy: 860, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 1
+slime_monster_walk2
+  rotate: false
+  xy: 778, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_idle4
+  rotate: false
+  xy: 860, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_idle5
+  rotate: false
+  xy: 860, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 942, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 9
+slime_death1
+  rotate: false
+  xy: 860, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 942, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 7
+wizard_idle
+  rotate: false
+  xy: 1024, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 4
+slime_death6
+  rotate: false
+  xy: 942, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_walk0
+  rotate: false
+  xy: 1024, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_death7
+  rotate: false
+  xy: 1106, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_attack7
+  rotate: false
+  xy: 1024, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack0
+  rotate: false
+  xy: 1106, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_attack1
+  rotate: false
+  xy: 1188, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 1106, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 6
+slime_monster_walk4
+  rotate: false
+  xy: 1188, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_attack6
+  rotate: false
+  xy: 1270, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_attack6
+  rotate: false
+  xy: 1188, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_idle
+  rotate: false
+  xy: 1270, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 8
+slime_monster_attack0
+  rotate: false
+  xy: 1352, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_walk7
+  rotate: false
+  xy: 1270, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+slime_monster_walk3
+  rotate: false
+  xy: 1352, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_idle
+  rotate: false
+  xy: 1434, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 7
+wizard_death
+  rotate: false
+  xy: 1352, 693
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 4
+slime_death0
+  rotate: false
+  xy: 1434, 775
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+wizard_death
+  rotate: false
+  xy: 1516, 857
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 8
+wizard_attack
+  rotate: false
+  xy: 1434, 703
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 5
+wizard_attack
+  rotate: false
+  xy: 1516, 785
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 2
+wizard_attack
+  rotate: false
+  xy: 1598, 867
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 3
+wizard_attack
+  rotate: false
+  xy: 1670, 867
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 0
+wizard_attack
+  rotate: false
+  xy: 1742, 867
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 7
+wizard_attack
+  rotate: false
+  xy: 1814, 867
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 8
+wizard_attack
+  rotate: false
+  xy: 1886, 867
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 6
+wizard_attack
+  rotate: false
+  xy: 1958, 867
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 1
+wizard_attack
+  rotate: false
+  xy: 84, 133
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: 4
+adventurer_cast_loop
+  rotate: false
+  xy: 2, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_cast_loop
+  rotate: false
+  xy: 2, 2
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_items
+  rotate: false
+  xy: 84, 94
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_air_attack_2
+  rotate: false
+  xy: 84, 55
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_stand
+  rotate: false
+  xy: 206, 288
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_run
+  rotate: false
+  xy: 308, 390
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_crouch
+  rotate: false
+  xy: 410, 492
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_ladder_climb
+  rotate: false
+  xy: 512, 594
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_cast
+  rotate: false
+  xy: 778, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_air_attack_3_end
+  rotate: false
+  xy: 830, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_die
+  rotate: false
+  xy: 882, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_hurt
+  rotate: false
+  xy: 882, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_attack2
+  rotate: false
+  xy: 934, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+adventurer_hurt
+  rotate: false
+  xy: 986, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_die
+  rotate: false
+  xy: 986, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_slide
+  rotate: false
+  xy: 1038, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_swrd_drw
+  rotate: false
+  xy: 1090, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_swrd_shte
+  rotate: false
+  xy: 1142, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_swrd_drw
+  rotate: false
+  xy: 1194, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_idle_2
+  rotate: false
+  xy: 1246, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_attack1
+  rotate: false
+  xy: 1298, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_fall
+  rotate: false
+  xy: 1350, 654
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+coin
+  rotate: false
+  xy: 1402, 653
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 1
+adventurer_idle_2
+  rotate: false
+  xy: 1436, 664
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_attack2
+  rotate: false
+  xy: 186, 249
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_crouch
+  rotate: false
+  xy: 186, 210
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_crnr_clmb
+  rotate: false
+  xy: 288, 351
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_jump
+  rotate: false
+  xy: 288, 312
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_air_attack_1
+  rotate: false
+  xy: 390, 453
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_attack2
+  rotate: false
+  xy: 390, 414
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 5
+adventurer_crnr_grb
+  rotate: false
+  xy: 492, 555
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_air_attack_1
+  rotate: false
+  xy: 492, 516
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_cast_loop
+  rotate: false
+  xy: 594, 634
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_cast_loop
+  rotate: false
+  xy: 594, 634
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_attack3
+  rotate: false
+  xy: 646, 634
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_run
+  rotate: false
+  xy: 698, 634
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+skeleton_attack
+  rotate: false
+  xy: 54, 2
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 7
+skeleton_attack
+  rotate: false
+  xy: 564, 594
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 12
+adventurer_crnr_grb
+  rotate: false
+  xy: 544, 555
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_die
+  rotate: false
+  xy: 544, 516
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 5
+adventurer_air_attack_2
+  rotate: false
+  xy: 609, 595
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_idle
+  rotate: false
+  xy: 661, 595
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+skeleton_attack
+  rotate: false
+  xy: 713, 595
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 16
+adventurer_die
+  rotate: false
+  xy: 1436, 625
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+skeleton_attack
+  rotate: false
+  xy: 99, 16
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 1
+adventurer_die
+  rotate: false
+  xy: 1516, 746
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+adventurer_die
+  rotate: false
+  xy: 1516, 746
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 6
+adventurer_crnr_grb
+  rotate: false
+  xy: 1506, 707
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_jump
+  rotate: false
+  xy: 1598, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_attack2
+  rotate: false
+  xy: 1650, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_crnr_grb
+  rotate: false
+  xy: 1702, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_stand
+  rotate: false
+  xy: 1754, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_run
+  rotate: false
+  xy: 1806, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+adventurer_ladder_climb
+  rotate: false
+  xy: 1858, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_swrd_drw
+  rotate: false
+  xy: 1910, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_swrd_shte
+  rotate: false
+  xy: 1910, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_crouch
+  rotate: false
+  xy: 1962, 828
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+coin
+  rotate: false
+  xy: 2014, 827
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 2
+adventurer_swrd_shte
+  rotate: false
+  xy: 1588, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_idle
+  rotate: false
+  xy: 1640, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_smrslt
+  rotate: false
+  xy: 1692, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_items
+  rotate: false
+  xy: 1744, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_stand
+  rotate: false
+  xy: 1796, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_attack1
+  rotate: false
+  xy: 1848, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+adventurer_cast
+  rotate: false
+  xy: 1900, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_run
+  rotate: false
+  xy: 1952, 789
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+coin
+  rotate: false
+  xy: 2004, 787
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 5
+skeleton_idle
+  rotate: false
+  xy: 258, 293
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 4
+adventurer_air_attack_1
+  rotate: false
+  xy: 284, 273
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+skeleton_idle
+  rotate: false
+  xy: 360, 395
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 9
+skeleton_idle
+  rotate: false
+  xy: 360, 395
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 10
+skeleton_idle
+  rotate: false
+  xy: 360, 395
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 0
+adventurer_smrslt
+  rotate: false
+  xy: 386, 375
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+skeleton_idle
+  rotate: false
+  xy: 462, 497
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 5
+adventurer_crnr_clmb
+  rotate: false
+  xy: 488, 477
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_attack3
+  rotate: false
+  xy: 540, 477
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+coin
+  rotate: false
+  xy: 136, 93
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 4
+skeleton_dead
+  rotate: false
+  xy: 136, 59
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 7
+coin
+  rotate: false
+  xy: 144, 19
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 7
+coin
+  rotate: false
+  xy: 144, 19
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 0
+skeleton_idle
+  rotate: false
+  xy: 750, 639
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 2
+adventurer_slide
+  rotate: false
+  xy: 776, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_crnr_jmp
+  rotate: false
+  xy: 828, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_swrd_shte
+  rotate: false
+  xy: 880, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_idle
+  rotate: false
+  xy: 932, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_attack1
+  rotate: false
+  xy: 984, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_idle_2
+  rotate: false
+  xy: 1036, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_attack3
+  rotate: false
+  xy: 1088, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_attack3
+  rotate: false
+  xy: 1140, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+adventurer_air_attack3_rdy
+  rotate: false
+  xy: 1192, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_crnr_clmb
+  rotate: false
+  xy: 1244, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 4
+adventurer_idle
+  rotate: false
+  xy: 1296, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_attack3
+  rotate: false
+  xy: 1348, 615
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+coin
+  rotate: false
+  xy: 1400, 613
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 3
+adventurer_attack2
+  rotate: false
+  xy: 1434, 586
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+coin
+  rotate: false
+  xy: 238, 248
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: 6
+skeleton_attack
+  rotate: false
+  xy: 238, 209
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 5
+adventurer_run
+  rotate: false
+  xy: 283, 234
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_wall_slide
+  rotate: false
+  xy: 283, 195
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+skeleton_attack
+  rotate: false
+  xy: 1568, 746
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 3
+adventurer_swrd_drw
+  rotate: false
+  xy: 1558, 707
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_jump
+  rotate: false
+  xy: 1613, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_air_attack3_loop
+  rotate: false
+  xy: 1665, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_attack2
+  rotate: false
+  xy: 1717, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_crouch
+  rotate: false
+  xy: 1769, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_attack3
+  rotate: false
+  xy: 1821, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 5
+adventurer_ladder_climb
+  rotate: false
+  xy: 1873, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_attack1
+  rotate: false
+  xy: 1925, 750
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_air_attack_3_end
+  rotate: false
+  xy: 1977, 748
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+skeleton_attack
+  rotate: false
+  xy: 340, 351
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 2
+skeleton_attack
+  rotate: false
+  xy: 340, 312
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 0
+skeleton_attack
+  rotate: false
+  xy: 340, 312
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 17
+adventurer_cast
+  rotate: false
+  xy: 385, 336
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_crnr_jmp
+  rotate: false
+  xy: 336, 273
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_run
+  rotate: false
+  xy: 335, 234
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 5
+adventurer_crnr_clmb
+  rotate: false
+  xy: 335, 195
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_smrslt
+  rotate: false
+  xy: 388, 297
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_items
+  rotate: false
+  xy: 388, 258
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_cast
+  rotate: false
+  xy: 387, 219
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_fall
+  rotate: false
+  xy: 387, 180
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+skeleton_attack
+  rotate: false
+  xy: 442, 453
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 9
+skeleton_attack
+  rotate: false
+  xy: 442, 414
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 10
+adventurer_wall_slide
+  rotate: false
+  xy: 487, 438
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_air_attack_3_end
+  rotate: false
+  xy: 539, 438
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_jump
+  rotate: false
+  xy: 438, 375
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_die
+  rotate: false
+  xy: 437, 336
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_idle_2
+  rotate: false
+  xy: 440, 297
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_smrslt
+  rotate: false
+  xy: 440, 258
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_attack1
+  rotate: false
+  xy: 439, 219
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_hurt
+  rotate: false
+  xy: 439, 180
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_air_attack3_loop
+  rotate: false
+  xy: 490, 399
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+adventurer_ladder_climb
+  rotate: false
+  xy: 542, 399
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 3
+adventurer_air_attack_1
+  rotate: false
+  xy: 490, 360
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 0
+adventurer_air_attack_2
+  rotate: false
+  xy: 542, 360
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 2
+adventurer_crnr_clmb
+  rotate: false
+  xy: 492, 321
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: 1
+skeleton_attack
+  rotate: false
+  xy: 492, 282
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 14
+skeleton_attack
+  rotate: false
+  xy: 544, 321
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 6
+skeleton_attack
+  rotate: false
+  xy: 537, 282
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 13
+skeleton_attack
+  rotate: false
+  xy: 492, 243
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 15
+skeleton_attack
+  rotate: false
+  xy: 537, 243
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 11
+skeleton_attack
+  rotate: false
+  xy: 491, 204
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 8
+skeleton_attack
+  rotate: false
+  xy: 536, 204
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: 4
+skeleton_dead
+  rotate: false
+  xy: 491, 170
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 6
+skeleton_dead
+  rotate: false
+  xy: 526, 170
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 3
+skeleton_dead
+  rotate: false
+  xy: 526, 170
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 4
+skeleton_dead
+  rotate: false
+  xy: 526, 170
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 5
+skeleton_hit
+  rotate: false
+  xy: 561, 170
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 6
+skeleton_walk
+  rotate: false
+  xy: 1488, 668
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 12
+skeleton_dead
+  rotate: false
+  xy: 1512, 673
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 1
+skeleton_dead
+  rotate: false
+  xy: 1547, 673
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 13
+skeleton_hit
+  rotate: false
+  xy: 1582, 673
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 7
+skeleton_hit
+  rotate: false
+  xy: 1582, 673
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 0
+skeleton_walk
+  rotate: false
+  xy: 1488, 633
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 9
+skeleton_dead
+  rotate: false
+  xy: 1512, 639
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 8
+skeleton_dead
+  rotate: false
+  xy: 1547, 639
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 9
+skeleton_hit
+  rotate: false
+  xy: 1582, 639
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 4
+skeleton_walk
+  rotate: false
+  xy: 596, 559
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 2
+skeleton_dead
+  rotate: false
+  xy: 620, 561
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 0
+skeleton_dead
+  rotate: false
+  xy: 655, 561
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 12
+skeleton_dead
+  rotate: false
+  xy: 690, 561
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 2
+heart
+  rotate: false
+  xy: 725, 561
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+skeleton_walk
+  rotate: false
+  xy: 596, 524
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 11
+skeleton_dead
+  rotate: false
+  xy: 620, 527
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 14
+skeleton_dead
+  rotate: false
+  xy: 655, 527
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 11
+skeleton_dead
+  rotate: false
+  xy: 690, 527
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: 10
+heart
+  rotate: false
+  xy: 725, 527
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+skeleton_walk
+  rotate: false
+  xy: 582, 286
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 5
+skeleton_walk
+  rotate: false
+  xy: 582, 251
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 7
+slime_hurt
+  rotate: false
+  xy: 1512, 612
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+slime_die
+  rotate: false
+  xy: 1546, 612
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+slime_idle
+  rotate: false
+  xy: 1580, 612
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+skeleton_walk
+  rotate: false
+  xy: 1488, 598
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 0
+slime_attack
+  rotate: false
+  xy: 1512, 585
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+slime_idle
+  rotate: false
+  xy: 1546, 585
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+slime_idle
+  rotate: false
+  xy: 1580, 585
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+skeleton_idle
+  rotate: false
+  xy: 1486, 564
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 3
+slime_move
+  rotate: false
+  xy: 1512, 558
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+slime_die
+  rotate: false
+  xy: 1546, 558
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+slime_attack
+  rotate: false
+  xy: 1580, 558
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+skeleton_idle
+  rotate: false
+  xy: 156, 191
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 1
+skeleton_hit
+  rotate: false
+  xy: 156, 157
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 1
+heart
+  rotate: false
+  xy: 188, 176
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+slime_hurt
+  rotate: false
+  xy: 188, 149
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+heart
+  rotate: false
+  xy: 222, 175
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+slime_die
+  rotate: false
+  xy: 222, 148
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+skeleton_idle
+  rotate: false
+  xy: 256, 175
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 6
+skeleton_hit
+  rotate: false
+  xy: 256, 141
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 5
+skeleton_hit
+  rotate: false
+  xy: 288, 161
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 2
+skeleton_hit
+  rotate: false
+  xy: 320, 161
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: 3
+slime_move
+  rotate: false
+  xy: 352, 168
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+slime_hurt
+  rotate: false
+  xy: 288, 134
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+slime_idle
+  rotate: false
+  xy: 322, 134
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+skeleton_idle
+  rotate: false
+  xy: 356, 134
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 8
+slime_attack
+  rotate: false
+  xy: 386, 153
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 0
+slime_move
+  rotate: false
+  xy: 420, 153
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+slime_attack
+  rotate: false
+  xy: 454, 153
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 2
+slime_hurt
+  rotate: false
+  xy: 382, 126
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 3
+slime_die
+  rotate: false
+  xy: 416, 126
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+slime_attack
+  rotate: false
+  xy: 450, 126
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 4
+slime_move
+  rotate: false
+  xy: 488, 143
+  size: 32, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: 1
+skeleton_idle
+  rotate: false
+  xy: 522, 136
+  size: 24, 32
+  orig: 24, 32
+  offset: 0, 0
+  index: 7
+skeleton_walk
+  rotate: false
+  xy: 548, 135
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 6
+skeleton_walk
+  rotate: false
+  xy: 572, 135
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 4
+skeleton_walk
+  rotate: false
+  xy: 589, 325
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 3
+skeleton_walk
+  rotate: false
+  xy: 592, 481
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 1
+skeleton_walk
+  rotate: false
+  xy: 1610, 711
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 8
+skeleton_walk
+  rotate: false
+  xy: 1634, 715
+  size: 22, 33
+  orig: 22, 33
+  offset: 0, 0
+  index: 10

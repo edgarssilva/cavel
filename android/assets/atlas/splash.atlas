@@ -1,0 +1,26 @@
+splash.png
+size: 960,540
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+spaghetti
+  rotate: false
+  xy: 100, 200
+  size: 490, 80
+  orig: 490, 80
+  offset: 0, 0
+  index: -1
+games
+  rotate: false
+  xy: 320, 280
+  size: 260, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 585, 120
+  size: 300, 260
+  orig: 300, 260
+  offset: 0, 0
+  index: -1
