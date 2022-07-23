@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
@@ -43,6 +44,7 @@ public class EnemyAgentComponent implements Component, Updateable {
     // private GraphPathImp resultPath = new GraphPathImp();
 
     public EnemyAgentComponent() {
+
     }
 
     public EnemyAgentComponent(Entity entity) {
@@ -53,12 +55,13 @@ public class EnemyAgentComponent implements Component, Updateable {
         body          =  bodyCompMap.get(entity).body;
         collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
         stateMachine  =  new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
+        MessageManager.getInstance().addListener(stateMachine, 0);
     }
 
 
     @Override
     public void update(float deltaTime) {
-       // if (PlayScreen.gameOver) stateMachine.changeState(EnemyState.IDLE);
+        // if (PlayScreen.gameOver) stateMachine.changeState(EnemyState.IDLE);
         stateMachine.update();
 
         hasGroundLeft       =  collisionComp.numGroundLeft  >  0;
@@ -98,11 +101,14 @@ public class EnemyAgentComponent implements Component, Updateable {
     }
 
     public void attack() {
-        for (Entity ent: attackableEntities)
-       /*     if (statsCompMap.has(ent))
-                statsCompMap.get(ent).attack(statsComp);*/
-       PlayerAgent.hit(statsComp);
+        PlayerAgent.hit(statsComp);
+    }
 
+    public boolean attackable() {
+        for (Entity ent: attackableEntities)
+            if (ent.equals(EntityManager.getPlayer()))return true;
+
+        return false;
     }
 }
 

@@ -7,6 +7,7 @@ import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
 public enum EnemyState implements State<EnemyAgentComponent> {
 
+
     IDLE(){
         @Override
         public void enter(EnemyAgentComponent agent) {
@@ -27,7 +28,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         @Override
         public void update(EnemyAgentComponent agent) {
 
-            if (agent.attackableEntities.size > 0) agent.stateMachine.changeState(Attacking);
+            if (agent.attackable()) agent.stateMachine.changeState(Attacking);
 
             if  (agent.isTouchingWallRight  || !agent.hasGroundRight ){
                 agent.moveToLeft = true;
@@ -63,7 +64,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
             if (agent.anim.isAnimationFinished(agent.timer * 2)) {
                 if (!attack){ agent.attack(); attack = true; }
                 if (agent.anim.isAnimationFinished(agent.timer)) {
-                    if (agent.attackableEntities.size > 0) {
+                    if (agent.attackable()) {
                         attack = false;
                         agent.timer = 0;
                     } else agent.stateMachine.changeState(Seeking);
@@ -132,6 +133,11 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
     @Override
     public boolean onMessage(EnemyAgentComponent agent, Telegram telegram) {
+        if (telegram.message == 0) {
+            agent.attackableEntities.clear();
+            return true;
+        }
+
         return false;
     }
 }

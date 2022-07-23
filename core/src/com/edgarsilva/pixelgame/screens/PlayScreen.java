@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.GdxAI;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -135,22 +136,22 @@ public class PlayScreen implements Screen {
 
         Gdx.input.setCursorCatched(!paused);
 
-        cameraManager.update(delta);
         batch.setProjectionMatrix(cameraManager.getCamera().combined);
         shapeRenderer.setProjectionMatrix(cameraManager.getCamera().combined);
+        cameraManager.update(delta);
 
         LevelManager.renderer.setView(cameraManager.getCamera());
         LevelManager.renderer.render();
 
         GdxAI.getTimepiece().update(delta);
-        if(!gameOver) entityManager.update(delta);
+        entityManager.update(delta);
         hud.update(delta);
 
         if (paused) pauseMenu.render();
         if (gameOver) {
 
             gameOverTimer += Gdx.graphics.getDeltaTime();
-            alpha += delta / 1.5;
+            alpha += Gdx.graphics.getDeltaTime() / 1.5;
             Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
             Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.setColor(0, 0, 0, alpha);
@@ -172,7 +173,6 @@ public class PlayScreen implements Screen {
     }
 
     private void checkChanges(){
-        //Parar o jogo
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if (paused)
                 inputMultiplexer.removeProcessor(PauseManager.INPUT_INDEX);
@@ -181,12 +181,10 @@ public class PlayScreen implements Screen {
             paused = !paused;
         }
 
-        //
-        if (JoystickController.connected) {
+        if (JoystickController.connected)
             inputMultiplexer.removeProcessor(Controller.INPUT_INDEX);
-        }else{
+        else
             inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
-        }
 
     }
 
@@ -218,6 +216,7 @@ public class PlayScreen implements Screen {
 
     public void gameOver() {
         this.gameOver = true;
+        MessageManager.getInstance().dispatchMessage(0);
     }
 
     private void resetGame(){
@@ -238,14 +237,15 @@ public class PlayScreen implements Screen {
     public World getWorld() {
         return world;
     }
-
     public CameraManager getCameraManager() {
         return cameraManager;
     }
     public SpriteBatch getBatch() {
         return batch;
     }
-    public ShapeRenderer getShapeRenderer(){return shapeRenderer;}
+    public ShapeRenderer getShapeRenderer(){
+        return shapeRenderer;
+    }
     public static PixelGame getGame() {
         return game;
     }

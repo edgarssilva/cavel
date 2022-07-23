@@ -108,11 +108,11 @@ public class PlayerAgent implements Updateable {
             if (timer < 0.05f || stateMachine.isInState(PlayerState.Dying)) return;
         }
 
-        statsComp.attack(enemyStats);
-        if (statsComp.health <= 0) {
+        if (statsComp.health - enemyStats.damage <= 0) {
             stateMachine.changeState(PlayerState.Dying);
         }else{
             stateMachine.changeState(PlayerState.Hit);
+            statsComp.attack(enemyStats);
         }
     }
 
@@ -174,4 +174,7 @@ public class PlayerAgent implements Updateable {
             EntityManager.setToDestroy(attack);
     }
 
+    public void die() {
+        statsComp.health = 0;
+    }
 }

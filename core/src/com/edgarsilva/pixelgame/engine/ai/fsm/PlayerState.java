@@ -3,6 +3,7 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
@@ -114,11 +115,13 @@ public enum PlayerState implements State<PlayerAgent> {
         @Override
         public void enter(PlayerAgent agent) {
             super.enter(agent);
+            for (Fixture fix : agent.body.getFixtureList())
+                fix.setUserData(null);
         }
 
         @Override
         public void update(PlayerAgent agent) {
-
+            agent.die();
         }
 
         @Override

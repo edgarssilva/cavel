@@ -29,6 +29,7 @@ public class AnimationSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        //deltaTime = Gdx.graphics.getDeltaTime();
 
         AnimationComponent ani = am.get(entity);
         TextureComponent tex = tm.get(entity);
