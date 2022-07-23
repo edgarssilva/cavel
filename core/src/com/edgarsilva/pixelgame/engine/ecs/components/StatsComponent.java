@@ -5,13 +5,13 @@ import com.badlogic.gdx.utils.Pool;
 
 public class StatsComponent implements Component, Pool.Poolable {
 
-    public int maxHealth = 100;
-    public int health = maxHealth;
+    public short maxHealth = 100;
+    public short health = maxHealth;
 
 
-    public int armor = 10;
-    public int damage = 50;
-    public int magic = 10;
+    public short armor = 10;
+    public short damage = 50;
+    public short magic = 10;
 
     @Override
     public void reset() {

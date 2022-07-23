@@ -1,0 +1,7 @@
+{
+  "health" : 100,
+  "maxHealth" : 100,
+  "damage"  : 20,
+  "magic" : 0,
+  "armor" : 10
+}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
@@ -117,6 +118,14 @@ public enum PlayerState implements State<PlayerAgent> {
             super.enter(agent);
             for (Fixture fix : agent.body.getFixtureList())
                 fix.setUserData(null);
+
+            agent.body.setLinearVelocity(0,0);
+
+            Controller.attack = false;
+            Controller.left   = false;
+            Controller.right  = false;
+            Controller.down   = false;
+            Controller.up     = false;
         }
 
         @Override

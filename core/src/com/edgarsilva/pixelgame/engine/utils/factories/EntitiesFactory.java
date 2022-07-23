@@ -35,6 +35,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
+import com.edgarsilva.pixelgame.engine.utils.generators.StatsGenerator;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
@@ -63,37 +64,23 @@ public class EntitiesFactory {
 
         Entity entity = engine.createEntity();
 
-        BodyComponent b2dbody = engine.createComponent(BodyComponent.class);
-        TransformComponent transform = engine.createComponent(TransformComponent.class);
-        TextureComponent texture = engine.createComponent(TextureComponent.class);
-        AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-        TypeComponent type = engine.createComponent(TypeComponent.class);
-        StatsComponent sc = engine.createComponent(StatsComponent.class);
+        BodyComponent            b2dbody    = engine.createComponent(BodyComponent.class);
+        TransformComponent       transform  = engine.createComponent(TransformComponent.class);
+        TextureComponent         texture    = engine.createComponent(TextureComponent.class);
+        AnimationComponent       animation  = engine.createComponent(AnimationComponent.class);
+        TypeComponent            type       = engine.createComponent(TypeComponent.class);
+        StatsComponent           sc         = engine.createComponent(StatsComponent.class);
         PlayerCollisionComponent sensorComp = engine.createComponent(PlayerCollisionComponent.class);
-        AttackComponent attackComp = engine.createComponent(AttackComponent.class);
+        AttackComponent          attackComp = engine.createComponent(AttackComponent.class);
 
-        //TODO Criar uma class para ler ficheiros com as stats das entities
-        // create the data for the components and add them to the components
-        sc.health = 100;
-        sc.armor = 10;
-        sc.damage = 20;
-        sc.magic = 0;
+        StatsGenerator.generateStats(Gdx.files.internal("entities/stats/playerStats.json"), sc);
 
-
-        // set object position (x,y,z) z used to define draw order 0 first drawn
         transform.position.set(position.x, position.y,0);
         transform.width = 37.50f;
         transform.height = 27.75f;
 
         transform.paddingRight = 0f;
         transform.paddingBottom = 10f;
-
-
-        /*b2dbody.body = BodyFactory.makeBox(x + 16 * RenderSystem.PIXELS_TO_METERS, y+ 16 * RenderSystem.PIXELS_TO_METERS,
-                14f, 16f,
-                BodyDef.BodyType.DynamicBody,
-                false);
-                */
 
         b2dbody.body = BodyGenerator.bodyHelper(entity,
                 position,
@@ -339,10 +326,8 @@ public class EntitiesFactory {
         EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
 
 
-        sc.health = 60;
-        sc.armor = 0;
-        sc.damage = 20;
-        sc.magic = 0;
+        StatsGenerator.generateStats(Gdx.files.internal("entities/stats/skeletonStats.json"), sc);
+
 
         b2dbody.body = BodyGenerator.bodyHelper(entity,
                 position,
@@ -510,6 +495,7 @@ public class EntitiesFactory {
 
 
         TextureAtlas atlas = assets.manager.get(GameAssetsManager.slimeAtlas, TextureAtlas.class);
+        StatsGenerator.generateStats(Gdx.files.internal("entities/stats/slimeStats.json"), statsComp);
 
         animComp.add(EnemyState.IDLE, frameDuration, Animation.PlayMode.LOOP,
                 atlas.findRegion("slime-idle-0"),
