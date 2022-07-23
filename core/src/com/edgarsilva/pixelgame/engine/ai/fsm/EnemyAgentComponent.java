@@ -2,17 +2,10 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
-import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ai.pfa.GraphPathImp;
-import com.edgarsilva.pixelgame.engine.ai.pfa.HeuristicImp;
 import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
-import com.edgarsilva.pixelgame.engine.ai.pfa.PathfindingDebugger;
-import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
-import com.edgarsilva.pixelgame.engine.utils.GroundSteering;
-import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Steering;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 
@@ -26,9 +19,12 @@ public class EnemyAgentComponent implements Component, Updateable {
     private IndexedAStarPathFinder<Node> pathFinder;
     private GraphPathImp resultPath = new GraphPathImp();
 
+    public EnemyAgentComponent() {
+    }
+
     public EnemyAgentComponent(Entity entity, Steering steering) {
         this.entity   = entity;
-        this.steering = steering;
+       /* this.steering = steering;
 
         stateMachine = new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
         pathFinder   = new IndexedAStarPathFinder<Node>(LevelManager.graph, false);
@@ -50,18 +46,18 @@ public class EnemyAgentComponent implements Component, Updateable {
         pathFinder.searchNodePath(startNode, endNode, new HeuristicImp(), resultPath);
 
 
-        steering.setTarget(new GroundSteering(LevelManager.graph.getPositionByNode(endNode)));
+        steering.setTarget(new GroundSteering(LevelManager.graph.getPositionByNode(endNode)));*/
     }
 
 
     @Override
     public void update(float deltaTime) {
         stateMachine.update();
-        steering.update(deltaTime);
+        //steering.update(deltaTime);
         // System.out.println(steering.getPosition());
 
         //if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-
+/*
 
         int startX = (int) (steering.getPosition().x);
         int startY = (int) (steering.getPosition().y - LevelManager.tilePixelHeight);
@@ -92,7 +88,7 @@ public class EnemyAgentComponent implements Component, Updateable {
         // }
 
 
-        if (PixelGame.DEBUG) PathfindingDebugger.drawPath(resultPath);
+        if (PixelGame.DEBUG) PathfindingDebugger.drawPath(resultPath);*/
     }
 
 

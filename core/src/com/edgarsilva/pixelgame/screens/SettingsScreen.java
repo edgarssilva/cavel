@@ -38,6 +38,8 @@ public class SettingsScreen implements Screen{
     private final  CheckBox musicCheckbox;
     private final  TextButton backButton;
 
+
+
     public SettingsScreen(final PixelGame game) {
         this.game = game;
 

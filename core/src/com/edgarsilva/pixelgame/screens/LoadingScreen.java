@@ -37,7 +37,7 @@ public class LoadingScreen implements Screen {
     private Texture background;
 
     private int bX = 0;
-    private float minDuration = 3f;
+    private float minDuration = 2f;
     private float playerX = 100f;
     private float alpha = 0;
 
@@ -73,7 +73,6 @@ public class LoadingScreen implements Screen {
 
         anim = new Animation<TextureRegion>( 1 / 12f, frames, Animation.PlayMode.LOOP);
 
-
         game.assets.queueAddTextures();
         game.assets.queueAddFonts();
         game.assets.queueAddParticleEffects();
@@ -88,7 +87,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0 ,0 ,0 ,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
 
@@ -96,10 +95,10 @@ public class LoadingScreen implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0, bX, 0, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
-        batch.draw((TextureRegion) anim.getKeyFrame(frame+=delta), playerX, 150, 180, 120);
+        batch.draw((TextureRegion) anim.getKeyFrame(frame += delta), playerX, 150, 180, 120);
         batch.end();
 
-        if(game.assets.manager.update() && minDuration < 0){
+        if (game.assets.manager.update() &&  minDuration < 0) {
             playerX += 8;
             alpha += delta * 0.75;
 
@@ -113,8 +112,8 @@ public class LoadingScreen implements Screen {
             shape.end();
             Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
 
-            if(alpha > 1.5) {
-                game.setScreen(new PlayScreen(game, map));
+            if (alpha > 1.5) {
+                game.setScreen( new PlayScreen(game, map));
                 dispose();
             }
 
@@ -149,6 +148,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
+        shape.dispose();
     }
 }

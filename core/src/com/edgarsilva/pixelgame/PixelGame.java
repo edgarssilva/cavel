@@ -53,7 +53,6 @@ public class PixelGame extends Game {
     @Override
     public void dispose () {
         super.dispose();
-        super.screen.dispose();
         assets.manager.dispose();
 
     }

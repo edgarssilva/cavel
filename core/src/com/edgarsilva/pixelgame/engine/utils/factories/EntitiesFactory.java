@@ -3,6 +3,7 @@ package com.edgarsilva.pixelgame.engine.utils.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -33,6 +34,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
+import com.edgarsilva.pixelgame.engine.utils.GroundSteering;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -337,7 +339,7 @@ public class EntitiesFactory {
         //EnemyComponent enemyCom = engine.createComponent(EnemyComponent.class);
         StatsComponent sc = engine.createComponent(StatsComponent.class);
         EnemyCollisionComponent collisionComp = engine.createComponent(EnemyCollisionComponent.class);
-        EnemyAgentComponent agentComp = null;// engine.createComponent(EnemyAgentComponent.class);
+        EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
 
 
         sc.health = 75;
@@ -408,9 +410,10 @@ public class EntitiesFactory {
                 .add(sc).add(collisionComp);
 
 
-       // agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
-       // EntityManager.add(agentComp);
-        //entity.add(agentComp);
+        agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
+        agentComp.stateMachine = new DefaultStateMachine<EnemyAgentComponent, EnemyState>(agentComp, EnemyState.IDLE);
+        EntityManager.add(agentComp);
+        entity.add(agentComp);
 
         engine.addEntity(entity);
 
@@ -428,6 +431,8 @@ public class EntitiesFactory {
         TextureComponent         textComp    =  engine.createComponent(TextureComponent.class);
         TransformComponent       transfComp  =  engine.createComponent(TransformComponent.class);
         TypeComponent            typeComp    =  engine.createComponent(TypeComponent.class);
+        EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
+
 
 
         TextureAtlas atlas = assets.manager.get(GameAssetsManager.slimeAtlas, TextureAtlas.class);
@@ -462,6 +467,7 @@ public class EntitiesFactory {
 
         typeComp.type = TypeComponent.ENEMY;
 
+
         entity.add(animComp)
                 .add(bodyComp)
                 .add(collComp)
@@ -471,7 +477,14 @@ public class EntitiesFactory {
                 .add(typeComp)
         ;//.add(pathComp);
 
+        agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
+        agentComp.stateMachine = new DefaultStateMachine<EnemyAgentComponent, EnemyState>(agentComp, EnemyState.IDLE);
+        EntityManager.add(agentComp);
+        entity.add(agentComp);
+
+
         engine.addEntity(entity);
+
         return entity;
     }
 

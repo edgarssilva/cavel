@@ -7,8 +7,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
     IDLE(){
         @Override
-        public void update(EnemyAgentComponent agent
-        ) {
+        public void update(EnemyAgentComponent agent) {
 
         }
     },

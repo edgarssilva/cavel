@@ -36,7 +36,9 @@ public class AnimationSystem extends IteratingSystem {
 
         if (agentmap.has(entity)) {
             EnemyAgentComponent state = agentmap.get(entity);
+            System.out.println(state.stateMachine.getCurrentState());
             if (ani.animations.containsKey(state.stateMachine.getCurrentState())) {
+
                 tex.region = ani.animations.get(state.stateMachine.getCurrentState()).getKeyFrame(ani.timer);
                 ani.timer+=deltaTime;
             }
