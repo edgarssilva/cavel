@@ -83,9 +83,11 @@ public class RenderSystem extends SortedIteratingSystem {
                 Texture damage = healthBar.damage;
                 Texture background = healthBar.background;
 
-                batch.draw(background, t.position.x - width / 2, t.position.y + .35f, width, height);
-                batch.draw(damage, t.position.x - width / 2, t.position.y + .35f, width * healthBar.damagedHealth, height);
-                batch.draw(texture, t.position.x - width / 2, t.position.y + .35f, width * healthBar.scale, height);
+                float y = healthBar.y;
+
+                batch.draw(background, t.position.x - width / 2, t.position.y + y, width, height);
+                batch.draw(damage, t.position.x - width / 2, t.position.y + y, width * healthBar.damagedHealth, height);
+                batch.draw(texture, t.position.x - width / 2, t.position.y + y, width * healthBar.scale, height);
 
             }
 

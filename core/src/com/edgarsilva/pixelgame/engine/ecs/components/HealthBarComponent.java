@@ -15,6 +15,8 @@ public class HealthBarComponent implements Component, Pool.Poolable {
     public int previousHealth;
     public float damagedHealth;
 
+    public float y = .35f;
+
     @Override
     public void reset() {
         texture = null;
@@ -22,5 +24,6 @@ public class HealthBarComponent implements Component, Pool.Poolable {
         damage = null;
         scale = 0;
         show = false;
+        y = .35f;
     }
 }

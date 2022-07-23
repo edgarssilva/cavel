@@ -14,6 +14,6 @@ public class CoinSystem extends IntervalSystem {
 
     @Override
     protected void updateInterval() {
-        current_coins =MathUtils.lerp(current_coins, coins, 0.1f);
+        current_coins = MathUtils.lerp(current_coins, coins, 0.1f);
     }
 }

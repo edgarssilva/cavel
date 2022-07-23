@@ -111,13 +111,11 @@ public class PlayerAgent extends Agent {
         return stateMachine.getPreviousState();
     }
 
-
     public static void hit(StatsComponent enemyStats) {
         //Proteção para não contar o ataque mais que uma vez
           if (stateMachine.isInState(PlayerState.Hit) || stateMachine.isInState(PlayerState.Dying)) {
-              if (/*timer < 0.05f ||*/ stateMachine.isInState(PlayerState.Dying)) return;
+              if (/*timer < 0.05f || */stateMachine.isInState(PlayerState.Dying)) return;
           }
-
         if (statsComp.health - enemyStats.damage <= 0) {
             stateMachine.changeState(PlayerState.Dying);
         }else{
@@ -199,6 +197,15 @@ public class PlayerAgent extends Agent {
 
     @Override
     public void hit() {
-
+        if (stateMachine.isInState(PlayerState.Hit) || stateMachine.isInState(PlayerState.Dying)) {
+            if (timer < 0.05f || stateMachine.isInState(PlayerState.Dying)) return;
+        }
+        if (statsComp.health - 1 <= 0) {
+            statsComp.health -= 1;
+            stateMachine.changeState(PlayerState.Dying);
+        }else{
+            stateMachine.changeState(PlayerState.Hit);
+            statsComp.health -= 1;
+        }
     }
 }

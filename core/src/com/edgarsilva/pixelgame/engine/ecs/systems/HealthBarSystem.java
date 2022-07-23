@@ -32,5 +32,7 @@ public class HealthBarSystem extends IteratingSystem {
         hc.scale = (sc.health / (float) sc.maxHealth);
         hc.damagedHealth = damaged > 0 ? hc.scale + (damaged / (float) sc.maxHealth) : hc.damagedHealth - deltaTime;
         hc.damagedHealth = hc.damagedHealth < 0 ? 0 : hc.damagedHealth;
+
+        if (sc.health < 0) entity.remove(HealthBarComponent.class);
     }
 }

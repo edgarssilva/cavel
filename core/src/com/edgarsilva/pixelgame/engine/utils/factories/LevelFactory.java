@@ -111,6 +111,8 @@ public class LevelFactory {
 
             String name = object.getName();
 
+            if (name == null) continue;
+
             if (name.equalsIgnoreCase("Player"))
                 EntitiesFactory.createPlayer(position, PlayerState.Idle, PlayerAttackState.NONE);
             if (name.equalsIgnoreCase("Skeleton"))

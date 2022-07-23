@@ -52,6 +52,7 @@ public class StateAnimationSystem extends IteratingSystem {
 
         if (ani.animations.containsKey(agent.animationState)) {
             tex.region = ani.animations.get(agent.animationState).getKeyFrame(agent.timer);
+            agent.animationDuration = ani.animations.get(agent.animationState).getAnimationDuration();
             agent.finishedAnimation = ani.animations.get(agent.animationState).isAnimationFinished(agent.timer);
             agent.timer += deltaTime;
         }

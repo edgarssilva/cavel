@@ -11,6 +11,7 @@ public class AnimationComponent implements Component, Pool.Poolable {
     public float timer = 0f;
     public boolean looping = false;
 
+
     @Override
     public void reset() {
         animation = null;

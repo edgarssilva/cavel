@@ -64,10 +64,9 @@ public enum EnemyState implements State<EnemyAgent> {
             if (agent.finishedAnimation) {
                 if (!attack){ agent.attack(); attack = true; }
                 if (agent.finishedAnimation) {
-                    if (agent.attackable()) {
                         attack = false;
                         agent.timer = 0;
-                    } else agent.stateMachine.changeState(Seeking);
+                   agent.stateMachine.changeState(Seeking);
                 }
             }
         }

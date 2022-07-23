@@ -13,8 +13,6 @@ import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
-import java.util.Random;
-
 public class EnemyAgent extends Agent {
 
     public Enemies enemyType;
@@ -31,14 +29,13 @@ public class EnemyAgent extends Agent {
     public boolean moveToLeft = false;
 
 
-    private Random random;
-
     public StateMachine<EnemyAgent, EnemyState> stateMachine;
 
     private EnemyCollisionComponent collisionComp;
     public StatsComponent statsComp;
     private ComponentMapper<StatsComponent> statsCompMap;
     private ComponentMapper<BodyComponent>  bodyCompMap;
+    private ComponentMapper<PlayerAgent>    playerAgentMap;
     // private IndexedAStarPathFinder<Node> pathFinder;
     // private GraphPathImp resultPath = new GraphPathImp();
 
@@ -49,15 +46,15 @@ public class EnemyAgent extends Agent {
     public EnemyAgent(Entity entity, Enemies type) {
         this.owner   =  entity;
         this.enemyType = type;
-        random = new Random();
 
-        statsCompMap  =  ComponentMapper.getFor(StatsComponent.class);
-        bodyCompMap   =  ComponentMapper.getFor(BodyComponent.class);
-        statsComp     =  statsCompMap.get(entity);
-        body          =  bodyCompMap.get(entity).body;
-        collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
+        statsCompMap   =  ComponentMapper.getFor(StatsComponent.class);
+        bodyCompMap    =  ComponentMapper.getFor(BodyComponent.class);
+        playerAgentMap =  ComponentMapper.getFor(PlayerAgent.class);
+        statsComp      =  statsCompMap.get(entity);
+        body           =  bodyCompMap.get(entity).body;
+        collisionComp  =  entity.getComponent(EnemyCollisionComponent.class);
 
-        stateMachine  =  new DefaultStateMachine<EnemyAgent, EnemyState>(this, EnemyState.Seeking);
+        stateMachine   =  new DefaultStateMachine<EnemyAgent, EnemyState>(this, EnemyState.Seeking);
         MessageManager.getInstance().addListener(stateMachine, 0);
     }
 
@@ -101,16 +98,22 @@ public class EnemyAgent extends Agent {
     }
 
     public void removeEntityToAttack(Entity entity){
-        attackableEntities.removeValue(entity, false);
+
+        if (!attackableEntities.removeValue(entity, false)) {
+            attackableEntities.removeValue(entity, false);
+        }
     }
 
     public void attack() {
-        PlayerAgent.hit(statsComp);
+        for (Entity ent: attackableEntities)
+            if (playerAgentMap.has(ent)) {
+                playerAgentMap.get(ent).hit(statsComp);
+            }
     }
 
     public boolean attackable() {
         for (Entity ent: attackableEntities)
-            if (ent.equals(EntityManager.getPlayer()))return true;
+            if (playerAgentMap.has(ent)) return true;
 
         return false;
     }
@@ -118,6 +121,9 @@ public class EnemyAgent extends Agent {
     public void spawnDropables() {
         if (random.nextInt(10) > 2) {
             EntitiesFactory.createCoin(body.getPosition(), random.nextInt(10) + 10);
+        }
+        if (random.nextInt(30) < 5) {
+            EntitiesFactory.createHeart(body.getPosition());
         }
     }
 }

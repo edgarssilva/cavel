@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -286,6 +287,61 @@ public class EntitiesFactory {
         return entity;
     }
 
+    public static Entity createHeart(Vector2 position) {
+        Entity entity = engine.createEntity();
+
+        BodyComponent bc = engine.createComponent(BodyComponent.class);
+        TransformComponent tfc = engine.createComponent(TransformComponent.class);
+        TextureComponent tc = engine.createComponent(TextureComponent.class);
+        AnimationComponent ac = engine.createComponent(AnimationComponent.class);
+
+        Body body;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.active = true;
+        bodyDef.position.set(position.x + (6.4f / 2f * RenderSystem.PIXELS_TO_METERS), position.y + (7.6f / 2f * RenderSystem.PIXELS_TO_METERS));
+
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(6.4f / 2f * RenderSystem.PIXELS_TO_METERS, 7.6f / 2f * RenderSystem.PIXELS_TO_METERS);
+
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = box;
+        fdef.isSensor = false;
+        fdef.restitution = 0.6f;
+        fdef.density = 10;
+        fdef.filter.categoryBits = PhysicsConstants.HEART_BITS;
+        fdef.filter.maskBits = PhysicsConstants.FRIENDLY_BITS |
+                PhysicsConstants.LEVEL_BITS |
+                PhysicsConstants.OBSTACLE_BITS;
+
+
+        body = world.createBody(bodyDef);
+        body.setUserData(entity);
+        body.createFixture(fdef).setUserData(entity);
+        box.dispose();
+        bc.body = body;
+
+        tfc.width = 8f;
+        tfc.height = 7.5f;
+
+
+        float randomX = random.nextInt(1) / 10f + 0.5f;
+        float randomY = random.nextInt(2) / 10f + 2f;
+        if (random.nextBoolean()) randomX = -randomX;
+        bc.body.setLinearVelocity(randomX, randomY);
+
+
+        ac.animation = new Animation<TextureRegion>(fastFrameDuration,
+                atlas.findRegions("heart").toArray());
+
+        ac.looping = true;
+
+        entity.add(bc).add(tfc).add(tc).add(ac);
+        engine.addEntity(entity);
+        return entity;
+    }
+
     public static Entity createWitch(Vector2 pos) {
         Entity entity = engine.createEntity();
 
@@ -297,6 +353,17 @@ public class EntitiesFactory {
         BossComponent           bossComp     = engine.createComponent(BossComponent.class);
         BehaviorComponent       behaviorComp = engine.createComponent(BehaviorComponent.class);
         WitchAgent              agentComp    = engine.createComponent(WitchAgent.class);
+        HealthBarComponent      healthComp   = engine.createComponent(HealthBarComponent.class);
+        EnemyCollisionComponent collComp     = engine.createComponent(EnemyCollisionComponent.class);
+
+        healthComp.texture = new Texture("raw/healthbar.png");
+        healthComp.damage = new Texture("raw/healthbar_damage.png");
+        healthComp.background = new Texture("raw/healthbar_background.png");
+        //healthComp.scale = 10f;
+        healthComp.y  = 1.5f;
+
+        statsComp.maxHealth = 200;
+        statsComp.health    = 200;
 
         Body body;
         BodyDef bdef = new BodyDef();
@@ -305,10 +372,10 @@ public class EntitiesFactory {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(RenderSystem.PixelsToMeters(25), RenderSystem.PixelsToMeters(45));
+        shape.setAsBox(RenderSystem.PixelsToMeters(25), RenderSystem.PixelsToMeters(30));
         fdef.shape = shape;
         fdef.filter.categoryBits = PhysicsConstants.ENEMY_BITS;
-        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS | PhysicsConstants.ATTACK_SENSOR;
 
         body = world.createBody(bdef);
         body.setUserData(entity);
@@ -322,7 +389,7 @@ public class EntitiesFactory {
                 fastFrameDuration, atlas.findRegions("witch_attack"), Animation.PlayMode.NORMAL
         ));
         animComp.animations.put(WitchState.Walking, new Animation<TextureRegion>(
-                fastFrameDuration, atlas.findRegions("witch_slide"), Animation.PlayMode.NORMAL
+                fastFrameDuration, atlas.findRegions("witch_slide"), Animation.PlayMode.LOOP_PINGPONG
         ));
 
         transComp.position.x = pos.x;
@@ -330,7 +397,7 @@ public class EntitiesFactory {
         transComp.position.z = -1;
         transComp.width = 120;
         transComp.height = 120;
-        transComp.paddingBottom = 5;
+        transComp.paddingBottom = 20f;
         transComp.flipX = true;
 
         //textComp.region = regions[0][0];
@@ -345,6 +412,8 @@ public class EntitiesFactory {
                 .add(textComp)
                 .add(transComp)
                 .add(bossComp)
+                .add(healthComp)
+                .add(collComp)
                 .add(behaviorComp);
 
         agentComp = new WitchAgent(entity);
@@ -375,15 +444,15 @@ public class EntitiesFactory {
 
         FixtureDef f = new FixtureDef();
         //f.shape = shape;
-        f.isSensor = false;
+        f.isSensor = true;
         f.filter.categoryBits = PhysicsConstants.ENEMY_ATTACK_SENSOR;
         f.filter.maskBits = PhysicsConstants.FRIENDLY_BITS;
 
         PolygonShape shape = new PolygonShape();
 
         shape.setAsBox(
-                RenderSystem.PixelsToMeters(24),
-                RenderSystem.PixelsToMeters(24)
+                RenderSystem.PixelsToMeters(12),
+                RenderSystem.PixelsToMeters(30)
         );
 
         f.shape = shape;
@@ -392,12 +461,22 @@ public class EntitiesFactory {
         body.setUserData(attack);
         shape.dispose();
 
+        Body witchBody = witch.getComponent(BodyComponent.class).body;
+
+        if (witch.getComponent(TransformComponent.class).flipX) {
+            body.setTransform(witchBody.getPosition().add(-1f, 1.5f), MathUtils.degreesToRadians * (180 - 10f));
+            body.applyLinearImpulse(new Vector2(-1f, -3.5f), body.getWorldCenter(), true);
+        } else {
+            body.setTransform(witchBody.getPosition().add(1f, 1.5f), MathUtils.degreesToRadians * 10f);
+            body.applyLinearImpulse(new Vector2(1f, -3.5f), body.getWorldCenter(), true);
+        }
+
         bodyComp.body = body;
 
-        lightComp.light = new PointLight(rayHandler, 20, Color.LIGHT_GRAY, 5, body.getPosition().x, body.getPosition().y);
+        lightComp.light = new PointLight(rayHandler, 10, Color.YELLOW, 6, body.getPosition().x, body.getPosition().y);
         lightComp.light.attachToBody(body);
 
-        attack.add(bodyComp).add(collComp).add(attachComp).add(lightComp);
+        attack.add(bodyComp).add(collComp)/*.add(attachComp)*/.add(lightComp);
         engine.addEntity(attack);
         return attack;
     }

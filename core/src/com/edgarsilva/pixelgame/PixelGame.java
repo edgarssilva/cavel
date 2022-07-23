@@ -22,7 +22,7 @@ public class PixelGame extends Game {
     public static final float WIDTH = 960;
     public static final float HEIGHT = 540;
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public static int coins = 0;
     public static short hp = 3;

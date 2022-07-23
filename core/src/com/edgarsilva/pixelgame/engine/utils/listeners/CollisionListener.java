@@ -12,6 +12,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.MessageComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
@@ -22,12 +23,14 @@ public class CollisionListener implements ContactListener {
     private ComponentMapper<EnemyCollisionComponent>  enemyMap;
     private ComponentMapper<AttackCollisionComponent> acm;
     private ComponentMapper<MessageComponent>         mcm;
+    private ComponentMapper<StatsComponent>           scm;
 
     public CollisionListener() {
         sensorMap = ComponentMapper.getFor(PlayerCollisionComponent.class);
         acm       = ComponentMapper.getFor(AttackCollisionComponent.class);
         enemyMap  = ComponentMapper.getFor(EnemyCollisionComponent.class);
         mcm       = ComponentMapper.getFor(MessageComponent.class);
+        scm       = ComponentMapper.getFor(StatsComponent.class);
     }
 
     @Override
@@ -49,6 +52,12 @@ public class CollisionListener implements ContactListener {
             acm.get(actorB).handleCollision(actorB, actorA);
         }
 
+        if (acm.has(actorA) || acm.has(actorB)) {
+            if (fa.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR  && fb.getFilterData().categoryBits == PhysicsConstants.FRIENDLY_BITS)
+                acm.get(actorA).handleCollision(actorA, actorB);
+            else if (fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR && fa.getFilterData().categoryBits == PhysicsConstants.FRIENDLY_BITS)
+                acm.get(actorB).handleCollision(actorB, actorA);
+        }
 
         if (sensorMap.has(actorA) || sensorMap.has(actorB)) {
             if (fa.getFilterData().categoryBits == PhysicsConstants.MESSAGE_BITS) {
@@ -70,6 +79,18 @@ public class CollisionListener implements ContactListener {
                 EntityManager.setToDestroy(actorA);
             } else if (fb.getFilterData().categoryBits == PhysicsConstants.COIN_BITS) {
                 EntityManager.setToDestroy(actorB);
+            }
+
+            if (fa.getFilterData().categoryBits == PhysicsConstants.HEART_BITS) {
+                EntityManager.setToDestroy(actorA);
+                StatsComponent sc =  scm.get(actorB);
+                sc.health += 1;
+                if (sc.maxHealth < sc.health ) sc.health = sc.maxHealth;
+            } else if (fb.getFilterData().categoryBits == PhysicsConstants.HEART_BITS) {
+                EntityManager.setToDestroy(actorB);
+                StatsComponent sc =  scm.get(actorA);
+                sc.health += 1;
+                if (sc.maxHealth < sc.health ) sc.health = sc.maxHealth;
             }
 
             PlayerCollisionComponent data = null;

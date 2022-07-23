@@ -1,7 +1,6 @@
 package com.edgarsilva.pixelgame.screens;
 
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -19,15 +18,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
-import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAttackState;
-import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerState;
-import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.CoinSystem;
 import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
+import com.edgarsilva.pixelgame.engine.utils.GameLoader;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.controllers.JoystickController;
@@ -43,9 +36,7 @@ import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.HUDManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.PauseManager;
-import com.edgarsilva.pixelgame.managers.EnemySave;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
-import com.edgarsilva.pixelgame.managers.PlayerSave;
 import com.edgarsilva.pixelgame.managers.Save;
 
 import box2dLight.PointLight;
@@ -76,10 +67,10 @@ public class PlayScreen implements Screen {
     private InputMultiplexer inputMultiplexer;
 
     //Pausing & Resting game variables
-    private float   gameOverTimer;
-    private float   alpha;
-    private boolean paused;
-    private boolean gameOver;
+    private float         gameOverTimer;
+    private float         alpha;
+    public static boolean paused;
+    private boolean       gameOver;
 
     //Test
     private boolean light = true;
@@ -149,36 +140,7 @@ public class PlayScreen implements Screen {
         setMap(save.map);
 
         CoinSystem.current_coins = CoinSystem.coins = save.coins;
-
-        for (PlayerSave player : save.playerSaves) {
-            EntitiesFactory.createPlayer(
-                    new Vector2(player.x,player.y),
-                    PlayerState.valueOf(player.stateName),
-                    PlayerAttackState.valueOf(player.attackStateName)
-            );
-
-            Entity entity = EntityManager.getPlayer();
-            StatsComponent stats = entity.getComponent(StatsComponent.class);
-            stats.maxHealth = player.stats.maxHealth;
-            stats.health = player.stats.health;
-            stats.damage = player.stats.damage;
-            entity.getComponent(TransformComponent.class).flipX = player.flipX;
-        }
-
-        for (EnemySave enemy : save.enemySaves) {
-            if (enemy.enemyTypeName.equals(Enemies.SKELETON.name())) {
-                Entity entity = EntitiesFactory.createEnemy(Enemies.SKELETON, new Vector2(enemy.x, enemy.y));
-
-                StatsComponent stats = entity.getComponent(StatsComponent.class);
-                stats.maxHealth = enemy.stats.maxHealth;
-                stats.health = enemy.stats.health;
-                stats.damage = enemy.stats.damage;
-
-                entity.getComponent(TransformComponent.class).flipX = enemy.flipX;
-                entity.getComponent(EnemyAgent.class).stateMachine.changeState(EnemyState.valueOf(enemy.stateName));
-                entity.getComponent(EnemyAgent.class).moveToLeft = enemy.moveToLeft;
-            }
-        }
+        GameLoader.loadGame(save, this);
 
     }
 
