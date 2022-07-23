@@ -1,13 +1,12 @@
 package com.edgarsilva.pixelgame.engine.utils.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 public class KeyboardController extends Controller implements InputProcessor {
 
     public KeyboardController() {
-        Gdx.input.setInputProcessor(this);
+        //Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -95,5 +94,10 @@ public class KeyboardController extends Controller implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public InputProcessor getInputProcessor() {
+        return this;
     }
 }

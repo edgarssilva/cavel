@@ -33,7 +33,7 @@ public class MenuScreen implements Screen {
         stage.addActor(table);
         stage.setDebugAll(PixelGame.DEBUG);
 
-        skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        skin = pixelGame.assets.getSkin();
 
         TextButton newGame = new TextButton("New Game", skin);
         TextButton preferences = new TextButton("Preferences", skin);
@@ -49,7 +49,7 @@ public class MenuScreen implements Screen {
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SettingsScreen(game));
+                game.setScreen(new SettingsScreen(game,MenuScreen.this));
             }
         });
 

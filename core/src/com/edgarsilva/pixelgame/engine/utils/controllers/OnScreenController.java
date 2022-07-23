@@ -1,6 +1,6 @@
 package com.edgarsilva.pixelgame.engine.utils.controllers;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,7 +20,7 @@ public class OnScreenController extends Controller implements Updateable, Dispos
 
     public OnScreenController(PlayScreen screen) {
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), screen.getBatch());
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
 
         Image upImage = new Image(new Texture("hud/flatDark/flatDark25.png"));
         Image downImage = new Image(new Texture("hud/flatDark/flatDark26.png"));
@@ -206,4 +206,8 @@ public class OnScreenController extends Controller implements Updateable, Dispos
         stage.dispose();
     }
 
+    @Override
+    public InputProcessor getInputProcessor() {
+        return stage;
+    }
 }

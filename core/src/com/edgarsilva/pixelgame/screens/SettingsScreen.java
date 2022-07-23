@@ -40,7 +40,7 @@ public class SettingsScreen implements Screen{
 
 
 
-    public SettingsScreen(final PixelGame game) {
+    public SettingsScreen(final PixelGame game, final Screen screen) {
         this.game = game;
 
         stage = new Stage(new ScreenViewport());
@@ -69,6 +69,7 @@ public class SettingsScreen implements Screen{
             @Override
             public boolean handle(Event event) {
                 game.getPreferences().sound.setSoundVolume(soundMusicSlider.getValue());
+                SoundManager.update();
                 return false;
             }
         });
@@ -99,8 +100,10 @@ public class SettingsScreen implements Screen{
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MenuScreen(game));
+               game.setScreen(screen);
+                dispose();
                 SoundManager.update();
+
             }
         });
 

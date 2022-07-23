@@ -5,10 +5,12 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
@@ -36,11 +38,15 @@ public class PlayScreen implements Screen {
 
     private static PixelGame game;
 
-    //Graphics
+    //Managers
     private HUDManager hud;
-    private PauseManager pause;
-    private SpriteBatch batch;
+    private PauseManager pauseMenu;
     private CameraManager cameraManager;
+
+    //Graphics
+    private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
+
 
     //Physics
     private World world;
@@ -51,6 +57,8 @@ public class PlayScreen implements Screen {
 
     //Utils
     private Controller controller;
+    private InputMultiplexer inputMultiplexer;
+
 
     public boolean paused = false;
 
@@ -63,20 +71,24 @@ public class PlayScreen implements Screen {
     public PlayScreen(PixelGame game, String map) {
         PlayScreen.game = game;
 
+        inputMultiplexer = new InputMultiplexer();
 
         world = new World(new Vector2(0, -9.6f), true);
         world.setContactListener(new CollisionListener());
 
-
         cameraManager = new CameraManager();
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
 
         engine = new PooledEngine();
         entityManager = new EntityManager(this);
 
+
+
         //		Gdx.input.setCursorCatched(true); // remove mouse cursor
 
-        hud = new HUDManager("skin/glassy-ui.json", this);
+        hud = new HUDManager( this);
+        pauseMenu = new PauseManager(this);
 
         //Graphics
         cameraManager = new CameraManager();
@@ -92,6 +104,9 @@ public class PlayScreen implements Screen {
         else if (Gdx.app.getType() == Application.ApplicationType.Android)
             controller = new OnScreenController(this);
 
+        inputMultiplexer.addProcessor(controller.getInputProcessor());
+        inputMultiplexer.addProcessor(hud.getStage());
+        inputMultiplexer.addProcessor(pauseMenu.getStage());
 
 
         new BodyFactory(world);
@@ -119,13 +134,13 @@ public class PlayScreen implements Screen {
                 EntityManager.getPlayer().getComponent(TransformComponent.class).position.y
         ));
 
-
     }
 
 
     @Override
     public void show() {
         SoundManager.setMusic(GameAssetsManager.level1, true);
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
@@ -147,7 +162,7 @@ public class PlayScreen implements Screen {
 
         cameraManager.update(delta);
         batch.setProjectionMatrix(cameraManager.getCamera().combined);
-
+        shapeRenderer.setProjectionMatrix(cameraManager.getCamera().combined);
 
         LevelManager.renderer.setView(cameraManager.getCamera());
         LevelManager.renderer.render();
@@ -159,7 +174,17 @@ public class PlayScreen implements Screen {
         //PathfindingDebugger.drawPath(resultPath);
 
         if (paused) {
+            //Fundo preto semi-transparente
+            Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+            Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.setColor(0, 0, 0, 0.5f);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.end();
+            Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
 
+
+            pauseMenu.render();
         }
 
 
@@ -170,6 +195,7 @@ public class PlayScreen implements Screen {
     public void resize(int width, int height) {
         cameraManager.resize(width, height, false);
         hud.resize(width, height);
+        pauseMenu.resize(width, height);
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).resize(width, height);
     }

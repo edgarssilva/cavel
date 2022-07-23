@@ -395,6 +395,44 @@ public class EntitiesFactory {
                 atlas.findRegion("idle10")
         );
 
+        animation.add(EnemyState.Seeking, fastFrameDuration, Animation.PlayMode.LOOP,
+                atlas.findRegion("walk1"),
+                atlas.findRegion("walk2"),
+                atlas.findRegion("walk3"),
+                atlas.findRegion("walk4"),
+                atlas.findRegion("walk5"),
+                atlas.findRegion("walk6"),
+                atlas.findRegion("walk7"),
+                atlas.findRegion("walk8"),
+                atlas.findRegion("walk9"),
+                atlas.findRegion("walk10"),
+                atlas.findRegion("walk11"),
+                atlas.findRegion("walk12")
+
+        );
+
+        animation.add(EnemyState.Attacking, fastFrameDuration, Animation.PlayMode.NORMAL,
+                atlas.findRegion("attack0"),
+                atlas.findRegion("attack1"),
+                atlas.findRegion("attack2"),
+                atlas.findRegion("attack0"),
+                atlas.findRegion("attack3"),
+                atlas.findRegion("attack4"),
+                atlas.findRegion("attack5"),
+                atlas.findRegion("attack6"),
+                atlas.findRegion("attack7"),
+                atlas.findRegion("attack8"),
+                atlas.findRegion("attack9"),
+                atlas.findRegion("attack10"),
+                atlas.findRegion("attack11"),
+                atlas.findRegion("attack12"),
+                atlas.findRegion("attack13"),
+                atlas.findRegion("attack14"),
+                atlas.findRegion("attack15"),
+                atlas.findRegion("attack16"),
+                atlas.findRegion("attack17")
+        );
+
         type.type = TypeComponent.ENEMY;
         b2dbody.body.setUserData(entity);
 
@@ -423,13 +461,13 @@ public class EntitiesFactory {
 
         AnimationComponent       animComp    =  engine.createComponent(AnimationComponent.class);
         BodyComponent            bodyComp    =  engine.createComponent(BodyComponent.class);
-        EnemyCollisionComponent  collComp  =  engine.createComponent(EnemyCollisionComponent.class);
+        EnemyCollisionComponent  collComp    =  engine.createComponent(EnemyCollisionComponent.class);
 
         StatsComponent           statsComp   =  engine.createComponent(StatsComponent.class);
         TextureComponent         textComp    =  engine.createComponent(TextureComponent.class);
         TransformComponent       transfComp  =  engine.createComponent(TransformComponent.class);
         TypeComponent            typeComp    =  engine.createComponent(TypeComponent.class);
-        EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
+        EnemyAgentComponent      agentComp   =  engine.createComponent(EnemyAgentComponent.class);
 
 
 
@@ -440,6 +478,13 @@ public class EntitiesFactory {
                 atlas.findRegion("slime-idle-1"),
                 atlas.findRegion("slime-idle-2"),
                 atlas.findRegion("slime-idle-3")
+        );
+
+        animComp.add(EnemyState.Seeking, frameDuration, Animation.PlayMode.LOOP,
+                atlas.findRegion("slime-move-0"),
+                atlas.findRegion("slime-move-1"),
+                atlas.findRegion("slime-move-2"),
+                atlas.findRegion("slime-move-3")
         );
 
 

@@ -1,15 +1,12 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,27 +18,25 @@ import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class HUDManager implements Updateable, Disposable {
 
-    private static Stage stage;
-    private static Skin skin;
+    private PlayScreen screen;
 
-    private static SpriteBatch batch;
+    private Stage stage;
 
-    private static Texture raw;
+    private Texture raw;
     private static TextureRegion icon;
-    private static TextureRegion healthKnob;
 
     private static ProgressBar healthBar;
     private ComponentMapper<StatsComponent> stats;
 
-    public HUDManager(String skinPath, PlayScreen screen) {
-        HUDManager.batch = screen.getBatch();
-        skin = new Skin(Gdx.files.internal(skinPath));
-        stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), batch);
+    public HUDManager(PlayScreen screen) {
+        this.screen = screen;
+        //screen.getGame().assets.getSkin()
+        stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), screen.getBatch());
 
         //batch = new SpriteBatch();
         raw = screen.getGame().assets.manager.get(GameAssetsManager.hudImage);
         icon = new TextureRegion(raw, 0, 0, 220 ,80);
-        healthKnob = new TextureRegion(raw, 240,24,102,8);
+        TextureRegion healthKnob = new TextureRegion(raw, 240,24,102,8);
 
         //Set ProgressBarStyle
         TextureRegionDrawable drawable;
@@ -78,13 +73,13 @@ public class HUDManager implements Updateable, Disposable {
         stage.act(deltaTime);
 
         //Defenir a viewport do HUD ao screen
-        batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
+        screen.getBatch().setProjectionMatrix(stage.getViewport().getCamera().combined);
 
 
         //Draw HUD
-        batch.begin();
-        batch.draw(icon,0, stage.getHeight() - icon.getRegionHeight());
-        batch.end();
+        screen.getBatch().begin();
+        screen.getBatch().draw(icon,0, stage.getHeight() - icon.getRegionHeight());
+        screen.getBatch().end();
         stage.draw();
     }
 
@@ -93,9 +88,14 @@ public class HUDManager implements Updateable, Disposable {
     }
 
 
+    public Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void dispose() {
         stage.dispose();
-        raw.dispose();
+        screen.getGame().assets.unloadAssets(GameAssetsManager.hudImage);
+        //raw.dispose();
     }
 }

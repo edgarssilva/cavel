@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameAssetsManager {
 
@@ -11,7 +12,6 @@ public class GameAssetsManager {
 
     //Loading Screen
     public static final String loadingBackground = "raw/loading.png";
-
 
 
     // Textures
@@ -33,15 +33,16 @@ public class GameAssetsManager {
     public static final String level1 = "raw/audio/music/Level-1.ogg";
     public static final String ending = "raw/audio/music/Ending.ogg";
 
+    public static final String skin = "skin/glassy-ui.json";
 
     // a small set of images used by the loading screen
     public void queueAddLoadingImages(){
         manager.load(playerAtlas, TextureAtlas.class);
         manager.load(loadingBackground, Texture.class);
+        manager.load(skin, Skin.class);
     }
 
     public void queueAddTextures(){
-
         manager.load(hudImage, Texture.class);
         manager.load(playerAtlas, TextureAtlas.class);
         manager.load(skeletonAtlas, TextureAtlas.class);
@@ -72,6 +73,11 @@ public class GameAssetsManager {
         for (String asset: assets) {
             manager.unload(asset);
         }
+    }
+
+
+    public Skin getSkin(){
+        return manager.get(skin, Skin.class);
     }
 
 }

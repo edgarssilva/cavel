@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
 
@@ -53,7 +53,7 @@ public class LoadingScreen implements Screen {
         game.assets.queueAddLoadingImages();
         game.assets.manager.finishLoading();
 
-        viewport = new ExtendViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
+        viewport = new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
         batch = new SpriteBatch();
         shape = new ShapeRenderer();
 
@@ -113,7 +113,7 @@ public class LoadingScreen implements Screen {
             Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
 
             if (alpha > 1.5) {
-                game.setScreen( new PlayScreen(game, map));
+                game.setScreen(new PlayScreen(game, map));
                 dispose();
             }
 

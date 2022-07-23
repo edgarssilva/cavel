@@ -6,7 +6,9 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
+import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Steering;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 
@@ -14,7 +16,7 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     private Entity entity;
     public Body body;
-   // public Node node = null;
+    public Node node = null;
    // public Node target = new Node();
 
     public StateMachine<EnemyAgentComponent, EnemyState> stateMachine;
@@ -35,7 +37,7 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     @Override
     public void update(float deltaTime) {
-     //   node = LevelManager.graph.getNodeByXY((int) body.getPosition().x + LevelManager.tilePixelWidth / 2, (int) body.getPosition().y - LevelManager.tilePixelHeight);
+        node = LevelManager.graph.getNodeByXY((int) body.getPosition().x, (int) body.getPosition().y - LevelManager.tilePixelHeight);
         stateMachine.update();
  /*       target = LevelManager.graph.getClosestNode((int) body.getPosition().x, (int) body.getPosition().y - LevelManager.tilePixelHeight, Node.Type.GROUND);
 

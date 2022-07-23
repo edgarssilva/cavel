@@ -14,6 +14,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
     Seeking(){
         @Override
         public void update(EnemyAgentComponent agent) {
+            System.out.println(agent.node.type);
             /*if (agent.target == null) return;
             if (agent.target.type == Node.Type.LEFT) {
                 agent.moveLeft();
