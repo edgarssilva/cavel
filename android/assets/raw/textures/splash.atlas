@@ -19,7 +19,7 @@ games
   index: -1
 logo
   rotate: false
-  xy: 584, 120
+  xy: 585, 120
   size: 300, 260
   orig: 300, 260
   offset: 0, 0

@@ -43,7 +43,7 @@ public class SplashScreen implements Screen {
         logo      = new Sprite(atlas.findRegion("logo"));
 
         games.setPosition(330f, -80f);
-        logo.setPosition(PixelGame.WIDTH, 140);
+        logo.setPosition(PixelGame.WIDTH, 120);
         spaghetti.setPosition(110f, PixelGame.HEIGHT);
     }
 
@@ -68,17 +68,17 @@ public class SplashScreen implements Screen {
         game.assets.manager.update();
 
 
-        if (spaghetti.getY() == 280f) {
-            if (games.getY() == 220f) {
+        if (spaghetti.getY() == 260f) {
+            if (games.getY() == 200f) {
                 if (logo.getX() == 600f)
                     countDown -= delta;
                 else if (logo.getX() < 600f) logo.setX(600f);
-                else logo.setX(logo.getX() - delta * 350f);
-            } else if (games.getY() > 220f) games.setY(220f);
-            else games.setY(games.getY() + delta * 350f);
+                else logo.setX(logo.getX() - delta * 400f);
+            } else if (games.getY() > 200f) games.setY(200f);
+            else games.setY(games.getY() + delta * 400f);
         }else {
-            if (spaghetti.getY() < 280f) spaghetti.setY(280f);
-            else spaghetti.setY(spaghetti.getY() - delta * 350f);
+            if (spaghetti.getY() < 260f) spaghetti.setY(260f);
+            else spaghetti.setY(spaghetti.getY() - delta * 400f);
         }
 
 

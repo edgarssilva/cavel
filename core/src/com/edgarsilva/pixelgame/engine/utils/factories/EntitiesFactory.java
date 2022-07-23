@@ -142,7 +142,7 @@ public class EntitiesFactory {
         );
 
         animation.add(PlayerAttackState.Attack1,
-                fastFrameDuration,
+                fastFrameDuration * 0.8f,
                 Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-attack1-00"),
                 atlas.findRegion("adventurer-attack1-01"),
@@ -152,7 +152,7 @@ public class EntitiesFactory {
         );
 
         animation.add(PlayerAttackState.Attack2,
-                fastFrameDuration,
+                fastFrameDuration * 0.8f,
                 Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-attack2-00"),
                 atlas.findRegion("adventurer-attack2-01"),
@@ -162,7 +162,7 @@ public class EntitiesFactory {
         );
 
         animation.add(PlayerAttackState.Attack3,
-                fastFrameDuration,
+                fastFrameDuration * 0.8f,
                 Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-attack3-00"),
                 atlas.findRegion("adventurer-attack3-01"),
@@ -173,7 +173,7 @@ public class EntitiesFactory {
         );
 
         animation.add(PlayerAttackState.AirAttack1,
-                fastFrameDuration,
+                fastFrameDuration * 0.8f,
                 Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-air-attack-1-00"),
                 atlas.findRegion("adventurer-air-attack-1-01"),
@@ -182,7 +182,7 @@ public class EntitiesFactory {
         );
 
         animation.add(PlayerAttackState.AirAttack2,
-                fastFrameDuration,
+                fastFrameDuration * 0.8f,
                 Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-air-attack-2-00"),
                 atlas.findRegion("adventurer-air-attack-2-01"),

@@ -3,7 +3,9 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
@@ -19,17 +21,15 @@ public class LoadingScreen implements Screen {
     private PixelGame game;
 
     private Viewport viewport;
-    private ShapeRenderer shape;
+    private SpriteBatch batch;
 
     private String map;
     private Save save;
 
-    private float frame;
+    private BitmapFont font;
 
-    private int bX = 0;
-    private float minDuration = 2f;
-    private float playerX = 100f;
-    private float alpha = 0;
+    private float minDuration = 1000f;
+    private long startTime;
 
     /**
      *  Construtor da classe
@@ -51,20 +51,21 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
-
-        bX = 0;
-        minDuration = 2f;
-        playerX = 100f;
-        alpha = 0;
-
         viewport = new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
-        shape = new ShapeRenderer();
+        batch = new SpriteBatch();
 
         game.assets.queueAddTextures();
         game.assets.queueAddFonts();
         game.assets.queueAddParticleEffects();
         game.assets.queueAddMusic();
         game.assets.queueAddSounds();
+
+        font = game.assets.font;
+        font.setColor(1, 1, 1, 1);
+        font.getData().setScale(3.5f);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -73,32 +74,19 @@ public class LoadingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
 
+        minDuration -= delta;
 
-        if (game.assets.manager.update() &&  minDuration < 0) {
-            playerX += 800 * delta;
-            alpha += delta * 0.75;
+        batch.setProjectionMatrix(viewport.getCamera().combined);
 
-            shape.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        font.draw(batch, "Loading . . ." ,PixelGame.WIDTH - 230f, 50f);
+        batch.end();
 
-            Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-            Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-            shape.setColor(0, 0, 0, alpha);
-            shape.begin(ShapeRenderer.ShapeType.Filled);
-            shape.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            shape.end();
-            Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
-
-            if (alpha > 1.5){
-                if (save != null)
-                    game.setSave(PixelGame.PLAY_SCREEN, save);
-                else if (map != null)
-                    game.setMap(PixelGame.PLAY_SCREEN, map);
-            }
-
-        }else{
-            minDuration -= delta;
-            bX += 1200 * delta;
-
+        if (game.assets.manager.update() && System.currentTimeMillis() - startTime >= minDuration ) {
+            if (save != null)
+                game.setSave(PixelGame.PLAY_SCREEN, save);
+            else if (map != null)
+                game.setMap(PixelGame.PLAY_SCREEN, map);
         }
         Gdx.graphics.setTitle("Cavel - " + game.assets.manager.getProgress() * 100 +"%");
     }
@@ -127,7 +115,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-        shape.dispose();
+        batch.dispose();
     }
 
 }
