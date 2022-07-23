@@ -1,0 +1,4 @@
+import seek:"com.edgarsilva.pixelgame.engine.ai.bt.tasks.SeekPlayerTask"
+
+root
+    seek
