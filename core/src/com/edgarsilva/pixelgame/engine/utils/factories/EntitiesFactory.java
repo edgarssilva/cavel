@@ -33,7 +33,6 @@ import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
-import com.edgarsilva.pixelgame.engine.utils.GroundSteering;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -373,7 +372,7 @@ public class EntitiesFactory {
 
 
         // set object position (x,y,z) z used to define draw order 0 first drawn
-        transform.position.set(position.x, position.y,0);
+        transform.position.set(position.x, position.y,2);
         transform.width = 18;
         transform.height = 24;
         transform.flipX = true;
@@ -409,9 +408,9 @@ public class EntitiesFactory {
                 .add(sc).add(collisionComp);
 
 
-        agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
-        EntityManager.add(agentComp);
-        entity.add(agentComp);
+       // agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
+       // EntityManager.add(agentComp);
+        //entity.add(agentComp);
 
         engine.addEntity(entity);
 
@@ -473,6 +472,56 @@ public class EntitiesFactory {
         ;//.add(pathComp);
 
         engine.addEntity(entity);
+        return entity;
+    }
+
+    public static Entity createWitch(Vector2 pos){
+        Entity entity = engine.createEntity();
+
+        AnimationComponent animComp  = engine.createComponent(AnimationComponent.class);
+        BodyComponent      bodyComp  = engine.createComponent(BodyComponent.class);
+        StatsComponent     statsComp = engine.createComponent(StatsComponent.class);
+        TextureComponent   textComp  = engine.createComponent(TextureComponent.class);
+        TransformComponent transComp = engine.createComponent(TransformComponent.class);
+        TypeComponent      typeComp  = engine.createComponent(TypeComponent.class);
+
+        Texture region = assets.manager.get(GameAssetsManager.witchTexture, Texture.class);
+
+        TextureRegion[][] regions = TextureRegion.split(region, 20 ,200);
+
+        animComp.add(EnemyState.Attacking, frameDuration, Animation.PlayMode.NORMAL,
+                regions[0][0],
+                regions[0][1],
+                regions[0][2],
+                regions[0][3],
+                regions[0][4],
+                regions[0][5],
+                regions[0][6],
+                regions[0][7],
+                regions[0][8],
+                regions[0][9]
+        );
+
+         transComp.position.x = pos.x;
+         transComp.position.y = pos.y;
+         transComp.position.z = 1;
+         transComp.width = 20;
+         transComp.height = 20;
+
+         textComp.region = regions[0][0];
+
+        // typeComp.type = TypeComponent.ENEMY;
+
+         entity//.add(animComp)
+                // .add(bodyComp)
+                 //.add(statsComp)
+                 .add(textComp)
+                 .add(transComp);
+                 //.add(typeComp);
+
+         engine.addEntity(entity);
+
+
         return entity;
     }
 

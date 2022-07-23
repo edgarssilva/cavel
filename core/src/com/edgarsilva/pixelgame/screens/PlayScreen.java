@@ -109,6 +109,13 @@ public class PlayScreen implements Screen {
         tc = EntityManager.getPlayer().getComponent(TransformComponent.class);
         resultPath = new GraphPathImp();
 
+
+        EntitiesFactory.createWitch(new Vector2(
+                EntityManager.getPlayer().getComponent(TransformComponent.class).position.x,
+                EntityManager.getPlayer().getComponent(TransformComponent.class).position.y
+        ));
+
+
     }
 
 
@@ -137,7 +144,7 @@ public class PlayScreen implements Screen {
         entityManager.update(delta);
         // hud.update(delta);
 
-        PathfindingDebugger.drawPath(resultPath);
+        //PathfindingDebugger.drawPath(resultPath);
     }
 
 

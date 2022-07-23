@@ -18,6 +18,7 @@ public class GameAssetsManager {
     public static final String skeletonAtlas = "entities/sprites/Skeleton.atlas";
     public static final String slimeAtlas = "entities/sprites/slime.atlas";
     public static final String gameOverImage = "raw/textures/gameover.jpg";
+    public static final String witchTexture = "entities/sprites/witch.png";
 
     // Sounds
     public static final  String boingSound = "";
@@ -43,6 +44,7 @@ public class GameAssetsManager {
         manager.load(skeletonAtlas, TextureAtlas.class);
         manager.load(slimeAtlas, TextureAtlas.class);
         manager.load(gameOverImage, Texture.class);
+        manager.load(witchTexture, Texture.class);
     }
 
     public void queueAddSounds(){
