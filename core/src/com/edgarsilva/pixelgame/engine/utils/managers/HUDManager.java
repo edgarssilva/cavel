@@ -70,7 +70,7 @@ public class HUDManager implements Updateable, Disposable {
        //Se o player estiver vivo atualizar a barra de hp
         if (stats.has(EntityManager.getPlayer())) {
             int health = stats.get(EntityManager.getPlayer()).health;
-            healthBar.setValue(health);
+           //healthBar.setValue(health);
             if (health <= 0 ) screen.gameOver();
         }
  /*
