@@ -3,9 +3,11 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
@@ -34,6 +36,12 @@ public class SplashScreen implements Screen {
 
         game.assets.queueAddLoadingAssets();
         game.assets.manager.finishLoading();
+        ObjectSet<Texture> textures = game.assets.getSkin().getAtlas().getTextures();
+
+        for (Texture texture : textures) {
+            texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+
         game.assets.font = game.assets.manager.get(GameAssetsManager.BitPotion);
         game.assets.manager.load("bitmaps/keyboard.atlas", TextureAtlas.class);
 

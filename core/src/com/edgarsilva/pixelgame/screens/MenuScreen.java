@@ -5,10 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
+import com.edgarsilva.pixelgame.engine.utils.Shake;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.managers.Save;
 
@@ -30,32 +29,21 @@ public class MenuScreen implements Screen {
     private ShapeRenderer shape;
     private Animation anim;
     private float frame;
-    private Texture background;
 
-    private int bX = 0;
     private boolean loadFromServer = false;
+    private float playerX = 0f;
+    private float playerY = 0f;
+    private float playerA = 0f;
 
     public MenuScreen(PixelGame pixelGame) {
         this.game = pixelGame;
-        stage = new Stage(new ExtendViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
+        stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
+
+        TextureRegion frame1 = new TextureRegion(game.assets.manager.get(GameAssetsManager.menuFrame1, Texture.class));
+        TextureRegion frame2 = new TextureRegion(game.assets.manager.get(GameAssetsManager.menuFrame2, Texture.class));
 
 
-
-        TextureAtlas atlas = new TextureAtlas("entities/sprites/Player.atlas");
-        background = new Texture("raw/loading.png");
-        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
-
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-
-        frames.addAll(
-                atlas.findRegion("adventurer-run-00"),
-                atlas.findRegion("adventurer-run-01"),
-                atlas.findRegion("adventurer-run-02"),
-                atlas.findRegion("adventurer-run-03"),
-                atlas.findRegion("adventurer-run-04"),
-                atlas.findRegion("adventurer-run-05"));
-
-        anim = new Animation<TextureRegion>( 1 / 12f, frames, Animation.PlayMode.LOOP);
+        anim = new Animation<TextureRegion>( 1 / 8f, frame1, frame2);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -65,19 +53,11 @@ public class MenuScreen implements Screen {
 
         skin = game.assets.getSkin();
 
-        BitmapFont bitPotion = game.assets.manager.get(GameAssetsManager.BitPotion, BitmapFont.class);
 
-        bitPotion.getData().setScale(6);
-
-        TextButton.TextButtonStyle previous = skin.get(TextButton.TextButtonStyle.class);
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(
-                previous.up, previous.down, previous.checked,bitPotion);
-
-
-        TextButton newGame = new TextButton("New Game", style);
-        TextButton loadGame = new TextButton("Load Game", style);
-        TextButton preferences = new TextButton("Preferences", style);
-        TextButton exit = new TextButton("Exit", style);
+        TextButton newGame = new TextButton("New Game", skin);
+        TextButton loadGame = new TextButton("Load Game", skin);
+        TextButton preferences = new TextButton("Preferences", skin);
+        TextButton exit = new TextButton("Exit", skin);
 
         newGame.addListener(new ChangeListener() {
             @Override
@@ -92,9 +72,9 @@ public class MenuScreen implements Screen {
                 Save.loadFromServer();
                 loadFromServer = true;
                 //if (Save.loadFromServer()) {
-                  //  while (PixelGame.serverSave == null) System.out.println(PixelGame.serverSave);
+                //  while (PixelGame.serverSave == null) System.out.println(PixelGame.serverSave);
                 //    game.setSave(PixelGame.LOADING_SCREEN, Save.load(PixelGame.serverSave));
-               // }
+                // }
             }
         });
 
@@ -112,7 +92,7 @@ public class MenuScreen implements Screen {
             }
         });
 
-        TextButton connect = new TextButton("Connect", style);
+        TextButton connect = new TextButton("Connect", skin);
 
         connect.addListener(new ChangeListener() {
             @Override
@@ -150,22 +130,36 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(33 / 255f, 38 / 255f, 63 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Math.min(delta, 1 / 30f));
 
-        bX += 1000 * delta;
+        if (Shake.getShakeTimeLeft() > 0){
+            Shake.tick(Gdx.graphics.getDeltaTime());
+            playerX = MathUtils.lerp(playerX, Shake.getPos().x, delta);
+            playerY = MathUtils.lerp(playerY, Shake.getPos().y, delta);
+            playerA = MathUtils.lerp(playerA, Shake.getPos().z, delta);
+        }else{
+            Shake.shake(150, 100f);
+        }
 
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, bX, 0, (int) stage.getWidth(), (int) stage.getHeight());
-        stage.getBatch().draw((TextureRegion) anim.getKeyFrame(frame += delta), 100f, 150, 180, 120);
+        stage.getBatch().draw((TextureRegion) anim.getKeyFrame(frame += delta, true),
+                playerX, playerY,
+                stage.getWidth() / 2, stage.getHeight() / 2,
+                stage.getWidth(), stage.getHeight(),
+                1, 1,
+                playerA
+        );
         stage.getBatch().end();
 
+        stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
+
         if (loadFromServer && PixelGame.serverSave != null) {
             loadFromServer = false;
             game.setSave(PixelGame.LOADING_SCREEN, PixelGame.serverSave);
         }
+
     }
 
     @Override

@@ -29,6 +29,8 @@ public class GameAssetsManager {
     public static final String gameOverImage = "raw/textures/gameover.jpg";
     public static final String witchTexture  = "entities/sprites/witch.png";
     public static final String splashAtlas   = "raw/textures/splash.atlas";
+    public static final String menuFrame1    = "raw/frame1.png";
+    public static final String menuFrame2    = "raw/frame2.png";
 
     //Keyboard
     public HashMap<String, Animation<TextureRegion>> keyboard = new HashMap<String, Animation<TextureRegion>>();
@@ -58,6 +60,8 @@ public class GameAssetsManager {
         manager.load(loadingBackground, Texture.class);
         manager.load(skin, Skin.class);
         manager.load(titleSong,Music.class);
+        manager.load(menuFrame1, Texture.class);
+        manager.load(menuFrame2, Texture.class);
         queueAddFonts();
     }
 
@@ -88,7 +92,6 @@ public class GameAssetsManager {
 
     public void queueAddFonts(){
         manager.load(BitPotion, BitmapFont.class);
-
     }
 
     public void queueAddParticleEffects(){
