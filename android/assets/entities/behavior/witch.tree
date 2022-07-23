@@ -1,4 +1,8 @@
-import seek:"com.edgarsilva.pixelgame.engine.ai.bt.tasks.SeekPlayerTask"
+import seek?:"com.edgarsilva.pixelgame.engine.ai.bt.tasks.SeekPlayerTask"
+import attack:"com.edgarsilva.pixelgame.engine.ai.bt.tasks.AttackTask"
 
 root
-    seek
+    selector
+        sequence
+            seek?
+            attack

@@ -7,11 +7,7 @@ import com.badlogic.gdx.Input;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 import com.edgarsilva.pixelgame.preferences.GamePreferences;
-import com.edgarsilva.pixelgame.screens.EndScreen;
-import com.edgarsilva.pixelgame.screens.LoadingScreen;
-import com.edgarsilva.pixelgame.screens.MenuScreen;
-import com.edgarsilva.pixelgame.screens.PlayScreen;
-import com.edgarsilva.pixelgame.screens.SettingsScreen;
+import com.edgarsilva.pixelgame.screens.*;
 
 
 public class PixelGame extends Game {
@@ -84,8 +80,8 @@ public class PixelGame extends Game {
 
 
         loadingScreen = new LoadingScreen(this);
-        setScreen(loadingScreen);
-        //setScreen(new TestScreen());
+       // setScreen(loadingScreen);
+        setScreen(new TestScreen());
 	}
 
 	@Override

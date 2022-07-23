@@ -2,11 +2,7 @@ package com.edgarsilva.pixelgame.engine.utils.listeners;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.*;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
@@ -94,7 +90,7 @@ public class CollisionListener implements ContactListener {
                 System.out.println("Enemy");
                 AttackCollisionComponent acc = ent.getComponent(AttackCollisionComponent.class);
                 if (acc != null) {
-                    System.out.println("Listener Attack");
+                    System.out.println("Listener AttackTask");
                     acc.handleCollision(ent, colEnt);
                 } else {
                     System.out.println("Null");
