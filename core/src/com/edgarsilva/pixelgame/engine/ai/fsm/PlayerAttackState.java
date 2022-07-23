@@ -17,6 +17,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
             Controller.attack = false;
             PlayerAgent.attacking = false;
             agent.lastAttack = System.currentTimeMillis();
+            agent.bodyComp.flippable = true;
         }
 
         @Override
@@ -25,7 +26,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
                 PlayerAttackState nextState;
                 PlayerAttackState previousState = PlayerAgent.attackStateMachine.getPreviousState();
 
-                if (System.currentTimeMillis() - agent.lastAttack > 200 || previousState == null)
+                if (System.currentTimeMillis() - agent.lastAttack > 300 || previousState == null)
                     previousState = NONE;
 
                 if (agent.isTouchingGround) {
@@ -60,6 +61,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
                     nextState = FallingAttack;
 
                 agent.makeAttackFixture(nextState);
+                agent.bodyComp.flippable = false;
                 PlayerAgent.timer = 0f;
                 PlayerAgent.attacking = true;
                 PlayerAgent.attackStateMachine.changeState(nextState);

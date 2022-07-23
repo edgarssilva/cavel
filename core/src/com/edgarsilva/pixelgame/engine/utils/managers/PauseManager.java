@@ -26,13 +26,13 @@ public class PauseManager {
     public PauseManager(final PlayScreen screen) {
         this.screen = screen;
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), screen.getBatch());
-        table = new Table(screen.getGame().assets.getSkin());
+        table = new Table(PlayScreen.getGame().assets.getSkin());
 
         stage.setDebugAll(PixelGame.DEBUG);
 
         table.setFillParent(true);
 
-        TextButton continueBtn = new TextButton("Continue", screen.getGame().assets.getSkin());
+        TextButton continueBtn = new TextButton("Continue", PlayScreen.getGame().assets.getSkin());
 
         continueBtn.addListener(new ChangeListener() {
             @Override
@@ -41,23 +41,23 @@ public class PauseManager {
             }
         });
 
-        TextButton settingsBtn = new TextButton("Settings", screen.getGame().assets.getSkin());
+        TextButton settingsBtn = new TextButton("Settings", PlayScreen.getGame().assets.getSkin());
         settingsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                screen.getGame().setScreen(new SettingsScreen(screen.getGame(), screen));
+                PlayScreen.getGame().setScreen(new SettingsScreen(PlayScreen.getGame(), screen));
             }
         });
-        TextButton exitButton = new TextButton("Exit", screen.getGame().assets.getSkin());
+        TextButton exitButton = new TextButton("Exit", PlayScreen.getGame().assets.getSkin());
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                screen.getGame().getScreen().dispose();
-                screen.getGame().setScreen(new MenuScreen(screen.getGame()));
+                screen.dispose();
+                PlayScreen.getGame().setScreen(new MenuScreen(PlayScreen.getGame()));
             }
         });
 
-        Label pauseText = new Label("--- PAUSED ---", screen.getGame().assets.getSkin());
+        Label pauseText = new Label("--- PAUSED ---", PlayScreen.getGame().assets.getSkin());
         pauseText.setAlignment(Align.center);
         pauseText.setFontScale(2.5f);
 

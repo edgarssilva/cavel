@@ -7,11 +7,11 @@ import com.badlogic.gdx.utils.Pool;
 public class BodyComponent implements Component, Pool.Poolable {
 
     public Body body;
-    public boolean flippable = false;
+    public boolean flippable = true;
 
     @Override
     public void reset() {
         this.body = null;
-        this.flippable = false;
+        this.flippable = true;
     }
 }

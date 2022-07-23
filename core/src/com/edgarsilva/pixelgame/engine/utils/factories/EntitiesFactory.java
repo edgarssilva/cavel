@@ -6,14 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -25,16 +24,13 @@ import com.edgarsilva.pixelgame.engine.ecs.components.AttachedComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.BossComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.DropComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.CoinComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.HealthBarComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
-import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -594,6 +590,54 @@ public class EntitiesFactory {
         return entity;
     }
 
+    public static Entity createCoin(Vector2 position) {
+        Entity entity = engine.createEntity();
+
+        BodyComponent      bc  = engine.createComponent(BodyComponent.class);
+        TransformComponent tfc = engine.createComponent(TransformComponent.class);
+        TextureComponent   tc  = engine.createComponent(TextureComponent.class);
+        CoinComponent      cc  = engine.createComponent(CoinComponent.class);
+
+
+        bc.body = BodyFactory.makeBox(position.x, position.y, 6.4f, 7.6f, BodyDef.BodyType.DynamicBody, false);
+
+        tfc.width = 16f;
+        tfc.height = 19f;
+
+        Filter filter = new Filter();
+        filter.categoryBits = PhysicsConstants.COIN_BITS;
+        filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS;
+
+        for (Fixture fix : bc.body.getFixtureList()) {
+            fix.setFilterData(filter);
+            fix.setUserData(entity);
+        }
+
+        bc.body.setUserData(entity);
+
+
+        TextureAtlas atlas = new TextureAtlas("entities/sprites/Coin.atlas");
+
+        tc.region = atlas.findRegion("coin-1");
+
+        System.out.println("Create Coin");
+
+        entity.add(bc).add(tfc).add(tc).add(cc);
+        engine.addEntity(entity);
+        return entity;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/*
     public static Entity createWitch(Vector2 pos){
         Entity entity = engine.createEntity();
 
@@ -662,8 +706,15 @@ public class EntitiesFactory {
 
         return entity;
     }
+*/
 
 
+
+
+
+
+
+/*
     public static void createDropper(float odd, float x, float y, float width, float height){
         Entity dropper = engine.createEntity();
 
@@ -703,4 +754,4 @@ public class EntitiesFactory {
 
         engine.addEntity(drop);
     }
-}
+*/

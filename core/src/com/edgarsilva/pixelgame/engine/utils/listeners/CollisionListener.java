@@ -8,10 +8,13 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.CoinComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.MessageComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
+import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
+import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class CollisionListener implements ContactListener {
 
@@ -54,6 +57,13 @@ public class CollisionListener implements ContactListener {
                 mcm.get(actorB).showMessage = true;
             }
 
+            if (fa.getFilterData().categoryBits == PhysicsConstants.COIN_BITS) {
+                PlayScreen.coins += actorA.getComponent(CoinComponent.class).value;
+                EntityManager.setToDestroy(actorA);
+            } else if (fb.getFilterData().categoryBits == PhysicsConstants.COIN_BITS) {
+                PlayScreen.coins += actorB.getComponent(CoinComponent.class).value;
+                EntityManager.setToDestroy(actorB);
+            }
 
             PlayerCollisionComponent data = null;
             short categoryBits = 0;

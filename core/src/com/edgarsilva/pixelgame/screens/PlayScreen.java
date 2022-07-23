@@ -70,7 +70,10 @@ public class PlayScreen implements Screen {
     private boolean gameOver;
     private String  mapTitle;
 
+    //Test
     private boolean light = true;
+    public static int coins = 0;
+
 
     public PlayScreen(PixelGame game, String map) {
         this.paused        = false;
@@ -84,8 +87,8 @@ public class PlayScreen implements Screen {
         world          = new World(new Vector2(0, -9.6f), true);
         world.setContactListener(new CollisionListener());
         rayHandler     = new RayHandler(world);
-        rayHandler.setAmbientLight(0.6f, 0.6f, 0.6f, 0.6f);
-        rayHandler.setBlurNum(5);
+        rayHandler.setAmbientLight(0.4f, 0.4f, 0.4f, 0.1f);
+        rayHandler.setBlurNum(3);
         rayHandler.setShadows(true);
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
@@ -95,9 +98,6 @@ public class PlayScreen implements Screen {
         filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.ENEMY_BITS;
 
         PointLight.setGlobalContactFilter(filter);
-
-
-
 
         batch          = new SpriteBatch();
         cameraManager  = new CameraManager();
@@ -132,8 +132,7 @@ public class PlayScreen implements Screen {
         new EntitiesFactory(this);
         new LevelFactory(this);
 
-        LevelManager.loadLevel(map);
-
+        //LevelManager.loadLevel(map);
         // EntitiesFactory.createWitch(new Vector2(4,10));
 
     }
@@ -141,6 +140,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+        resetGame();
         SoundManager.setMusic(GameAssetsManager.level1, true);
         Gdx.input.setInputProcessor(inputMultiplexer);
         if (PlayerAgent.getCurrentState() == null || EntityManager.getPlayer() == null)
@@ -190,6 +190,8 @@ public class PlayScreen implements Screen {
             shapeRenderer.end();
         }
         if (gameOverTimer > 3) resetGame();
+
+        System.out.println(coins);
     }
 
 
@@ -257,6 +259,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        System.out.println("dispose");
         entityManager.reset();
         engine.clearPools();
         hud.dispose();

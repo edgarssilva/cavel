@@ -22,4 +22,7 @@ public class PhysicsConstants {
     public static final short   WALL_LEFT_SENSOR        = 400;
     public static final short   WALL_RIGHT_SENSOR       = 800;
     public static final short   ENEMY_ATTACK_SENSOR     = 32;
+
+    //Neutral
+    public static final short   COIN_BITS               = 64;
 }

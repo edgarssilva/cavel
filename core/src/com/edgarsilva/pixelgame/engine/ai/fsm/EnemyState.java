@@ -89,6 +89,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         public void update(EnemyAgentComponent agent) {
             if (agent.anim.isAnimationFinished(agent.timer)) {
                 agent.stateMachine.changeState(IDLE);
+                agent.spawnDropables();
                 EntityManager.setToDestroy(agent.entity);
             }
         }

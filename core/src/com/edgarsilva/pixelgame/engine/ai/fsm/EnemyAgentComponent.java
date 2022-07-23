@@ -13,8 +13,11 @@ import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
+import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
+
+import java.util.Random;
 
 public class EnemyAgentComponent implements Component, Updateable {
 
@@ -34,6 +37,8 @@ public class EnemyAgentComponent implements Component, Updateable {
     public float timer = 1f;
     public Animation anim;
 
+    private Random random;
+
     public StateMachine<EnemyAgentComponent, EnemyState> stateMachine;
 
     private EnemyCollisionComponent collisionComp;
@@ -49,11 +54,15 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     public EnemyAgentComponent(Entity entity) {
         this.entity   =  entity;
+
+        random = new Random();
+
         statsCompMap  =  ComponentMapper.getFor(StatsComponent.class);
         bodyCompMap   =  ComponentMapper.getFor(BodyComponent.class);
         statsComp     =  statsCompMap.get(entity);
         body          =  bodyCompMap.get(entity).body;
         collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
+
         stateMachine  =  new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
         MessageManager.getInstance().addListener(stateMachine, 0);
     }
@@ -109,6 +118,12 @@ public class EnemyAgentComponent implements Component, Updateable {
             if (ent.equals(EntityManager.getPlayer()))return true;
 
         return false;
+    }
+
+    public void spawnDropables() {
+        if (random.nextFloat() > 0.7) {
+            EntitiesFactory.createCoin(body.getPosition());
+        }
     }
 }
 

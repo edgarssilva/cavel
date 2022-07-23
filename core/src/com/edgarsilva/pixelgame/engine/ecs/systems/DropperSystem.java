@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
-import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 
 public class DropperSystem extends IteratingSystem {
 
@@ -26,7 +25,7 @@ public class DropperSystem extends IteratingSystem {
         float odd = dc.odd;
 
         if(random <= odd && dc.droppable) {
-            EntitiesFactory.createDrop(dc.originX, dc.originY, dc.width, dc.height, entity);
+          //  EntitiesFactory.createDrop(dc.originX, dc.originY, dc.width, dc.height, entity);
             dc.droppable = false;
         }
     }

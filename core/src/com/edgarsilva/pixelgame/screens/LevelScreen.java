@@ -5,11 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
@@ -22,7 +24,7 @@ public class LevelScreen implements Screen {
 
     private PixelGame game;
 
-    public LevelScreen(PixelGame game) {
+    public LevelScreen(final PixelGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -35,7 +37,7 @@ public class LevelScreen implements Screen {
         table.defaults().space(20);
         stage.setDebugAll(PixelGame.DEBUG);
        // table.align(Align.topLeft);
-
+        table.center();
         FileHandle[] files = Gdx.files.internal("maps/").list("tmx");
 
         int count = 1;
@@ -56,6 +58,15 @@ public class LevelScreen implements Screen {
             count++;
         }
 
+        TextButton back = new TextButton("Back", game.assets.getSkin());
+        back.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+        table.row();
+        table.bottom().add(back);
     }
 
     void setLevel(String map) {

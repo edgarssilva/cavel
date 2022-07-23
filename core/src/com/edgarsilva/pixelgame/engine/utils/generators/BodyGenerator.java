@@ -67,7 +67,7 @@ public class BodyGenerator {
         bodyDef.position.set(position.x + (dimensions.x / 2 * RenderSystem.PIXELS_TO_METERS) ,
                 position.y + (dimensions.y / 2 * RenderSystem.PIXELS_TO_METERS));
 
-      //  bodyDef.position.set(position.x * RenderSystem.PIXELS_TO_METERS, position.y * RenderSystem.PIXELS_TO_METERS);
+        //  bodyDef.position.set(position.x * RenderSystem.PIXELS_TO_METERS, position.y * RenderSystem.PIXELS_TO_METERS);
 
 
         body = world.createBody(bodyDef);
@@ -117,7 +117,13 @@ public class BodyGenerator {
                         break;
                     case PhysicsConstants.FRIENDLY_BITS:
                         fixtureDef.filter.maskBits =
-                                PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS | PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_ATTACK_SENSOR | PhysicsConstants.MESSAGE_BITS;
+                                        PhysicsConstants.ENEMY_BITS |
+                                        PhysicsConstants.LEVEL_BITS |
+                                        PhysicsConstants.OBSTACLE_BITS |
+                                        PhysicsConstants.FRIENDLY_BITS |
+                                        PhysicsConstants.ENEMY_ATTACK_SENSOR |
+                                        PhysicsConstants.MESSAGE_BITS |
+                                        PhysicsConstants.COIN_BITS;
                 }
             }
             body.createFixture(fixtureDef).setUserData(owner);

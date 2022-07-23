@@ -16,13 +16,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.MessageComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
@@ -76,12 +76,12 @@ public class LevelFactory {
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.shape = shape;
             fixtureDef.filter.categoryBits = PhysicsConstants.LEVEL_BITS;
-            fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
+            /*fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
                     PhysicsConstants.ENEMY_BITS |
                     PhysicsConstants.NEUTRAL_BITS |
                     PhysicsConstants.FOOT_SENSOR |
                     PhysicsConstants.RIGHT_WALL_SENSOR |
-                    PhysicsConstants.LEFT_WALL_SENSOR);
+                    PhysicsConstants.LEFT_WALL_SENSOR);*/
 
             // All collisions need an entity, and all entities need a type to handle collisions
             Entity levelEntity = engine.createEntity();
@@ -122,9 +122,9 @@ public class LevelFactory {
     }
 
     public static void makeObstacles(TiledMap map, String layerName) {
-        MapObjects objects =  map.getLayers().get(layerName).getObjects();
+        /* MapObjects objects =  map.getLayers().get(layerName).getObjects();
         for (MapObject object : objects){
-            if (object.getProperties().containsKey("platform")) {
+           if (object.getProperties().containsKey("platform")) {
 
                 Vector2 position = getObjectPosition(object);
 
@@ -221,7 +221,7 @@ public class LevelFactory {
                 fixtureDef.shape = null;
                 shape.dispose();
             }
-        }
+        }*/
     }
 
 
@@ -234,18 +234,21 @@ public class LevelFactory {
 
                 BodyComponent      bc  = engine.createComponent(BodyComponent.class);
                 MessageComponent   mc  = engine.createComponent(MessageComponent.class);
-                //TransformComponent tc  = engine.createComponent(TransformComponent.class);
 
                 Vector2 dimension = getObjectDimension(object);
                 Vector2 position  = getObjectPosition(object);
 
-                // tc.width = dimension.x;
-                // tc.height = dimension.y;
-
                 bc.body = BodyFactory.makeBox(position.x, position.y, dimension.x, dimension.y, BodyDef.BodyType.StaticBody, true);
-                //bc.body.getFixtureList().get(0).getFilterData().categoryBits = MESSAGE_BITS;
-                // bc.body.getFixtureList().get(0).getFilterData().maskBits = FRIENDLY_BITS;
-                bc.body.getFixtureList().get(0).setUserData(entity);
+
+                Filter filter = new Filter();
+                filter.categoryBits = PhysicsConstants.MESSAGE_BITS;
+                filter.maskBits = PhysicsConstants.FRIENDLY_BITS;
+
+                for (Fixture fix : bc.body.getFixtureList()) {
+                    fix.setFilterData(filter);
+                    fix.setUserData(entity);
+                }
+
                 bc.body.setUserData(entity);
 
                 String message = object.getProperties().get("message").toString();
@@ -262,7 +265,7 @@ public class LevelFactory {
                     mc.message = MessageComponent.TutorialMessages.FallAttack;
                 }
 
-                entity.add(bc).add(mc);//.add(tc);
+                entity.add(bc).add(mc);
                 engine.addEntity(entity);
             }
         }
@@ -270,13 +273,13 @@ public class LevelFactory {
 
     public static void makeLights(TiledMap tiledMap, String layerName){
         MapObjects objects =  tiledMap.getLayers().get(layerName).getObjects();
-       // Filter filter = new Filter();
-       // filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS;
+
+        rayHandler.removeAll();
+
         for (MapObject object : objects){
-          PointLight light =  new PointLight(rayHandler,180, Color.valueOf("#f96d09"), getObjectDimension(object).x / 1.7f, getObjectPosition(object).x, getObjectPosition(object).y);
-          light.setSoftnessLength(getObjectDimension(object).x / 10 );
-          light.setXray(false);
-         // light.setContactFilter(filter);
+            PointLight light =  new PointLight(rayHandler,180, Color.valueOf("#f96d09"), getObjectDimension(object).x / 1.5f, getObjectPosition(object).x, getObjectPosition(object).y);
+            light.setSoftnessLength(getObjectDimension(object).x / 5 );
+            light.setXray(false);
         }
     }
 

@@ -11,11 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
-import com.edgarsilva.pixelgame.managers.LoginManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 
 public class MenuScreen implements Screen {
@@ -75,10 +73,11 @@ public class MenuScreen implements Screen {
         connect.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                LoginManager.login(
+                /*LoginManager.login(
                         Base64Coder.encodeString("admin"),
                         Base64Coder.encodeString("admin"),
-                        LoginManager.DEFAULT_LISTENER);
+                        LoginManager.DEFAULT_LISTENER);*/
+                game.setScreen(new LoginScreen(game));
             }
         });
 

@@ -26,16 +26,24 @@ import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 public class PlayerAgent implements Updateable {
 
 
+    private Entity player;
+
     protected Body body;
+
     private TransformComponent transform;
     public PlayerCollisionComponent sensors;
     public AttackComponent attackComp;
     public AnimationComponent animComp;
     public static StatsComponent statsComp;
+    public BodyComponent bodyComp;
+
     private ComponentMapper<StatsComponent> statsCompMap;
+    private ComponentMapper<BodyComponent> bodyCompMap;
+
 
     protected static StateMachine<PlayerAgent, PlayerState> stateMachine;
     protected static StateMachine<PlayerAgent, PlayerAttackState> attackStateMachine;
+
 
     public boolean isTouchingGround = true;
     public boolean isTouchingWallLeft = false;
@@ -51,9 +59,12 @@ public class PlayerAgent implements Updateable {
     public float deltaTime;
 
     public PlayerAgent(Entity player) {
-        statsCompMap = ComponentMapper.getFor(StatsComponent.class);
+        this.player = player;
 
-        body = player.getComponent(BodyComponent.class).body;
+        statsCompMap = ComponentMapper.getFor(StatsComponent.class);
+        bodyComp = player.getComponent(BodyComponent.class);
+
+        body = bodyComp.body;
         transform = player.getComponent(TransformComponent.class);
         sensors = player.getComponent(PlayerCollisionComponent.class);
         attackComp = player.getComponent(AttackComponent.class);
@@ -69,12 +80,15 @@ public class PlayerAgent implements Updateable {
     @Override
     public void update(float deltaTime) {
         this.deltaTime = deltaTime;
+
         isTouchingGround = (sensors.numFoot > 0);
         isTouchingWallLeft = (sensors.numLeftWall > 0);
         isTouchingWallRight = (sensors.numRightWall > 0);
 
         stateMachine.update();
         attackStateMachine.update();
+
+        if (bodyComp == null && bodyCompMap.has(player)) bodyComp = bodyCompMap.get(player);
     }
 
     public static void reset(Vector2 position) {
@@ -127,10 +141,10 @@ public class PlayerAgent implements Updateable {
         if (Controller.right && !isTouchingWallRight)
             desiredSpeedX = 2f;
         if (attackStateMachine.getCurrentState() != PlayerAttackState.NONE)
-            desiredSpeedX /= 1.9f;
+            desiredSpeedX *= 0.1f;
 
 
-        if (Controller.up) {
+        if (Controller.up && attackStateMachine.getCurrentState() != PlayerAttackState.FallAttack) {
             impulseY = 5f * body.getMass();
             Controller.up = false;
         }
