@@ -9,9 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
+import com.edgarsilva.pixelgame.managers.LoginManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 
 public class MenuScreen implements Screen {
@@ -22,7 +25,7 @@ public class MenuScreen implements Screen {
 
     public MenuScreen(PixelGame pixelGame) {
         this.game = pixelGame;
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
 
         Table table = new Table();
         table.setFillParent(true);
@@ -56,11 +59,30 @@ public class MenuScreen implements Screen {
             }
         });
 
+        TextButton connect = new TextButton("Connect", skin);
+
+        connect.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                LoginManager.login(
+                        Base64Coder.encodeString("admin"),
+                        Base64Coder.encodeString("admin"),
+                        LoginManager.DEFAULT_LISTENER);
+            }
+        });
+
+        connect.setTransform(true);
+        connect.setScale(0.4f);
+        connect.setOrigin(Align.right, Align.bottom);
+        connect.setPosition(PixelGame.WIDTH - 150, 20f);
+        stage.addActor(connect);
+
         table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(preferences).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
+        table.row();
 
 
     }
@@ -81,7 +103,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-       stage.getViewport().update(width, height, true);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

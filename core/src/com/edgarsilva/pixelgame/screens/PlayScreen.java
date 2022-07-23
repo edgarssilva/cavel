@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Base64Coder;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ai.pfa.GraphPathImp;
 import com.edgarsilva.pixelgame.engine.ai.pfa.HeuristicImp;
@@ -34,7 +32,6 @@ import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.HUDManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
-import com.edgarsilva.pixelgame.managers.LoginManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 
 public class PlayScreen implements Screen {
@@ -117,27 +114,6 @@ public class PlayScreen implements Screen {
         PathfindingDebugger.setCamera(cameraManager.getCamera());
         tc = EntityManager.getPlayer().getComponent(TransformComponent.class);
         resultPath = new GraphPathImp();
-
-
-
-        Gdx.net.sendHttpRequest(LoginManager.login(Base64Coder.encodeString("admin"), Base64Coder.encodeString("admin")), new Net.HttpResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                System.out.println(httpResponse.getResultAsString());
-            }
-
-            @Override
-            public void failed(Throwable t) {
-                System.out.println("failed");
-
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("canceled");
-            }
-        });
-
     }
 
 
