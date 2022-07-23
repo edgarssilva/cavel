@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.MessageComponent;
@@ -77,13 +78,14 @@ public class CollisionListener implements ContactListener {
             if (fa.isSensor() && (fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorA);
                 categoryBits = fa.getFilterData().categoryBits;
-                if (fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS) sensorMap.get(actorA).hitObstacle();
-            } else if (fb.isSensor() && (fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
+            }if (fb.isSensor() && (fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorB);
                 categoryBits = fb.getFilterData().categoryBits;
-                if (fa.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS) sensorMap.get(actorB).hitObstacle();
             }
 
+            if (fa.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS ||
+            fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS)
+                PlayerAgent.kill();
 
             switch (categoryBits) {
                 case PhysicsConstants.FOOT_SENSOR:

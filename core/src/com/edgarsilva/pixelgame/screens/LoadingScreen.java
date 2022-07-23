@@ -3,13 +3,7 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
@@ -25,15 +19,12 @@ public class LoadingScreen implements Screen {
     private PixelGame game;
 
     private Viewport viewport;
-    private SpriteBatch batch;
     private ShapeRenderer shape;
 
     private String map;
     private Save save;
 
-    private Animation anim;
     private float frame;
-    private Texture background;
 
     private int bX = 0;
     private float minDuration = 2f;
@@ -50,10 +41,12 @@ public class LoadingScreen implements Screen {
     }
 
     public void setMap(String map) {
-        this.map = map;
+        this.map  = map;
+        this.save = null;
     }
     public void setSave(Save save){
         this.save = save;
+        this.map  = null;
     }
 
     @Override
@@ -65,24 +58,7 @@ public class LoadingScreen implements Screen {
         alpha = 0;
 
         viewport = new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
-        batch = new SpriteBatch();
         shape = new ShapeRenderer();
-
-        TextureAtlas atlas = new TextureAtlas("entities/sprites/Player.atlas");
-        background = new Texture("raw/loading.png");
-        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
-
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-
-        frames.addAll(
-                atlas.findRegion("adventurer-run-00"),
-                atlas.findRegion("adventurer-run-01"),
-                atlas.findRegion("adventurer-run-02"),
-                atlas.findRegion("adventurer-run-03"),
-                atlas.findRegion("adventurer-run-04"),
-                atlas.findRegion("adventurer-run-05"));
-
-        anim = new Animation<TextureRegion>( 1 / 12f, frames, Animation.PlayMode.LOOP);
 
         game.assets.queueAddTextures();
         game.assets.queueAddFonts();
@@ -97,12 +73,6 @@ public class LoadingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
 
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-
-        batch.begin();
-        batch.draw(background, 0, 0, bX, 0, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
-        batch.draw((TextureRegion) anim.getKeyFrame(frame += delta), playerX, 150, 180, 120);
-        batch.end();
 
         if (game.assets.manager.update() &&  minDuration < 0) {
             playerX += 800 * delta;
@@ -157,9 +127,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         shape.dispose();
-        background.dispose();
     }
 
 }

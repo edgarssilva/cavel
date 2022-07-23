@@ -4,9 +4,13 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
+import java.util.HashMap;
 
 public class GameAssetsManager {
 
@@ -18,13 +22,16 @@ public class GameAssetsManager {
     public static final String loadingBackground = "raw/loading.png";
 
     // Textures
-    public static final String hudImage = "hud/ui_upscaled.png";
-    public static final String playerAtlas = "entities/sprites/Player.atlas";
+    public static final String hudImage      = "hud/ui_upscaled.png";
+    public static final String playerAtlas   = "entities/sprites/Player.atlas";
     public static final String skeletonAtlas = "entities/sprites/Skeleton.atlas";
-    public static final String slimeAtlas = "entities/sprites/slime.atlas";
+    public static final String slimeAtlas    = "entities/sprites/slime.atlas";
     public static final String gameOverImage = "raw/textures/gameover.jpg";
-    public static final String witchTexture = "entities/sprites/witch.png";
+    public static final String witchTexture  = "entities/sprites/witch.png";
+    public static final String splashAtlas   = "raw/textures/splash.atlas";
 
+    //Keyboard
+    public HashMap<String, Animation<TextureRegion>> keyboard = new HashMap<String, Animation<TextureRegion>>();
 
     // Sounds
     public static final String attack1 = "entities/sounds/attack1.ogg";
@@ -47,6 +54,7 @@ public class GameAssetsManager {
 
     // a small set of images used by the loading screen
     public void queueAddLoadingAssets(){
+        manager.load(splashAtlas, TextureAtlas.class);
         manager.load(loadingBackground, Texture.class);
         manager.load(skin, Skin.class);
         manager.load(titleSong,Music.class);
@@ -72,7 +80,7 @@ public class GameAssetsManager {
     }
 
     public void queueAddMusic(){
-       // manager.load(playingSong, Music.class);
+        // manager.load(playingSong, Music.class);
 
         manager.load(level1,Music.class);
         manager.load(ending,Music.class);
@@ -97,4 +105,28 @@ public class GameAssetsManager {
         return manager.get(skin, Skin.class);
     }
 
+    public void loadKeyboard() {
+        TextureAtlas atlas = manager.get("bitmaps/keyboard.atlas");
+        String[] letters = {
+                "w",
+                "a",
+                "s",
+                "d",
+                "esc",
+                "space",
+                "k"
+        };
+
+        for (String letter : letters) {
+            keyboard.put(
+                    letter,
+                    new Animation<TextureRegion>(
+                            1/6f,
+                            atlas.findRegion(letter),
+                            atlas.findRegion("pressed"+letter)
+                    )
+            );
+        }
+
+    }
 }

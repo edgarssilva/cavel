@@ -21,6 +21,7 @@ public class MessageSystem extends IteratingSystem {
     public BitmapFont font;
     public PlayScreen screen;
     private float width;
+    private float timer = 0f;
 
     public MessageSystem(PlayScreen screen) {
         super(Family.all(MessageComponent.class, BodyComponent.class).get(), 2);
@@ -38,9 +39,13 @@ public class MessageSystem extends IteratingSystem {
     }
 
     @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        timer += deltaTime;
+    }
+
+    @Override
     protected void processEntity(Entity entity, float deltaTime) {
-
-
         MessageComponent mc = mcm.get(entity);
         BodyComponent   bc = bcm.get(entity);
 
@@ -56,34 +61,91 @@ public class MessageSystem extends IteratingSystem {
                 screen.getBatch().setProjectionMatrix(screen.getCameraManager().getCamera().combined);
                 screen.getBatch().begin();
                 screen.getBatch().enableBlending();
-
+                screen.getBatch().setColor(1, 1, 1, mc.timer);
                 font.getData().setScale(RenderSystem.PIXELS_TO_METERS / 2);
                 font.setColor(1, 1, 1, mc.timer);
 
+                float length = 0;
                 switch (mc.message) {
                     case Movement:
-                        font.draw(screen.getBatch(), "Press", position.x - width * 23/2f, position.y + 0.75f);
-                        font.draw(screen.getBatch(), " A D keys to move.", (position.x - width * 23/2f + width * 6), position.y + 0.75f);
+                        length = (width * 25 + RenderSystem.PixelsToMeters(16)) / 2f;
+
+                        font.draw(screen.getBatch(), "Press", position.x - length, position.y + 0.75f);
+                        screen.getBatch().draw(
+                                PlayScreen.getGame().assets.keyboard
+                                        .get("a")
+                                        .getKeyFrame(timer, true),
+                                position.x - length + width * 7,
+                                position.y + 0.6f,
+                                RenderSystem.PixelsToMeters(8),
+                                RenderSystem.PixelsToMeters(8)
+                        );
+                        font.draw(screen.getBatch(), " and ", position.x - length + width * 7 + RenderSystem.PixelsToMeters(8), position.y + 0.75f);
+                        screen.getBatch().draw(
+                                PlayScreen.getGame().assets.keyboard
+                                        .get("d")
+                                        .getKeyFrame(timer, true),
+                                position.x - length + width * 13 + RenderSystem.PixelsToMeters(8),
+                                position.y + 0.6f,
+                                RenderSystem.PixelsToMeters(8),
+                                RenderSystem.PixelsToMeters(8)
+                        );
+                        screen.getBatch().setColor(1, 1, 1, 1);
+                        font.draw(screen.getBatch(), " keys to move.", (position.x - length + width * 13 + RenderSystem.PixelsToMeters(16)), position.y + 0.75f);
                         break;
 
                     case Jump:
-                        font.draw(screen.getBatch(), "Press", position.x - width * 14f, position.y + 0.75f);
-                        font.draw(screen.getBatch(), " SpaceBar key to jump.", (position.x - width * 14f + width * 6), position.y + 0.75f);
+                        length = (width * 20 +  RenderSystem.PixelsToMeters(65/2f))/2f;
+
+                        font.draw(screen.getBatch(), "Press", position.x - length, position.y + 0.75f);
+                        screen.getBatch().draw(
+                                PlayScreen.getGame().assets.keyboard
+                                        .get("space")
+                                        .getKeyFrame(timer, true),
+                                position.x - length + width * 7f ,
+                                position.y + 0.6f,
+                                RenderSystem.PixelsToMeters(65/2f),
+                                RenderSystem.PixelsToMeters(8)
+                        );
+                        font.draw(screen.getBatch(), " key to jump.", (position.x - length + width * 7 + RenderSystem.PixelsToMeters(65/2f)), position.y + 0.75f);
+
                         break;
                     case DoubleJump:
-                        font.draw(screen.getBatch(), "Press", position.x - width * 17.5f, position.y + 0.75f);
-                        font.draw(screen.getBatch(), " SpaceBar key 2 times to jump.", (position.x - width * 17.5f + width * 6), position.y + 0.75f);
+                        length = (width * 24 +  RenderSystem.PixelsToMeters(65/2f))/2f;
+                        font.draw(screen.getBatch(), "Press", position.x - length, position.y + 0.75f);
+                        screen.getBatch().setColor(1, 1, 1, mc.timer);
+                        screen.getBatch().draw(
+                                PlayScreen.getGame().assets.keyboard
+                                        .get("space")
+                                        .getKeyFrame(timer, true),
+                                position.x - length + width * 7f ,
+                                position.y + 0.6f,
+                                RenderSystem.PixelsToMeters(65/2f),
+                                RenderSystem.PixelsToMeters(8)
+                        );
+                        font.draw(screen.getBatch(), " key twice to jump.", (position.x - length + width * 7 +  RenderSystem.PixelsToMeters(65/2f)), position.y + 0.75f);
                         break;
 
                     case Attack:
-                        font.draw(screen.getBatch(), "Press", position.x - width * 11f, position.y + 0.75f);
-                        font.draw(screen.getBatch(), " K key to attack.", (position.x - width * 11f + width * 6), position.y + 0.75f);
+                        length = (width * 20f + RenderSystem.PixelsToMeters(8)) / 2f;
+                        font.draw(screen.getBatch(), "Press", position.x - length, position.y + 0.75f);
+                        screen.getBatch().draw(
+                                PlayScreen.getGame().assets.keyboard
+                                        .get("k")
+                                        .getKeyFrame(timer, true),
+                                position.x - length + width * 7,
+                                position.y + 0.6f,
+                                RenderSystem.PixelsToMeters(8),
+                                RenderSystem.PixelsToMeters(8)
+                        );
+                        font.draw(screen.getBatch(), " key to attack.", (position.x - length + width * 7 + RenderSystem.PixelsToMeters(8)), position.y + 0.75f);
                         break;
 
                     case Wall:
                         font.draw(screen.getBatch(), "Walk through the wall.", position.x - width * 11f, position.y + 0.75f);
                         break;
                 }
+                screen.getBatch().setColor(1, 1, 1, 1);
                 screen.getBatch().end();
 
             }

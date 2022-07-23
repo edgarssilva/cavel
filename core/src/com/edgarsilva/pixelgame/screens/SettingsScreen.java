@@ -102,7 +102,7 @@ public class SettingsScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
               changeScreen();
-                game.sound.update();
+              game.sound.update();
             }
         });
 

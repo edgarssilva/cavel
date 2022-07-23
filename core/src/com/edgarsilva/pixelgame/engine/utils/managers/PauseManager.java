@@ -12,6 +12,7 @@ import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
 import com.edgarsilva.pixelgame.managers.Save;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
+import com.edgarsilva.pixelgame.screens.SettingsScreen;
 
 
 public class PauseManager {
@@ -53,7 +54,7 @@ public class PauseManager {
         settingsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                PlayScreen.getGame().setScreen(PixelGame.SETTINGS_SCREEN);
+                PlayScreen.getGame().setScreen(new SettingsScreen(PlayScreen.getGame(), PixelGame.PLAY_SCREEN));
             }
         });
         TextButton exitButton = new TextButton("Exit", PlayScreen.getGame().assets.getSkin());

@@ -24,6 +24,7 @@ public class PlayerCollisionComponent implements CollisionComponent, Pool.Poolab
     }
 
     public void hitObstacle(){
+        System.out.println("obstacle");
         PlayerAgent.kill();
     }
 

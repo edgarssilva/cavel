@@ -81,7 +81,6 @@ public class PlayScreen implements Screen {
     private boolean paused;
     private boolean gameOver;
 
-
     //Test
     private boolean light = true;
     private String map;
@@ -160,7 +159,12 @@ public class PlayScreen implements Screen {
             );
 
             Entity entity = EntityManager.getPlayer();
-            entity.add(player.stats);
+            StatsComponent stats = entity.getComponent(StatsComponent.class);
+            stats.maxHealth = player.stats.maxHealth;
+            stats.health = player.stats.health;
+            stats.magic = player.stats.magic;
+            stats.armor = player.stats.armor;
+            stats.damage = player.stats.damage;
             entity.getComponent(TransformComponent.class).flipX = player.flipX;
         }
 
@@ -223,7 +227,6 @@ public class PlayScreen implements Screen {
         if (light) rayHandler.updateAndRender();
         hud.update(delta);
 
-
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).update(delta);
 
@@ -234,7 +237,6 @@ public class PlayScreen implements Screen {
             ColorDrawer.drawColor(shapeRenderer, 0, 0, 0, alpha);
         }
         if (gameOverTimer > 3){ resetGame(); generateGame();}
-
     }
 
 

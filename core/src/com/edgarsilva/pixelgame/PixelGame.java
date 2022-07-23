@@ -47,6 +47,9 @@ public class PixelGame extends Game {
 
     private int previousScreen = 0;
 
+
+    public static Save serverSave;
+
     public PixelGame() {
         assets = new GameAssetsManager();
     }

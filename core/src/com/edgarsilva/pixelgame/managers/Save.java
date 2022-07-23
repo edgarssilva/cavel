@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
@@ -74,26 +75,71 @@ public class Save{
         GameSave.save(output);
 
         Map parameters = new HashMap();
+
         output = Base64Coder.encodeString(output);
+
         parameters.put("username", "admin");
         parameters.put("password", "admin");
         parameters.put("save", output);
 
         Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
-      //  httpPost.setHeader("Access-Control-Allow-Methods","GET");
+        //  httpPost.setHeader("Access-Control-Allow-Methods","GET");
         httpPost.setHeader("Access-Control-Allow-Origin", "*");
-        httpPost.setUrl("http://papspaghetti.000webhostapp.com/inGame/save.php");//?username=admin&password=admin&save="+output);
+        httpPost.setUrl("http://papspaghetti.000webhostapp.com/inGame/save.php");
         httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
 
         Gdx.net.sendHttpRequest(httpPost, LoginManager.DEFAULT_LISTENER);
-
     }
 
-    public static Save load(){
-        System.out.println(new Json().prettyPrint(GameSave.load()));
-        return new Json().fromJson(Save.class, GameSave.load());
+    public static Save load(String serialization){
+        //System.out.println(new Json().prettyPrint(GameSave.load()));
+        return new Json().fromJson(Save.class, serialization);
     }
 
+    public static boolean loadFromServer(){
+        Map parameters = new HashMap();
+        parameters.put("username", "admin");
+        parameters.put("password", "admin");
+        Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
+        //  httpPost.setHeader("Access-Control-Allow-Methods","GET");
+        httpPost.setHeader("Access-Control-Allow-Origin", "*");
+        httpPost.setUrl("http://papspaghetti.000webhostapp.com/inGame/load.php");
+        httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
+
+        Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+
+                String result = httpResponse.getResultAsString();
+
+                if (result.equals("2") || result.equals("3")) {
+                    System.out.println(result);
+                    return;
+                }
+                final String serilization = Base64Coder.decodeString(result);
+
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        PixelGame.serverSave = load(serilization);
+                    }
+                });
+
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                if(t.getCause() != null)
+                    System.out.println(t.getMessage());
+            }
+
+            @Override
+            public void cancelled() {
+
+            }
+        });
+        return true;
+    }
 }
 
 
