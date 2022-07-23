@@ -99,7 +99,7 @@ public class LoadingScreen implements Screen {
         batch.end();
 
         if (game.assets.manager.update() &&  minDuration < 0) {
-            playerX += 8;
+            playerX += 800 * delta;
             alpha += delta * 0.75;
 
             shape.setProjectionMatrix(viewport.getCamera().combined);
@@ -119,10 +119,9 @@ public class LoadingScreen implements Screen {
 
         }else{
             minDuration -= delta;
-            bX += 10;
+            bX += 1200 * delta;
 
         }
-
         Gdx.graphics.setTitle("Cavel - " + game.assets.manager.getProgress() * 100 +"%");
     }
 

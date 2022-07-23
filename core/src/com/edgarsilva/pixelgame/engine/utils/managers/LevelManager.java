@@ -1,15 +1,11 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
-import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.edgarsilva.pixelgame.engine.ai.pfa.GraphGenerator;
-import com.edgarsilva.pixelgame.engine.ai.pfa.GraphImp;
-import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
+import com.edgarsilva.pixelgame.engine.utils.factories.LevelFactory;
 
 /**
  * A class LevelManager é a responsavel por carregar um Level
@@ -31,8 +27,8 @@ public class LevelManager {
     public static int tilePixelHeight;
     public static OrthogonalTiledMapRenderer renderer;
 
-    public static GraphImp graph;
-    public static IndexedAStarPathFinder<Node> pathFinder;
+   // public static GraphImp graph;
+   // public static IndexedAStarPathFinder<Node> pathFinder;
 
     public static void loadLevel(String filePath){
         tiledMap = new TmxMapLoader().load(filePath);
@@ -48,8 +44,12 @@ public class LevelManager {
         lvlMeterWidth = lvlPixelWidth * RenderSystem.PIXELS_TO_METERS;
         lvlMeterHeight = lvlPixelHeight * RenderSystem.PIXELS_TO_METERS;
 
-        graph = GraphGenerator.gereneratePlatformGraph((TiledMapTileLayer) LevelManager.tiledMap.getLayers().get("Walls"));
-        pathFinder = new IndexedAStarPathFinder<Node>(graph, false);
+      //  graph = GraphGenerator.gereneratePlatformGraph((TiledMapTileLayer) LevelManager.tiledMap.getLayers().get("Walls"));
+       // pathFinder = new IndexedAStarPathFinder<Node>(graph, false);
+
+        LevelFactory.makeEntities(tiledMap,"Entities");
+        LevelFactory.createPhysics(tiledMap,"Collisions");
+        LevelFactory.makeObstacles(tiledMap,"Obstacles");
     }
 
     public static void dispose(){

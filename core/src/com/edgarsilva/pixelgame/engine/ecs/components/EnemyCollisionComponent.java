@@ -36,5 +36,6 @@ public class EnemyCollisionComponent implements CollisionComponent, Pool.Poolabl
         numGroundRight = 0;
         numWallLeft    = 0;
         numWallRight   = 0;
+        attackPlayer   = false;
     }
 }

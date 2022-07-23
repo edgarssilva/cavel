@@ -41,6 +41,7 @@ public class AnimationSystem extends IteratingSystem {
                 tex.region = ani.animations.get(state.stateMachine.getCurrentState()).getKeyFrame(state.timer);
                 state.anim = ani.animations.get(state.stateMachine.getCurrentState());
                 state.timer += deltaTime;
+               // System.out.println(state.timer + deltaTime);
             }
 
         }else{
@@ -49,9 +50,11 @@ public class AnimationSystem extends IteratingSystem {
 
             if (PlayerAgent.attacking) {
                 animState = PlayerAgent.getAttackState();
-                PlayerAgent.finishedAnimation = ani.animations.get(animState).isAnimationFinished(PlayerAgent.timer);
             } else
                 animState = PlayerAgent.getCurrentState();
+
+            PlayerAgent.finishedAnimation = ani.animations.get(animState).isAnimationFinished(PlayerAgent.timer);
+
             tex.region = ani.animations.get(animState).getKeyFrame(PlayerAgent.timer);
             PlayerAgent.timer += deltaTime;
         }

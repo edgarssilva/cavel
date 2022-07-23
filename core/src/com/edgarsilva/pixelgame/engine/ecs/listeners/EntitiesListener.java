@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.EntityListener;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
-import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class EntitiesListener implements EntityListener {
@@ -30,6 +29,5 @@ public class EntitiesListener implements EntityListener {
     public void entityRemoved(Entity entity) {
         if (bcm.has(entity)) screen.getWorld().destroyBody(bcm.get(entity).body);
         if (dcm.has(entity)) dcm.get(entity).dropper.getComponent(DropperComponent.class).droppable = true;
-        if (EntityManager.getPlayer() == entity) PlayScreen.gameOver();
     }
 }

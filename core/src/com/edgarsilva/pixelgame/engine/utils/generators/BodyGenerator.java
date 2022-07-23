@@ -105,7 +105,7 @@ public class BodyGenerator {
 
             if (isSensor) {
                 fixtureDef.filter.categoryBits =  fixture.getShort("bitShifts");   //(short) (filterCategory << fixture.getShort("bitShifts"));
-                fixtureDef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+                fixtureDef.filter.maskBits = PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS;
             } else {
                 fixtureDef.friction = fixture.getFloat("friction");
                 fixtureDef.filter.categoryBits = filterCategory;
@@ -117,7 +117,7 @@ public class BodyGenerator {
                         break;
                     case PhysicsConstants.FRIENDLY_BITS:
                         fixtureDef.filter.maskBits =
-                                PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_ATTACK_SENSOR;
+                                PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS | PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_ATTACK_SENSOR;
                 }
             }
             body.createFixture(fixtureDef).setUserData(owner);

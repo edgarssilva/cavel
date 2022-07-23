@@ -175,6 +175,55 @@ public class LevelFactory {
                 float odd = Float.parseFloat(object.getProperties().get("drop").toString());
 
                 EntitiesFactory.createDropper(odd, position.x, position.y, dimension.x, dimension.y);
+            }else{
+                if (object instanceof TextureMapObject) {
+                    continue;
+                }
+
+                Shape shape;
+                BodyDef bodyDef = new BodyDef();
+                bodyDef.awake = false;
+                bodyDef.type = BodyDef.BodyType.StaticBody;
+
+                if (object instanceof RectangleMapObject) {
+                    shape = BodyFactory.getRectangle((RectangleMapObject) object);
+                } else if (object instanceof PolygonMapObject) {
+                    shape = BodyFactory.getPolygon((PolygonMapObject) object);
+                } else if (object instanceof PolylineMapObject) {
+                    shape = BodyFactory.getPolyline((PolylineMapObject) object);
+                } else if (object instanceof CircleMapObject) {
+                    shape = BodyFactory.getCircle((CircleMapObject) object);
+                } else {
+                    Gdx.app.log("Unrecognized shape", "" + object.toString());
+                    continue;
+                }
+
+                FixtureDef fixtureDef = new FixtureDef();
+                fixtureDef.shape = shape;
+                fixtureDef.filter.categoryBits = PhysicsConstants.OBSTACLE_BITS;
+                fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
+                        PhysicsConstants.ENEMY_BITS |
+                        PhysicsConstants.NEUTRAL_BITS |
+                        PhysicsConstants.FOOT_SENSOR |
+                        PhysicsConstants.RIGHT_WALL_SENSOR |
+                        PhysicsConstants.LEFT_WALL_SENSOR);
+
+                // All collisions need an entity, and all entities need a type to handle collisions
+                Entity levelEntity = engine.createEntity();
+                TypeComponent type = engine.createComponent(TypeComponent.class);
+
+
+                Body body = world.createBody(bodyDef);
+
+                body.setUserData(levelEntity);
+
+                type.type = TypeComponent.SCENERY;
+                levelEntity.add(type);
+                body.createFixture(fixtureDef).setUserData(levelEntity);
+
+
+                fixtureDef.shape = null;
+                shape.dispose();
             }
         }
     }

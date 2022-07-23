@@ -213,18 +213,17 @@ public class EntitiesFactory {
         );
 
 
-/*
-        animation.add(PlayerAttackState.Hit,
+        animation.add(PlayerState.Hit,
                 fastFrameDuration,
-                Animation.PlayMode.IDLE,
+                Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-hurt-00"),
                 atlas.findRegion("adventurer-hurt-01"),
                 atlas.findRegion("adventurer-hurt-02")
         );
 
-        animation.add(PlayerAttackState.Dying,
+        animation.add(PlayerState.Dying,
                 fastFrameDuration,
-                Animation.PlayMode.IDLE,
+                Animation.PlayMode.NORMAL,
                 atlas.findRegion("adventurer-die-00"),
                 atlas.findRegion("adventurer-die-01"),
                 atlas.findRegion("adventurer-die-02"),
@@ -233,7 +232,7 @@ public class EntitiesFactory {
                 atlas.findRegion("adventurer-die-05"),
                 atlas.findRegion("adventurer-die-06")
         );
-*/
+
 
         type.type = TypeComponent.PLAYER;
         // stateCom.set(PlayerStates.STATE_NORMAL);

@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.setInitialVisible(true);
 		config.setWindowedMode((int) PixelGame.WIDTH, (int) PixelGame.HEIGHT);
 		config.useVsync(false);
-		config.setIdleFPS(0);
+		config.setIdleFPS(60);
 		new Lwjgl3Application(new PixelGame(), config);
 
 		//LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

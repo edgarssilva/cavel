@@ -15,7 +15,6 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
         @Override
         public void update(EnemyAgentComponent agent) {
-
         }
     },
 
@@ -52,6 +51,8 @@ public enum EnemyState implements State<EnemyAgentComponent> {
     },
 
     Attacking(){
+        boolean attack = false;
+
         @Override
         public void enter(EnemyAgentComponent agent) {
             super.enter(agent);
@@ -59,12 +60,14 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
         @Override
         public void update(EnemyAgentComponent agent) {
-            if (agent.anim.isAnimationFinished(agent.timer)) {
-                agent.attack();
-                if (agent.attackableEntities.size > 0)
-                    agent.stateMachine.changeState(Attacking);
-                else
-                    agent.stateMachine.changeState(Seeking);
+            if (agent.anim.isAnimationFinished(agent.timer * 2)) {
+                if (!attack){ agent.attack(); attack = true; }
+                if (agent.anim.isAnimationFinished(agent.timer)) {
+                    if (agent.attackableEntities.size > 0) {
+                        attack = false;
+                        agent.timer = 0;
+                    } else agent.stateMachine.changeState(Seeking);
+                }
             }
         }
 

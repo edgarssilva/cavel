@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="8" tileheight="8" nextobjectid="48">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="8" tileheight="8" nextobjectid="49">
  <tileset firstgid="1" source="tilesets/cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="tilesets/Entities.tsx"/>
  <tileset firstgid="100" name="transparent" tilewidth="8" tileheight="8" tilecount="96" columns="8">
@@ -39,13 +39,15 @@
   <object id="23" x="64" y="112" width="72" height="40"/>
   <object id="25" x="216" y="128" width="87.5" height="24"/>
   <object id="28" x="296" y="80" width="8" height="48.6667"/>
-  <object id="29" x="136" y="152" width="80" height="48">
+  <object id="41" x="296.125" y="72" width="55.875" height="8"/>
+  <object id="42" x="344" y="0" width="8" height="72"/>
+ </objectgroup>
+ <objectgroup name="Obstacles">
+  <object id="48" x="136" y="152" width="80" height="48">
    <properties>
     <property name="Water" value=""/>
    </properties>
   </object>
-  <object id="41" x="296.125" y="72" width="55.875" height="8"/>
-  <object id="42" x="344" y="0" width="8" height="72"/>
  </objectgroup>
  <objectgroup name="Entities">
   <object id="9" name="player" gid="97" x="75" y="112" width="37.5" height="27.75"/>

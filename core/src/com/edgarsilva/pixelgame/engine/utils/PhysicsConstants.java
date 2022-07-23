@@ -16,6 +16,7 @@ public class PhysicsConstants {
     public final static short   FRIENDLY_BITS           = 1;
     public final static short   ENEMY_BITS              = 2;
     public final static short   LEVEL_BITS              = 4;
+    public static final short   OBSTACLE_BITS           = 12;
     public final static short   NEUTRAL_BITS            = 8;
 
     //Player Sensors

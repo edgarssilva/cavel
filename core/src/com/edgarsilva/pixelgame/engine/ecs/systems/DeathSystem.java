@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
-import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
 public class DeathSystem extends IteratingSystem {
 
@@ -21,7 +20,7 @@ public class DeathSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         StatsComponent sc = sm.get(entity);
         if(sc.health <= 0)
-            EntityManager.setToDestroy(entity);
+            ;//EntityManager.setToDestroy(entity);
     }
 
 }

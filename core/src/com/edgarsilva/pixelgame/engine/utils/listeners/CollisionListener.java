@@ -62,10 +62,10 @@ public class CollisionListener implements ContactListener {
             PlayerCollisionComponent data = null;
             short categoryBits = 0;
 
-            if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+            if (fa.isSensor() && (fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorA);
                 categoryBits = fa.getFilterData().categoryBits;
-            } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+            } else if (fb.isSensor() && (fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorB);
                 categoryBits = fb.getFilterData().categoryBits;
             }
@@ -218,10 +218,10 @@ public class CollisionListener implements ContactListener {
             PlayerCollisionComponent data = null;
             short categoryBits = 0;
 
-            if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+            if (fa.isSensor() && (fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorA);
                 categoryBits = fa.getFilterData().categoryBits;
-            } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+            } else if (fb.isSensor() && (fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorB);
                 categoryBits = fb.getFilterData().categoryBits;
             }

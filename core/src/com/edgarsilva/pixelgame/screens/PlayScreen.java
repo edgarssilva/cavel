@@ -58,10 +58,16 @@ public class PlayScreen implements Screen {
     private InputMultiplexer inputMultiplexer;
 
 
-    public boolean paused = false;
+    public static boolean paused = false;
+    public static boolean gameOver = false;
+    public float gameOverTimer = 0f;
 
+    private String mapTitle;
+
+    private float alpha = 0;
 
     public PlayScreen(PixelGame game, String map) {
+        this.mapTitle = map;
         PlayScreen.game = game;
 
         inputMultiplexer = new InputMultiplexer();
@@ -105,19 +111,9 @@ public class PlayScreen implements Screen {
         new LevelFactory(this);
 
         LevelManager.loadLevel(map);
-        LevelFactory.makeEntities(LevelManager.tiledMap,"Entities");
-        LevelFactory.createPhysics(LevelManager.tiledMap,"Collisions");
-        // LevelFactory.makeObstacles(LevelManager.tiledMap,"Obstacles");
-
-
-        // EntityManager.add(hud);
-
-/*
-        EntitiesFactory.createWitch(new Vector2(
-                EntityManager.getPlayer().getComponent(TransformComponent.class).position.x,
-                EntityManager.getPlayer().getComponent(TransformComponent.class).position.y
-        ));
-*/
+       // LevelFactory.makeEntities(LevelManager.tiledMap,"Entities");
+       // LevelFactory.createPhysics(LevelManager.tiledMap,"Collisions");
+       // LevelFactory.makeObstacles(LevelManager.tiledMap,"Obstacles");
     }
 
 
@@ -135,10 +131,9 @@ public class PlayScreen implements Screen {
         Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
 
         //Verficar se o jogo deverá estar em pausa e se um comando está ligado
-        checkChanges();
+        if (!gameOver) checkChanges();
 
-
-        //Verificar se o jogo está parado
+        // A definir o delta para 0 secs não há alteraçoes a fazer pois nao passou tempo desdo ultimo frame
         if (paused) delta = 0;
 
         cameraManager.update(delta);
@@ -149,10 +144,22 @@ public class PlayScreen implements Screen {
         LevelManager.renderer.render();
 
         GdxAI.getTimepiece().update(delta);
-        entityManager.update(delta);
+        if(!gameOver) entityManager.update(delta);
         hud.update(delta);
 
         if (paused) pauseMenu.render();
+        if (gameOver) {
+
+            gameOverTimer += Gdx.graphics.getDeltaTime();
+            alpha += delta / 1.5;
+            Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+            Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.setColor(0, 0, 0, alpha);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.end();
+        }
+        if (gameOverTimer > 3) resetGame();
     }
 
 
@@ -201,19 +208,26 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        engine.removeAllEntities();
+        engine.clearPools();
         hud.dispose();
         batch.dispose();
         LevelManager.dispose();
         world.dispose();
-        engine.clearPools();
     }
 
     public static void gameOver() {
-        System.out.println("Game Over");
-        //Set to game over screen
-        game.setScreen(new EndScreen(game));
+        gameOver = true;
     }
 
+    private void resetGame(){
+        System.out.println("Game Reset");
+        entityManager.reset();
+        LevelManager.loadLevel(mapTitle);
+        gameOver = false;
+        gameOverTimer = 0f;
+        alpha = 0f;
+    }
 
     //Getters and Setters
     public PooledEngine getEngine() {

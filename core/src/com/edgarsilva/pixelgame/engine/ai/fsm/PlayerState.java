@@ -33,7 +33,7 @@ public enum PlayerState implements State<PlayerAgent> {
         Sound sound;
         @Override
         public void enter(PlayerAgent agent) {
-          //  sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.)
+            //  sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.)
         }
 
         @Override
@@ -58,7 +58,7 @@ public enum PlayerState implements State<PlayerAgent> {
         public void enter(PlayerAgent agent) {
             Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.jump, Sound.class);
 
-           sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+            sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
         }
 
         @Override
@@ -108,7 +108,48 @@ public enum PlayerState implements State<PlayerAgent> {
                 }
             }
         }
-    };
+    },
+
+    Dying(){
+        boolean gameOver;
+        @Override
+        public void enter(PlayerAgent agent) {
+            super.enter(agent);
+            gameOver = false;
+        }
+
+        @Override
+        public void update(PlayerAgent agent) {
+            if (PlayerAgent.finishedAnimation) {
+                //PlayerAgent.stateMachine.changeState(Idle);
+                if (!gameOver) {
+                    gameOver = true;
+                    PlayScreen.gameOver();
+                }
+
+                // EntityManager.setToDestroy(EntityManager.getPlayer());
+            }
+        }
+
+        @Override
+        public void exit(PlayerAgent agent) {
+        }
+    },
+
+    Hit(){
+        @Override
+        public void enter(PlayerAgent agent) {
+            super.enter(agent);
+        }
+
+        @Override
+        public void update(PlayerAgent agent) {
+            if (PlayerAgent.finishedAnimation) {
+                PlayerAgent.stateMachine.changeState(Idle);
+            }
+        }
+    },
+    ;
 
     @Override
     public void enter(PlayerAgent agent) {

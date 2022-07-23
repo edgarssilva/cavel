@@ -1,5 +1,6 @@
 package com.edgarsilva.pixelgame.engine.ai.fsm;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
@@ -9,6 +10,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
@@ -29,6 +31,8 @@ public class PlayerAgent implements Updateable {
     public PlayerCollisionComponent sensors;
     public AttackComponent attackComp;
     public AnimationComponent animComp;
+    public static StatsComponent statsComp;
+    private ComponentMapper<StatsComponent> statsCompMap;
 
     protected static StateMachine<PlayerAgent, PlayerState> stateMachine;
     protected static StateMachine<PlayerAgent, PlayerAttackState> attackStateMachine;
@@ -39,24 +43,29 @@ public class PlayerAgent implements Updateable {
     public static boolean attacking = false;
 
     public static boolean finishedAnimation = false;
-    public long lastAttack = 0;
+    public long lastAttack = 0l;
     public static float timer = 0.0f;
 
     public Entity attack;
 
-    private float deltaTime;
+    public float deltaTime;
 
     public PlayerAgent(Entity player) {
+        statsCompMap = ComponentMapper.getFor(StatsComponent.class);
+
         body = player.getComponent(BodyComponent.class).body;
         transform = player.getComponent(TransformComponent.class);
         sensors = player.getComponent(PlayerCollisionComponent.class);
         attackComp = player.getComponent(AttackComponent.class);
         animComp = player.getComponent(AnimationComponent.class);
+        statsComp = statsCompMap.get(EntityManager.getPlayer());
 
         stateMachine = new DefaultStateMachine<PlayerAgent, PlayerState>(this, PlayerState.Idle);
         attackStateMachine = new DefaultStateMachine<PlayerAgent, PlayerAttackState>(this, PlayerAttackState.NONE);
         lastAttack = 0;
     }
+
+
 
     @Override
     public void update(float deltaTime) {
@@ -73,6 +82,12 @@ public class PlayerAgent implements Updateable {
         //body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, 0, 0.2f), body.getLinearVelocity().y);
     }
 
+    public static void reset(Vector2 position) {
+       EntityManager.getPlayer().getComponent(BodyComponent.class).body.setTransform(position, 0f);
+       stateMachine.setGlobalState(PlayerState.Walking);
+       attackStateMachine.setGlobalState(PlayerAttackState.NONE);
+       timer = 0f;
+    }
 
     public static PlayerState getCurrentState() {
         return stateMachine.getCurrentState();
@@ -86,6 +101,20 @@ public class PlayerAgent implements Updateable {
         return stateMachine.getPreviousState();
     }
 
+
+    public static void hit(StatsComponent enemyStats) {
+        //Proteção para não contar o ataque mais que uma vez
+        if (stateMachine.isInState(PlayerState.Hit) || stateMachine.isInState(PlayerState.Dying)) {
+            if (timer < 0.05f || stateMachine.isInState(PlayerState.Dying)) return;
+        }
+
+        statsComp.attack(enemyStats);
+        if (statsComp.health <= 0) {
+            stateMachine.changeState(PlayerState.Dying);
+        }else{
+            stateMachine.changeState(PlayerState.Hit);
+        }
+    }
 
     public boolean moveOnGround() {
         float speedX = body.getLinearVelocity().x;

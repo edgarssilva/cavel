@@ -14,6 +14,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
+import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class EnemyAgentComponent implements Component, Updateable {
 
@@ -38,6 +39,7 @@ public class EnemyAgentComponent implements Component, Updateable {
     private EnemyCollisionComponent collisionComp;
     public StatsComponent statsComp;
     private ComponentMapper<StatsComponent> statsCompMap;
+    private ComponentMapper<BodyComponent>  bodyCompMap;
     // private IndexedAStarPathFinder<Node> pathFinder;
     // private GraphPathImp resultPath = new GraphPathImp();
 
@@ -46,16 +48,18 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     public EnemyAgentComponent(Entity entity) {
         this.entity   =  entity;
-        body          =  entity.getComponent(BodyComponent.class).body;
-        collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
         statsCompMap  =  ComponentMapper.getFor(StatsComponent.class);
+        bodyCompMap   =  ComponentMapper.getFor(BodyComponent.class);
         statsComp     =  statsCompMap.get(entity);
+        body          =  bodyCompMap.get(entity).body;
+        collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
         stateMachine  =  new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
     }
 
 
     @Override
     public void update(float deltaTime) {
+        if (PlayScreen.gameOver) stateMachine.changeState(EnemyState.IDLE);
         stateMachine.update();
 
         hasGroundLeft       =  collisionComp.numGroundLeft  >  0;
@@ -66,7 +70,6 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     public void moveLeft(){
         body.setLinearVelocity(-1.1f, body.getLinearVelocity().y);
-
     }
 
     public void moveRight(){
@@ -96,10 +99,11 @@ public class EnemyAgentComponent implements Component, Updateable {
     }
 
     public void attack() {
-        for (Entity ent: attackableEntities) {
-            if (statsCompMap.has(ent))
-                statsCompMap.get(ent).attack(statsComp);
-        }
+        for (Entity ent: attackableEntities)
+       /*     if (statsCompMap.has(ent))
+                statsCompMap.get(ent).attack(statsComp);*/
+       PlayerAgent.hit(statsComp);
+
     }
 }
 
