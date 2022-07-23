@@ -47,7 +47,7 @@ public class TestScreen implements Screen {
         transAi.position.set(300, -10, 0);
         transAi.width=50;
         transAi.height=50;
-        behaviorComp.bTree = parser.parse(Gdx.files.internal("entities/behavior/witch.tree").reader(), ai);
+        behaviorComp.bTree = parser.parse(Gdx.files.internal("").reader(), ai);
         ai.add(transAi).add(behaviorComp);
         engine.addEntity(ai);
         behaviorComp.bTree.start();

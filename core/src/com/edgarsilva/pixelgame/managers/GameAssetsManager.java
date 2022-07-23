@@ -9,16 +9,19 @@ public class GameAssetsManager {
 
     public final AssetManager manager = new AssetManager();
 
+    //Loading Screen
+    public static final String loadingBackground = "raw/loading.png";
+
+
+
     // Textures
-    //public static final String gameImages = "";
-    //public static final String loadingImages = "";
-    //public static final String meleeAttack = "sprites/swoosh.png";
     public static final String hudImage = "hud/ui_upscaled.png";
     public static final String playerAtlas = "entities/sprites/Player.atlas";
     public static final String skeletonAtlas = "entities/sprites/Skeleton.atlas";
     public static final String slimeAtlas = "entities/sprites/slime.atlas";
     public static final String gameOverImage = "raw/textures/gameover.jpg";
     public static final String witchTexture = "entities/sprites/witch.png";
+
 
     // Sounds
     public static final  String boingSound = "";
@@ -33,12 +36,12 @@ public class GameAssetsManager {
 
     // a small set of images used by the loading screen
     public void queueAddLoadingImages(){
-        //manager.load(loadingImages, TextureAtlas.class);
+        manager.load(playerAtlas, TextureAtlas.class);
+        manager.load(loadingBackground, Texture.class);
     }
 
     public void queueAddTextures(){
-       // manager.load(gameImages, Texture.class);
-       // manager.load(meleeAttack, Texture.class);
+
         manager.load(hudImage, Texture.class);
         manager.load(playerAtlas, TextureAtlas.class);
         manager.load(skeletonAtlas, TextureAtlas.class);

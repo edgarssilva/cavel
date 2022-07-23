@@ -2,6 +2,7 @@ package com.edgarsilva.pixelgame.engine.utils.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,78 +34,151 @@ public class OnScreenController extends Controller implements Updateable, Dispos
         leftImage.setSize(70, 70);
         attackImage.setSize(70, 70);
 
-        upImage.setPosition(PixelGame.WIDTH - upImage.getWidth() * 2, upImage.getHeight() * 2);
+        upImage.setPosition(PixelGame.WIDTH - attackImage.getWidth() * 3f, attackImage.getHeight() * 0.5f);
         rightImage.setPosition(leftImage.getWidth() + rightImage.getWidth() * 2, rightImage.getHeight() / 2);
         leftImage.setPosition(leftImage.getWidth(), leftImage.getHeight() / 2);
-        attackImage.setPosition(PixelGame.WIDTH - attackImage.getWidth() * 3f, attackImage.getHeight() * 0.5f);
+        attackImage.setPosition(PixelGame.WIDTH - upImage.getWidth() * 2, upImage.getHeight() * 2);
 
         upImage.addListener(new InputListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                up = true;
+            }
+
+            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 up = true;
-                return false;
+                return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 up = false;
-                return;
+            }
+
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                up = false;
+                return super.keyTyped(event, character);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                up = false;
+                super.exit(event, x, y, pointer, toActor);
             }
         });
 
         downImage.addListener(new InputListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                down = true;
+            }
+
+            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 down = true;
-                return false;
+                return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 down = false;
-                return;
+            }
+
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                down = false;
+                return super.keyTyped(event, character);
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                down = false;
+                super.exit(event, x, y, pointer, toActor);
             }
         });
 
         leftImage.addListener(new InputListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                right = false;
+                left = true;
+            }
+
+            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 left = true;
-                return false;
+                return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 left = false;
-                return;
+            }
+
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                left = false;
+                return super.keyTyped(event, character);
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                left = false;
+                super.exit(event, x, y, pointer, toActor);
             }
         });
 
         rightImage.addListener(new InputListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                right = true;
+                left = false;
+            }
+            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 right = true;
-                return false;
+                return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 right = false;
-                return;
+            }
+
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                right = false;
+                return super.keyTyped(event, character);
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                right = false;
+                super.exit(event, x, y, pointer, toActor);
             }
         });
 
         attackImage.addListener(new InputListener() {
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 attack = true;
-                return false;
+                return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 attack = false;
-                return;
+            }
+
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                attack = false;
+                return super.keyTyped(event, character);
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                attack = false;
+                super.exit(event, x, y, pointer, toActor);
             }
         });
 

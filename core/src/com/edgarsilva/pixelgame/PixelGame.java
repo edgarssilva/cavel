@@ -12,6 +12,7 @@ import com.edgarsilva.pixelgame.screens.LoadingScreen;
 import com.edgarsilva.pixelgame.screens.MenuScreen;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 import com.edgarsilva.pixelgame.screens.SettingsScreen;
+import com.edgarsilva.pixelgame.screens.SplashScreen;
 
 
 public class PixelGame extends Game {
@@ -25,7 +26,7 @@ public class PixelGame extends Game {
 
     public  GameAssetsManager assets;
 
-    private LoadingScreen loadingScreen;
+    private SplashScreen splashScreen;
     private SettingsScreen settingsScreen;
     private MenuScreen menuScreen;
     private PlayScreen playScreen;
@@ -83,9 +84,10 @@ public class PixelGame extends Game {
             Gdx.input.setCatchBackKey(true);
 
 
-        loadingScreen = new LoadingScreen(this);
-        setScreen(loadingScreen);
+       // splashScreen = new SplashScreen(this);
+        //setScreen(splashScreen);
        // setScreen(new TestScreen());
+        setScreen(new LoadingScreen(this, "maps/Cave.tmx"));
 	}
 
 	@Override

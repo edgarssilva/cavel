@@ -31,11 +31,13 @@ public class LevelScreen implements Screen {
         table = new Table();
         stage.addActor(table);
         table.setFillParent(true);
+        table.defaults().space(20);
         stage.setDebugAll(PixelGame.DEBUG);
-
+       // table.align(Align.topLeft);
 
         FileHandle[] files = Gdx.files.internal("maps/").list("tmx");
 
+        int count = 1;
         for (final FileHandle file : files) {
             TextButton button = new TextButton(file.nameWithoutExtension(), skin);
             button.addListener(new ClickListener(){
@@ -45,13 +47,17 @@ public class LevelScreen implements Screen {
                     setLevel(file.path());
                 }
             });
-            table.add(button).width(stage.getWidth() / 5).uniform().padLeft(stage.getWidth() / 30).padRight(stage.getWidth() / 30);
+            //table.add(button).width(stage.getWidth() / 5).uniform().padLeft(stage.getWidth() / 30).padRight(stage.getWidth() / 30);
 
+            table.add(button).width(stage.getWidth()/6).uniform();
+            if  (count % 4 == 0)
+                table.row();
+            count++;
         }
 
     }
 
-    public void setLevel(String map) {
+    void setLevel(String map) {
         game.setScreen(new PlayScreen(game, map));
     }
 
