@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.GdxAI;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,6 +20,7 @@ import com.edgarsilva.pixelgame.engine.ai.pfa.GraphPathImp;
 import com.edgarsilva.pixelgame.engine.ai.pfa.PathfindingDebugger;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
+import com.edgarsilva.pixelgame.engine.utils.controllers.JoystickController;
 import com.edgarsilva.pixelgame.engine.utils.controllers.KeyboardController;
 import com.edgarsilva.pixelgame.engine.utils.controllers.OnScreenController;
 import com.edgarsilva.pixelgame.engine.utils.factories.BodyFactory;
@@ -106,8 +108,7 @@ public class PlayScreen implements Screen {
 
         inputMultiplexer.addProcessor(controller.getInputProcessor());
         inputMultiplexer.addProcessor(hud.getStage());
-        inputMultiplexer.addProcessor(pauseMenu.getStage());
-
+        Controllers.addListener(new JoystickController());
 
         new BodyFactory(world);
         BodyGenerator.registerWorld(world);
@@ -147,10 +148,15 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
 
-
         //Parar o jogo
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            if (paused)
+                inputMultiplexer.removeProcessor(pauseMenu.getStage());
+            else
+                inputMultiplexer.addProcessor(pauseMenu.getStage());
             paused = !paused;
+        }
+
         //Verificar se o jogo está parado
         if (paused) delta = 0;
 
@@ -187,6 +193,9 @@ public class PlayScreen implements Screen {
             pauseMenu.render();
         }
 
+       /* for (com.badlogic.gdx.controllers.Controller controller : Controllers.getControllers()) {
+            System.out.println(controller.getName());
+        }*/
 
     }
 
