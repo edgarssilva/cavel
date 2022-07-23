@@ -1,13 +1,10 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
@@ -36,7 +33,7 @@ public class HUDManager implements Updateable, Disposable {
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), screen.getBatch());
 
         //batch = new SpriteBatch();
-        raw = screen.getGame().assets.manager.get(GameAssetsManager.hudImage);
+      /*  raw = screen.getGame().assets.manager.get(GameAssetsManager.hudImage);
         icon = new TextureRegion(raw, 0, 0, 220 ,80);
         TextureRegion healthKnob = new TextureRegion(raw, 240,24,102,8);
 
@@ -59,6 +56,10 @@ public class HUDManager implements Updateable, Disposable {
         healthBar = new ProgressBar(0,100,1,false, style);
         healthBar.setBounds(90, stage.getHeight() - icon.getRegionHeight()/2+8, 100, 8);
         stage.addActor(healthBar);
+        */
+
+        Texture health     = new Texture("raw/player_health.png");
+        Texture background = new Texture("raw/player_health_background.png");
 
         stats = ComponentMapper.getFor(StatsComponent.class);
         EntityManager.add(this);
@@ -66,13 +67,13 @@ public class HUDManager implements Updateable, Disposable {
 
     @Override
     public void update(float deltaTime) {
-        //Se o player estiver vivo atualizar a barra de hp
+       //Se o player estiver vivo atualizar a barra de hp
         if (stats.has(EntityManager.getPlayer())) {
             int health = stats.get(EntityManager.getPlayer()).health;
             healthBar.setValue(health);
             if (health <= 0 ) screen.gameOver();
         }
-
+ /*
         //Update HUD
         stage.act(deltaTime);
 
@@ -84,7 +85,7 @@ public class HUDManager implements Updateable, Disposable {
         screen.getBatch().begin();
         screen.getBatch().draw(icon,0, stage.getHeight() - icon.getRegionHeight());
         screen.getBatch().end();
-        stage.draw();
+        stage.draw();*/
     }
 
     public void resize(int width, int height) {
@@ -99,7 +100,7 @@ public class HUDManager implements Updateable, Disposable {
     @Override
     public void dispose() {
         stage.dispose();
-        screen.getGame().assets.unloadAssets(GameAssetsManager.hudImage);
+        PlayScreen.getGame().assets.unloadAssets(GameAssetsManager.hudImage);
         //raw.dispose();
     }
 }
