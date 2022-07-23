@@ -1,8 +1,12 @@
 package com.edgarsilva.pixelgame.managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.HttpParametersUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.edgarsilva.pixelgame.PixelGame;
+import com.edgarsilva.pixelgame.screens.LoginScreen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,35 +19,53 @@ public class LoginManager {
     public static final int WRONG_DATA        = 3;
 
 
-
     public static final Net.HttpResponseListener DEFAULT_LISTENER = new Net.HttpResponseListener() {
         @Override
         public void handleHttpResponse(Net.HttpResponse httpResponse) {
-            System.out.println(httpResponse.getResultAsString());
-            int value = Integer.parseInt(httpResponse.getResultAsString());
+            String output = httpResponse.getResultAsString();
+            System.out.println(output);
 
-            switch (value) {
-                case LoginManager.WRONG_DATA:
-                    System.out.println("Username or Password not set !");
-                    break;
-                case LoginManager.SUCCESS:
-                    System.out.println("Success !");
-                    break;
-                case LoginManager.WRONG_CREDENTIALS:
-                    System.out.println("Wrong Credentials !");
-                    break;
-                case LoginManager.FAILED_SAVING:
-                    System.out.println("Attempt to Login Failed !");
-                    break;
-                default:
-                    System.out.println("Error Connection with Server !");
-                    break;
+            try {
+                switch (Integer.parseInt(output)) {
+                    case LoginManager.WRONG_DATA:
+                        System.out.println("Username or Password not set !");
+                        break;
+                    case LoginManager.SUCCESS:
+                        System.out.println("Success !");
+                        break;
+                    case LoginManager.WRONG_CREDENTIALS:
+                        System.out.println("Wrong Credentials !");
+                        break;
+                    case LoginManager.FAILED_SAVING:
+                        System.out.println("Attempt to Login Failed !");
+                        break;
+                    default:
+                        System.out.println("Error Connection with Server !");
+                        break;
+                }
+
+                Dialog dialog = new Dialog("Login", PixelGame.assets.getSkin()){
+                    @Override
+                    protected void result(Object object) {
+                        System.out.println("result"+object);
+                    }
+                };
+                dialog.text("Loading");
+                dialog.button("OK",true);
+                dialog.key(Input.Keys.ENTER, true);
+                dialog.pack();
+                dialog.show(LoginScreen.stage);
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Error Connection with Server !");
             }
+
 
         }
 
         @Override
         public void failed(Throwable t) {
+            System.out.println(t);
         }
 
         @Override
@@ -53,7 +75,22 @@ public class LoginManager {
     };
 
 
-    public static void login(String user, String password, String save, Net.HttpResponseListener httpResponseListener ) {
+    public static void login(String user, String password, Net.HttpResponseListener httpResponseListener ) {
+        HashMap<String, String> parameters = new HashMap<String, String>();
+
+        parameters.put("username", user);
+        parameters.put("password", password);
+
+        Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
+        httpPost.setHeader("Access-Control-Allow-Methods","POST");
+        httpPost.setHeader("Access-Control-Allow-Origin", "*");
+        httpPost.setUrl("https://papspaghetti.000webhostapp.com/inGame/login.php");
+        httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
+
+        Gdx.net.sendHttpRequest(httpPost, httpResponseListener);
+    }
+
+    public static void save(String user, String password, String save, Net.HttpResponseListener httpResponseListener ) {
         Map parameters = new HashMap();
 
         parameters.put("username", user);
@@ -68,5 +105,4 @@ public class LoginManager {
 
         Gdx.net.sendHttpRequest(httpPost, httpResponseListener);
     }
-
 }

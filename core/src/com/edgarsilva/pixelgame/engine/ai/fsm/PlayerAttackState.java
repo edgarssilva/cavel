@@ -11,6 +11,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
 
     NONE() {
+
         @Override
         public void enter(PlayerAgent agent) {
             Controller.attack = false;
@@ -52,13 +53,11 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
                 }
 
-                if (PlayerAgent.getCurrentState() == PlayerState.DoubleJumping)
+                if (PlayerAgent.getCurrentState() == PlayerState.DoubleJumping
+                        && PlayerAgent.attackStateMachine.getPreviousState() != FallingAttack) {
+                    PlayerAgent.fallAttack = true;
                     return;
-                else if (PlayerAgent.getCurrentState() == PlayerState.Falling
-                        && PlayerAgent.getLastState() == PlayerState.DoubleJumping
-                        && PlayerAgent.attackStateMachine.getPreviousState() != FallingAttack)
-                    nextState = FallingAttack;
-
+                } else PlayerAgent.fallAttack = false;
                 agent.makeAttackFixture(nextState);
                 agent.bodyComp.flippable = false;
                 agent.timer = 0f;
@@ -121,6 +120,11 @@ public enum PlayerAttackState implements State<PlayerAgent> {
     },
 
     FallingAttack() {
+        @Override
+        public void enter(PlayerAgent agent) {
+            PlayerAgent.fallAttack = false;
+        }
+
         @Override
         public void update(PlayerAgent agent) {
             if (!Controller.attack) PlayerAgent.attackStateMachine.changeState(NONE);

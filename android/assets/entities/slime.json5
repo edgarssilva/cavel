@@ -126,7 +126,7 @@
     },
     {
       state: "Attacking",
-      duration: 0.175,
+      duration: 0.09,
       playMode: "NORMAL",
       frames:  ["slime_attack"]
     },

@@ -29,7 +29,7 @@ public class PixelGame extends Game {
 
     private GamePreferences preferences;
 
-    public GameAssetsManager assets;
+    public static GameAssetsManager assets;
     public SoundManager sound;
 
     public static final short SPLASH_SCREEN   = 0;

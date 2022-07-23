@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.managers.LoginManager;
@@ -17,7 +18,7 @@ import com.edgarsilva.pixelgame.managers.LoginManager;
 public class LoginScreen implements Screen {
 
 
-    private Stage stage;
+    public static Stage stage;
     private Table table;
 
     private TextField username;
@@ -45,9 +46,8 @@ public class LoginScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 LoginManager.login(
-                        username.getText(),//Base64Coder.encodeString(username.getText()),
-                        password.getText(),//Base64Coder.encodeString(password.getText()),
-                        "save",
+                        Base64Coder.encodeString(username.getText()),
+                        Base64Coder.encodeString(password.getText()),
                         LoginManager.DEFAULT_LISTENER);
             }
         });

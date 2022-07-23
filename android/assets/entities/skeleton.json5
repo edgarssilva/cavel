@@ -127,7 +127,7 @@
     },
     {
       state: "Attacking",
-      duration: 0.08,
+      duration: 0.06,
       playMode: "NORMAL",
       frames:  ["skeleton_attack"]
     },

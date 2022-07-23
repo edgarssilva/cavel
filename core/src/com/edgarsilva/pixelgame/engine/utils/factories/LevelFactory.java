@@ -294,7 +294,12 @@ public class LevelFactory {
             PointLight light =  new PointLight(rayHandler,90);
             light.setColor(0.9f, 0.4f, 0.03f, 1f);
             light.setDistance(getObjectDimension(object).x / 1.75f);
+            Vector2 pos = getObjectPosition(object);
+            Vector2 dim = getObjectDimension(object);
+            pos.add(dim.x / 2f, dim.y / 2f);
+
             light.setPosition(getObjectPosition(object));
+
             light.setSoftnessLength(getObjectDimension(object).x / 6);
             light.setSoft(true);
         }

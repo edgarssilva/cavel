@@ -87,8 +87,11 @@ public enum PlayerState implements State<PlayerAgent> {
         @Override
         public void update(PlayerAgent agent) {
             agent.moveOnAir();
-            if (agent.body.getLinearVelocity().y < 0)
+            if (agent.body.getLinearVelocity().y < 0) {
+                if(PlayerAgent.fallAttack) agent.attackStateMachine.changeState(PlayerAttackState.FallingAttack);
                 PlayerAgent.stateMachine.changeState(Falling);
+            }
+
         }
     },
 

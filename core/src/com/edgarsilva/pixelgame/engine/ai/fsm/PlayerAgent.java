@@ -45,6 +45,7 @@ public class PlayerAgent extends Agent {
     public static boolean attacking = false;
 
     public long lastAttack = 0l;
+    public static boolean fallAttack = false;
 
     public Entity attack;
 
