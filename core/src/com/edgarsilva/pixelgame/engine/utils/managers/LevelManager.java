@@ -50,6 +50,10 @@ public class LevelManager {
         LevelFactory.makeEntities(tiledMap,"Entities");
         LevelFactory.createPhysics(tiledMap,"Collisions");
         LevelFactory.makeObstacles(tiledMap,"Obstacles");
+        LevelFactory.makeLights(tiledMap,"Light");
+        if (tiledMap.getLayers().size() == 8) {
+            LevelFactory.makeMessages(tiledMap, "Messages");
+        }
     }
 
     public static void dispose(){

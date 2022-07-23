@@ -8,8 +8,11 @@ import com.badlogic.gdx.ai.btree.Task;
 public class AttackTask extends LeafTask<Entity> {
 
     float cont;
+
     public void start() {
+
     }
+
     @Override
     public Status execute() {
         cont+= Gdx.graphics.getDeltaTime();

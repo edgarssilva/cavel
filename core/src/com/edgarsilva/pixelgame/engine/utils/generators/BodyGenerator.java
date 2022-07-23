@@ -117,7 +117,7 @@ public class BodyGenerator {
                         break;
                     case PhysicsConstants.FRIENDLY_BITS:
                         fixtureDef.filter.maskBits =
-                                PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS | PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_ATTACK_SENSOR;
+                                PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS | PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_ATTACK_SENSOR | PhysicsConstants.MESSAGE_BITS;
                 }
             }
             body.createFixture(fixtureDef).setUserData(owner);

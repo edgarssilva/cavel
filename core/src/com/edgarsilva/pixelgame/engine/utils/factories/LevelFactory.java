@@ -3,6 +3,7 @@ package com.edgarsilva.pixelgame.engine.utils.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.MessageComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
@@ -26,14 +28,18 @@ import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 public class LevelFactory {
 
     private static World world;
     private static PooledEngine engine;
-
+    private static RayHandler rayHandler;
     public LevelFactory(PlayScreen screen) {
         world = screen.getWorld();
         engine = screen.getEngine();
+        rayHandler = screen.getRayHandler();
     }
 
 
@@ -219,6 +225,52 @@ public class LevelFactory {
     }
 
 
+    public static void makeMessages(TiledMap tiledMap, String layerName) {
+        MapObjects objects =  tiledMap.getLayers().get(layerName).getObjects();
+        for (MapObject object : objects){
+            if (object.getProperties().containsKey("message")) {
+
+                Entity entity = engine.createEntity();
+
+                BodyComponent      bc  = engine.createComponent(BodyComponent.class);
+                MessageComponent   mc  = engine.createComponent(MessageComponent.class);
+                //TransformComponent tc  = engine.createComponent(TransformComponent.class);
+
+                Vector2 dimension = getObjectDimension(object);
+                Vector2 position  = getObjectPosition(object);
+
+                // tc.width = dimension.x;
+                // tc.height = dimension.y;
+
+                bc.body = BodyFactory.makeBox(position.x, position.y, dimension.x, dimension.y, BodyDef.BodyType.StaticBody, true);
+                //bc.body.getFixtureList().get(0).getFilterData().categoryBits = MESSAGE_BITS;
+                // bc.body.getFixtureList().get(0).getFilterData().maskBits = FRIENDLY_BITS;
+                bc.body.getFixtureList().get(0).setUserData(entity);
+                bc.body.setUserData(entity);
+
+                String message = object.getProperties().get("message").toString();
+
+                if (message.equalsIgnoreCase("movement")) {
+                    mc.message = MessageComponent.TutorialMessages.Movement;
+                }else if(message.equalsIgnoreCase("jump")){
+                    mc.message = MessageComponent.TutorialMessages.Jump;
+                }else if(message.equalsIgnoreCase("doublejump")){
+                    mc.message = MessageComponent.TutorialMessages.DoubleJump;
+                }
+
+                entity.add(bc).add(mc);//.add(tc);
+                engine.addEntity(entity);
+            }
+        }
+    }
+
+    public static void makeLights(TiledMap tiledMap, String layerName){
+        MapObjects objects =  tiledMap.getLayers().get(layerName).getObjects();
+        for (MapObject object : objects){
+            new PointLight(rayHandler,180, Color.valueOf("#f96d09"), 10f , getObjectPosition(object).x, getObjectPosition(object).y).setSoftnessLength(2f);
+        }
+    }
+
     private static Vector2 getObjectPosition(MapObject object){
         float x = Float.parseFloat(object.getProperties().get("x").toString()) * RenderSystem.PIXELS_TO_METERS;
         float y = Float.parseFloat(object.getProperties().get("y").toString()) * RenderSystem.PIXELS_TO_METERS;
@@ -230,4 +282,6 @@ public class LevelFactory {
         float height = Float.parseFloat(object.getProperties().get("height").toString());
         return  new Vector2(width, height);
     }
+
+
 }

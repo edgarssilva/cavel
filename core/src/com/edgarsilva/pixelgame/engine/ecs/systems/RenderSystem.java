@@ -57,10 +57,10 @@ public class RenderSystem extends SortedIteratingSystem {
                 continue;
             }
 
-            float originX = t.width / 2 ;
-            float originY = t.height/ 2;
+            float originX = t.width / 2;
+            float originY = t.height / 2;
 
-            if (t.flipX != tex.region.isFlipX())  tex.region.flip(true, false);
+            if (t.flipX != tex.region.isFlipX()) tex.region.flip(true, false);
 
             batch.draw(tex.region,
                     t.position.x - originX, t.position.y - originY,
@@ -73,13 +73,13 @@ public class RenderSystem extends SortedIteratingSystem {
 
                 HealthBarComponent healthBar = healthM.get(entity);
 
-                float scale = t.width /110f;
+                float scale = t.width / 110f;
 
                 float width  = PixelsToMeters(110f * scale);
-                float height = PixelsToMeters( 12f * scale);
+                float height = PixelsToMeters(12f * scale);
 
-                Texture texture    = healthBar.texture;
-                Texture damage     = healthBar.damage;
+                Texture texture = healthBar.texture;
+                Texture damage = healthBar.damage;
                 Texture background = healthBar.background;
 
                 batch.draw(background, t.position.x - width / 2, t.position.y + .35f, width, height);

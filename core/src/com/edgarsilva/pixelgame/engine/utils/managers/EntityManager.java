@@ -10,6 +10,7 @@ import com.edgarsilva.pixelgame.engine.ecs.systems.AttachedSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.DeathSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.DropperSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.HealthBarSystem;
+import com.edgarsilva.pixelgame.engine.ecs.systems.MessageSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsDebugSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
@@ -28,6 +29,7 @@ public class EntityManager {
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderSystem(screen.getBatch(), screen.getCameraManager().getCamera()));
         engine.addSystem(new HealthBarSystem());
+        engine.addSystem(new MessageSystem(screen));
 
         //Physics Systems
         engine.addSystem(new PhysicsSystem(screen.getWorld()));

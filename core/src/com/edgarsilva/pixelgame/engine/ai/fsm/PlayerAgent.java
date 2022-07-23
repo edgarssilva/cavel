@@ -75,17 +75,13 @@ public class PlayerAgent implements Updateable {
 
         stateMachine.update();
         attackStateMachine.update();
-
-
-        if (!Controller.left && !Controller.right);
-        //body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, 0, 0.2f), body.getLinearVelocity().y);
     }
 
     public static void reset(Vector2 position) {
-       EntityManager.getPlayer().getComponent(BodyComponent.class).body.setTransform(position, 0f);
-       stateMachine.setGlobalState(PlayerState.Walking);
-       attackStateMachine.setGlobalState(PlayerAttackState.NONE);
-       timer = 0f;
+        EntityManager.getPlayer().getComponent(BodyComponent.class).body.setTransform(position, 0f);
+        stateMachine.setGlobalState(PlayerState.Walking);
+        attackStateMachine.setGlobalState(PlayerAttackState.NONE);
+        timer = 0f;
     }
 
     public static PlayerState getCurrentState() {
@@ -125,10 +121,14 @@ public class PlayerAgent implements Updateable {
         float desiredSpeedX = 0f;
         float impulseY = 0f;
 
+
         if (Controller.left && !isTouchingWallLeft)
             desiredSpeedX = -2f;
         if (Controller.right && !isTouchingWallRight)
             desiredSpeedX = 2f;
+        if (attackStateMachine.getCurrentState() != PlayerAttackState.NONE)
+            desiredSpeedX /= 1.9f;
+
 
         if (Controller.up) {
             impulseY = 5f * body.getMass();
@@ -162,7 +162,7 @@ public class PlayerAgent implements Updateable {
 
     public boolean jumpOnAir() {
         if (Controller.up) {
-            body.applyLinearImpulse(0, 4f * body.getMass(), body.getWorldCenter().x, body.getWorldCenter().y, true);
+            body.applyLinearImpulse(0, 4.5f * body.getMass(), body.getWorldCenter().x, body.getWorldCenter().y, true);
             Controller.up = false;
             return true;
         }

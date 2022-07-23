@@ -33,12 +33,14 @@ import com.edgarsilva.pixelgame.engine.utils.managers.PauseManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 
+import box2dLight.RayHandler;
+
 public class PlayScreen implements Screen {
 
     private static PixelGame game;
 
     //Managers
-    private HUDManager hud;
+    public HUDManager hud;
     private PauseManager pauseMenu;
     private CameraManager cameraManager;
 
@@ -48,7 +50,7 @@ public class PlayScreen implements Screen {
 
     //Physics
     private World world;
-
+    private RayHandler rayHandler;
     //ECS
     private PooledEngine engine;
     private EntityManager entityManager;
@@ -64,6 +66,8 @@ public class PlayScreen implements Screen {
     private boolean gameOver;
     private String  mapTitle;
 
+    private boolean light = true;
+
     public PlayScreen(PixelGame game, String map) {
         this.paused        = false;
         this.gameOver      = false;
@@ -73,8 +77,14 @@ public class PlayScreen implements Screen {
         PlayScreen.game    = game;
 
 
-        world = new World(new Vector2(0, -9.6f), true);
+        world          = new World(new Vector2(0, -9.6f), true);
         world.setContactListener(new CollisionListener());
+        rayHandler     = new RayHandler(world);
+        rayHandler.setAmbientLight(0.6f, 0.6f, 0.6f, 0.5f);
+        rayHandler.setBlurNum(5);
+        rayHandler.setShadows(true);
+        RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(true);
 
         batch          = new SpriteBatch();
         cameraManager  = new CameraManager();
@@ -111,7 +121,8 @@ public class PlayScreen implements Screen {
 
         LevelManager.loadLevel(map);
 
-        EntitiesFactory.createWitch(new Vector2(4,10));
+        // EntitiesFactory.createWitch(new Vector2(4,10));
+
     }
 
 
@@ -136,20 +147,19 @@ public class PlayScreen implements Screen {
         if (paused)  delta = 0;
 
         Gdx.input.setCursorCatched(!paused);
-
+        cameraManager.update(delta);
         batch.setProjectionMatrix(cameraManager.getCamera().combined);
         shapeRenderer.setProjectionMatrix(cameraManager.getCamera().combined);
-        cameraManager.update(delta);
+        rayHandler.setCombinedMatrix(cameraManager.getCamera());
 
         LevelManager.renderer.setView(cameraManager.getCamera());
         LevelManager.renderer.render();
 
 
-
         GdxAI.getTimepiece().update(delta);
         entityManager.update(delta);
+        if (light) rayHandler.updateAndRender();
         hud.update(delta);
-
 
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).update(delta);
@@ -192,6 +202,8 @@ public class PlayScreen implements Screen {
         else
             inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) light = !light;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O)) RayHandler.useDiffuseLight(!RayHandler.isDiffuse);
     }
 
     public void gameOver() {
@@ -222,7 +234,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
-
+        paused = true;
     }
 
     @Override
@@ -242,6 +254,9 @@ public class PlayScreen implements Screen {
     }
     public World getWorld() {
         return world;
+    }
+    public RayHandler getRayHandler() {
+        return rayHandler;
     }
     public CameraManager getCameraManager() {
         return cameraManager;

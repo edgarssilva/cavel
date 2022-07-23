@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
+import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 
 public class BodyFactory {
     private static World world;
@@ -40,6 +41,9 @@ public class BodyFactory {
         FixtureDef fdef = new FixtureDef();
         fdef.shape = box;
         fdef.isSensor = isSensor;
+        fdef.filter.maskBits = PhysicsConstants.FRIENDLY_BITS;
+        fdef.filter.categoryBits = PhysicsConstants.MESSAGE_BITS;
+
 
         body.createFixture(fdef);
         box.dispose();

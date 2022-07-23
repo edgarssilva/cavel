@@ -16,7 +16,7 @@ public class HUDManager implements Updateable, Disposable {
 
     private PlayScreen screen;
 
-    private Stage stage;
+    public Stage stage;
 
     /*private Texture raw;
     private static TextureRegion icon;
@@ -69,41 +69,43 @@ public class HUDManager implements Updateable, Disposable {
         background = new Texture("raw/player_health_background.png");
 
         stats = ComponentMapper.getFor(StatsComponent.class);
-        EntityManager.add(this);
+      //  EntityManager.add(this);
     }
 
     @Override
     public void update(float deltaTime) {
-       //Se o player estiver vivo atualizar a barra de hp
+        //Se o player estiver vivo atualizar a barra de hp
         if (stats.has(EntityManager.getPlayer())) {
-           StatsComponent sc = stats.get(EntityManager.getPlayer());
+            StatsComponent sc = stats.get(EntityManager.getPlayer());
 
-           float damaged = previousHealth - sc.health;
+            float scale = sc.maxHealth / 75f;
+            float damaged = previousHealth - sc.health;
 
-           previousHealth = sc.health;
-           healthBarScale = sc.health / (float) sc.maxHealth;
-           if (damaged > 0) healthBarDamage = healthBarScale + (damaged / (float) sc.maxHealth);
-           else  healthBarDamage = MathUtils.lerp(healthBarDamage, healthBarScale, deltaTime * 5);
-           healthBarDamage = healthBarDamage < healthBarScale ? healthBarScale : healthBarDamage;
+            previousHealth = sc.health;
+            healthBarScale = sc.health / (float) sc.maxHealth;
+            if (damaged > 0) healthBarDamage = healthBarScale + (damaged / (float) sc.maxHealth);
+            else  healthBarDamage = MathUtils.lerp(healthBarDamage, healthBarScale, deltaTime * 5);
+            healthBarDamage = healthBarDamage < healthBarScale ? healthBarScale : healthBarDamage;
 
-           //healthBar.setValue(health);
+            //healthBar.setValue(health);
             if (sc.health <= 0 ) screen.gameOver();
+
+
+            //Update HUD
+            stage.act(deltaTime);
+
+            //Defenir a viewport do HUD ao screen
+            screen.getBatch().setProjectionMatrix(stage.getViewport().getCamera().combined);
+
+
+            //Draw HUD
+            screen.getBatch().begin();
+            screen.getBatch().draw(health, 10, stage.getHeight() - background.getHeight()  - 20 * scale, 250f * scale * healthBarDamage, 20 * scale);
+            screen.getBatch().draw(background, 10, stage.getHeight() - background.getHeight()  - 20 * scale, 250f * scale , 20 * scale);
+            // screen.getBatch().draw(icon,0, stage.getHeight() - icon.getRegionHeight());
+            screen.getBatch().end();
+            stage.draw();
         }
-
-        //Update HUD
-        stage.act(deltaTime);
-
-        //Defenir a viewport do HUD ao screen
-        screen.getBatch().setProjectionMatrix(stage.getViewport().getCamera().combined);
-
-
-        //Draw HUD
-        screen.getBatch().begin();
-        screen.getBatch().draw(health, 10, stage.getHeight() - background.getHeight() - 20, 275 * healthBarDamage, 20);
-        screen.getBatch().draw(background, 10, stage.getHeight() - background.getHeight() - 20, 275, 20);
-       // screen.getBatch().draw(icon,0, stage.getHeight() - icon.getRegionHeight());
-        screen.getBatch().end();
-        stage.draw();
     }
 
     public void resize(int width, int height) {
