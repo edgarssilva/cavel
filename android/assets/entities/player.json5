@@ -1,0 +1,186 @@
+{
+  transform: {
+    width:  37.50,
+    height: 27.75,
+    scaleX: 1,
+    scaleY: 1,
+    bottom: 10,
+    top: 0,
+    left: 0,
+    right: 0,
+    z: 0
+  },
+
+  stats: {
+    health : 3,
+    maxHealth : 3,
+    damage  : 20
+  },
+
+  body: {
+    flippable: true,
+
+    BodyDef: {
+      fixedRotation: true,
+      type: "DynamicBody",
+      gravityScale: 1,
+      bullet: false
+    },
+    Fixtures : [
+      {
+        description: "torso",
+        isSensor: false,
+        type: "PolygonShape",
+        category: 1,
+        mask: [-1],
+        width: 5,
+        height: 6,
+        density: 1,
+        friction: 0.0,
+        restitution: 0.0,
+        x: 0,
+        y: 4
+      },
+      {
+        description: "head",
+        isSensor: false,
+        type: "CircleShape",
+        category: 0,
+        mask: [0],
+        radius: 5,
+        density: 0,
+        friction: 0,
+        restitution: 0,
+        x: 0,
+        y: 14
+      },
+      {
+        description: "footSensor",
+        isSensor: true,
+        type: "PolygonShape",
+        category: 20,
+        mask: [4, 12],
+        width: 5,
+        height: 1,
+        density: 0,
+        restitution: 0,
+        friction: 0,
+        x: 0,
+        y: -7
+      },
+      {
+        description: "rightWallSensor",
+        isSensor: true,
+        category: 22,
+        mask: [4, 12],
+        type: "PolygonShape",
+        width: 1.5,
+        height: 6,
+        density: 0,
+        restitution: 0,
+        friction: 0,
+        x: 6,
+        y: 1
+      },
+      {
+        description: "leftWallSensor",
+        isSensor: true,
+        category: 24,
+        mask: [4, 12],
+        type: "PolygonShape",
+        width: 1.5,
+        height: 6,
+        density: 0,
+        restitution: 0,
+        friction: 0,
+        x: -6,
+        y: 1
+      }
+    ]
+  },
+  animation: [
+    {
+      state: "Idle",
+      duration: 0.175,
+      playMode: "LOOP",
+      frames: ["adventurer_idle"]
+    },
+    {
+      state: "Walking",
+      duration: 0.1,
+      playMode: "LOOP",
+      frames: ["adventurer_run"]
+    },
+    {
+      state: "Falling",
+      duration: 0.1,
+      playMode: "NORMAL",
+      frames:  ["adventurer_fall"]
+    },
+    {
+      state: "Jumping",
+      duration: 0.1,
+      playMode: "NORMAL",
+      frames: ["adventurer_jump"]
+    }, {
+      state: "DoubleJumping",
+      duration: 0.1,
+      playMode: "NORMAL",
+      frames: ["adventurer_smrslt"]
+    },
+    {
+      state: "Attack1",
+      duration: 0.08,
+      playMode: "NORMAL",
+      frames: ["adventurer_attack1"]
+    },
+    {
+      state: "Attack2",
+      duration: 0.08,
+      playMode: "NORMAL",
+      frames: ["adventurer_attack2"]
+    },
+    {
+      state: "Attack3",
+      duration: 0.08,
+      playMode: "NORMAL",
+      frames: ["adventurer_attack3"]
+    },
+    {
+      state: "AirAttack1",
+      duration: 0.08,
+      playMode: "NORMAL",
+      frames: ["adventurer_air_attack_1"]
+    },
+    {
+      state: "AirAttack2",
+      duration: 0.08,
+      playMode: "NORMAL",
+      frames: ["adventurer_air_attack_2"]
+    },
+    {
+      state: "FallingAttack",
+      duration: 0.1,
+      playMode: "LOOP",
+      frames: ["adventurer_air_attack3_loop"]
+    },
+    {
+      state: "FallAttack",
+      duration: 0.1,
+      playMode: "NORMAL",
+      frames: ["adventurer_air_attack3_rdy","adventurer_air_attack_3_end"]
+    },
+    {
+      state: "Hit",
+      duration: 0.1,
+      playMode: "NORMAL",
+      frames: ["adventurer_hurt"]
+    },
+    {
+      state: "Dying",
+      duration: 0.1,
+      playMode: "NORMAL",
+      frames: ["adventurer_die"]
+    }
+  ]
+}

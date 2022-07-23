@@ -1,0 +1,146 @@
+{
+  transform: {
+    width: 16,
+    height: 16,
+    scaleX: -1,
+    scaleY: 1,
+    bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    z: 2
+  },
+
+  stats: {
+    health : 40,
+    maxHealth : 40,
+    damage  : 1
+  },
+
+  body: {
+    flippable: true,
+
+    BodyDef: {
+      fixedRotation : true,
+      type: "DynamicBody",
+      gravityScale: 1,
+      bullet: false
+    },
+    Fixtures : [
+      {
+        description: "body",
+        isSensor: false,
+        type: "CircleShape",
+        category: 2,
+        mask: [28, 4],
+        radius: 6,
+        density: 4,
+        restitution: 0.0,
+        friction: 1.0,
+        x: 0,
+        y: 0
+      },
+      {
+        description: "leftGroundSensor",
+        isSensor: true,
+        type: "PolygonShape",
+        category: 30,
+        mask: [12, 4],
+        width: 1,
+        height: 2,
+        density: 0.1,
+        restitution: 0,
+        friction: 0.0,
+        x: -7.5,
+        y: -8.5
+      },
+      {
+        description: "rightGroundSensor",
+        isSensor: true,
+        type: "PolygonShape",
+        category: 32,
+        mask: [12, 4],
+        width: 1,
+        height: 2,
+        density: 0.1,
+        restitution: 0,
+        friction: 0.0,
+        x: 7.5,
+        y: -8.5
+      },
+      {
+        description: "rightWallSensor",
+        isSensor: true,
+        type: "PolygonShape",
+        category:38,
+        mask: [12, 4],
+        width: 1,
+        height: 3,
+        density: 0,
+        restitution: 0,
+        friction: 0.0,
+        x: 7.5,
+        y: -1
+      },
+      {
+        description: "leftWallSensor",
+        isSensor: true,
+        type: "PolygonShape",
+        category: 34,
+        mask: [12, 4],
+        width: 1,
+        height: 3,
+        density: 0,
+        restitution: 0,
+        friction: 0.0,
+        x: -7.5,
+        y: -1
+      },
+      {
+        description: "attack",
+        isSensor: true,
+        type: "CircleShape",
+        category: 40,
+        mask: [1],
+        radius: 10,
+        density: 4,
+        restitution: 0.0,
+        friction: 0.0,
+        x: 0,
+        y: 0
+      }
+    ]
+  },
+  animation: [
+    {
+      state: "IDLE",
+      duration: 0.175,
+      playMode: "LOOP",
+      frames: ["slime_idle"]
+    },
+    {
+      state: "Seeking",
+      duration: 0.175,
+      playMode: "LOOP",
+      frames: ["slime_move"]
+    },
+    {
+      state: "Attacking",
+      duration: 0.175,
+      playMode: "NORMAL",
+      frames:  ["slime_attack"]
+    },
+    {
+      state: "Dying",
+      duration: 0.175,
+      playMode: "NORMAL",
+      frames: ["slime_die"]
+    },
+    {
+      state: "Hit",
+      duration: 0.175,
+      playMode: "NORMAL",
+      frames: ["slime_hurt"]
+    }
+  ]
+}

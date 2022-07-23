@@ -114,12 +114,15 @@ public class LevelFactory {
             if (name.equalsIgnoreCase("Player"))
                 EntitiesFactory.createPlayer(position, PlayerState.Idle, PlayerAttackState.NONE);
             if (name.equalsIgnoreCase("Skeleton"))
-                  EntitiesFactory.createSkeleton(position);
+                EntitiesFactory.createEnemy(Enemies.SKELETON, position);
             if (name.equalsIgnoreCase("Slime"))
-                //EntitiesFactory.createSlime(position);
                 EntitiesFactory.createEnemy(Enemies.SLIME, position);
+            if (name.equalsIgnoreCase("Wizard"))
+                EntitiesFactory.createEnemy(Enemies.WIZARD, position);
+
             if (name.equalsIgnoreCase("Witch"))
                 EntitiesFactory.createWitch(position);
+
         }
 
         if (EntityManager.getPlayer() == null)

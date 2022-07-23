@@ -167,7 +167,7 @@ public class PlayScreen implements Screen {
 
         for (EnemySave enemy : save.enemySaves) {
             if (enemy.enemyTypeName.equals(Enemies.SKELETON.name())) {
-                Entity entity = EntitiesFactory.createSkeleton(new Vector2(enemy.x, enemy.y));
+                Entity entity = EntitiesFactory.createEnemy(Enemies.SKELETON, new Vector2(enemy.x, enemy.y));
 
                 StatsComponent stats = entity.getComponent(StatsComponent.class);
                 stats.maxHealth = enemy.stats.maxHealth;

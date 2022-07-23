@@ -59,14 +59,7 @@ public class HUDManager implements Updateable, Disposable {
         TextureAtlas atlas = screen.getGame().assets.manager.get(GameAssetsManager.atlas);
 
         coin = new Animation<TextureRegion>( 1 / 6f,
-                atlas.findRegion("coin-0"),
-                atlas.findRegion("coin-1"),
-                atlas.findRegion("coin-2"),
-                atlas.findRegion("coin-3"),
-                atlas.findRegion("coin-4"),
-                atlas.findRegion("coin-5"),
-                atlas.findRegion("coin-6"),
-                atlas.findRegion("coin-7"));
+                atlas.findRegions("coin"));
 
         stats = ComponentMapper.getFor(StatsComponent.class);
 //        previousHealth = stats.get(EntityManager.getPlayer()).health;

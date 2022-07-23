@@ -69,16 +69,20 @@ public class PauseManager {
         Label pauseText = new Label("--- PAUSED ---", PlayScreen.getGame().assets.getSkin());
         pauseText.setAlignment(Align.center);
         pauseText.setFontScale(2.5f);
+        continueBtn.getLabel().setFontScale(2f);
+        saveBtn.getLabel().setFontScale(2f);
+        settingsBtn.getLabel().setFontScale(2f);
+        exitButton.getLabel().setFontScale(2f);
 
         table.add(pauseText).center().width(stage.getWidth() / 4).uniformY();
-        table.row().pad(10, 0, 10, 0);
-        table.add(continueBtn).height(continueBtn.getHeight() / 2).uniform();
-        table.row().pad(10, 0, 10, 0);
-        table.add(saveBtn).height(continueBtn.getHeight() / 2).uniform();
-        table.row().pad(10, 0, 10, 0);
-        table.add(settingsBtn).height(settingsBtn.getHeight() / 2).uniform();
-        table.row().pad(10, 0, 10, 0);
-        table.add(exitButton).height(exitButton.getHeight() / 2).uniform();
+        table.row().pad(10, 10, 10, 10);
+        table.add(continueBtn).fill().uniform();
+        table.row().pad(10, 10, 10, 10);
+        table.add(saveBtn).fill().uniform();
+        table.row().pad(10, 10, 10, 10);
+        table.add(settingsBtn).fill().uniform();
+        table.row().pad(10, 10, 10, 10);
+        table.add(exitButton).fill().uniform();
 
         stage.addActor(table);
     }

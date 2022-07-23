@@ -6,7 +6,6 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StateAnimationComponent;
@@ -30,7 +29,6 @@ public class PlayerAgent extends Agent {
 
     private TransformComponent transform;
     public PlayerCollisionComponent sensors;
-    public AttackComponent attackComp;
     public StateAnimationComponent animComp;
     public static StatsComponent statsComp;
     public BodyComponent bodyComp;
@@ -64,7 +62,6 @@ public class PlayerAgent extends Agent {
         body = bodyComp.body;
         transform = player.getComponent(TransformComponent.class);
         sensors = player.getComponent(PlayerCollisionComponent.class);
-        attackComp = player.getComponent(AttackComponent.class);
         animComp = player.getComponent(StateAnimationComponent.class);
         statsComp = statsCompMap.get(player);
 
