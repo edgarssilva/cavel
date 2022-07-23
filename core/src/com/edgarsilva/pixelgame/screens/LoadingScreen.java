@@ -72,7 +72,7 @@ public class LoadingScreen implements Screen {
                 countDown -= delta;
                 currentLoadingStage = 5;
                 if (countDown < 0) {
-                    game.changeScreen(PixelGame.MENU);
+                    game.setScreen(new LevelScreen(game));
                 }
             }
         }

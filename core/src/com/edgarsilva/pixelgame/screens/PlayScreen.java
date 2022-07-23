@@ -56,7 +56,7 @@ public class PlayScreen implements Screen {
 
     Vector3 mouse = new Vector3();
 
-    public PlayScreen(PixelGame game) {
+    public PlayScreen(PixelGame game, String map) {
         PlayScreen.game = game;
 
 
@@ -95,7 +95,7 @@ public class PlayScreen implements Screen {
         new EntitiesFactory(this);
         new LevelFactory(this);
 
-        LevelManager.loadLevel("Cave");
+        LevelManager.loadLevel(map);
         LevelFactory.makeEntities(LevelManager.tiledMap,"Entities");
         LevelFactory.createPhysics(LevelManager.tiledMap,"Collisions");
         // LevelFactory.makeObstacles(LevelManager.tiledMap,"Obstacles");

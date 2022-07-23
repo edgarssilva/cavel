@@ -35,7 +35,7 @@ public class LevelManager {
     public static IndexedAStarPathFinder<Node> pathFinder;
 
     public static void loadLevel(String filePath){
-        tiledMap = new TmxMapLoader().load("maps/"+filePath+".tmx");
+        tiledMap = new TmxMapLoader().load(filePath);
         renderer = new OrthogonalTiledMapRenderer(tiledMap, RenderSystem.PIXELS_TO_METERS);
 
         MapProperties properties = tiledMap.getProperties();

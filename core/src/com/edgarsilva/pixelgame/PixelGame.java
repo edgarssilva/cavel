@@ -60,7 +60,7 @@ public class PixelGame extends Game {
                 this.setScreen(settingsScreen);
                 break;
             case APPLICATION:
-                 playScreen = new PlayScreen(this);
+                playScreen = new PlayScreen(this, "maps/Cave.tmx");
                // else playScreen.restartGame();*/
                 this.setScreen(playScreen);
                 break;
