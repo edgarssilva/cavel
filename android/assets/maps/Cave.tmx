@@ -18,7 +18,7 @@
  </layer>
  <layer name="Walls" width="60" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlkEOhCAMRetynBXLcT3OykPM0TiKR+FoVsfESHBStIQifUmDMQX5/q/BADgohHdEb7OWjwGwPLtJzwDwpfb+0eu49pOaIaJX/f1Rm79P9LfFsQ2PFt/H+BCSAQ5/KXOkZJ7DX8qcmvR2qPVVid5cvs7nin4ru9Z831HXKElvjI9HnM1zjn9zTr2pPfayu+T3w7CuVL0cXoY4qxfPI6N3DtldX827JL0UrvpfoF5H7cUsLJnoYcsJx7caQoK/JsHzj5Dg7x30KoqiKIqiKHUzAbgzGoM=
+   eJztlk0OgyAQhcdl7YplXdeuPESPxlE8CkdzsCZGgs2gQxxkvoRgzPDzfE+CAXBQCO+E2mZpIQbA8uwmPwPAl1r7R6/j2k9uhoRa9fdHbf4+0d8W+zbeW/we40NIBjj8pYyRknkOfyljatLbodZXJXq9r6ljOPD3in5tdmn+vaPOUZLeFB/3OJrnK87mK/XmPquC7M75/TDMK1Uvh5cxjurF+8gY3EM2z2fzLkkvhbP+F6jXUWsxC3MmelhzwvGvxpDgr8mw/h4S/L2DXkVRFEVRFKVuJt5jGoU=
   </data>
  </layer>
  <layer name="Enviroment" width="60" height="30" visible="0">
