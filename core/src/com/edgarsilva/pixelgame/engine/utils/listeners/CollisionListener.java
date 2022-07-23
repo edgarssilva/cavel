@@ -42,24 +42,25 @@ public class CollisionListener implements ContactListener {
 
 */
 
-
         Entity actorA = (Entity) fa.getUserData();
         Entity actorB = (Entity) fb.getUserData();
+
+
 
 
         if (actorA == null || actorB == null) return;
 
         if (fa.getFilterData().categoryBits == PhysicsConstants.ATTACK_SENSOR && fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
-            acm.get(actorA).handleCollision(actorB);
+            acm.get(actorA).handleCollision(actorA, actorB);
         } else if (fb.getFilterData().categoryBits == PhysicsConstants.ATTACK_SENSOR && fa.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
-            acm.get(actorB).handleCollision(actorA);
+            acm.get(actorB).handleCollision(actorB, actorA);
         }
 
 
         if (sensorMap.has(actorA) || sensorMap.has(actorB)) {
 
-            PlayerCollisionComponent data;
-            short categoryBits;
+            PlayerCollisionComponent data = null;
+            short categoryBits = 0;
 
             if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
                 data = sensorMap.get(actorA);
@@ -67,8 +68,6 @@ public class CollisionListener implements ContactListener {
             } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
                 data = sensorMap.get(actorB);
                 categoryBits = fb.getFilterData().categoryBits;
-            } else {
-                return;
             }
 
 
@@ -85,7 +84,14 @@ public class CollisionListener implements ContactListener {
             }
         }
 
+
         if (enemyMap.has(actorA) || enemyMap.has(actorB)) {
+
+            if (fa.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR  && fb.getFilterData().categoryBits == PhysicsConstants.FRIENDLY_BITS)
+                enemyMap.get(actorA).handleCollision(actorA, actorB);
+            else if (fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR && fa.getFilterData().categoryBits == PhysicsConstants.FRIENDLY_BITS)
+                enemyMap.get(actorB).handleCollision(actorB, actorA);
+
 
             EnemyCollisionComponent data;
             short categoryBits;
@@ -120,83 +126,83 @@ public class CollisionListener implements ContactListener {
         }
     }
 
-    private void entityCollision(Entity ent, Fixture fb) {
-        if(fb.getBody().getUserData() instanceof Entity) {
-            Entity colEnt = (Entity) fb.getBody().getUserData();
+    /* private void entityCollision(Entity ent, Fixture fb) {
+         if(fb.getBody().getUserData() instanceof Entity) {
+             Entity colEnt = (Entity) fb.getBody().getUserData();
 
-            if (fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
-                System.out.println("Enemy");
-                AttackCollisionComponent acc = ent.getComponent(AttackCollisionComponent.class);
-                if (acc != null) {
-                    System.out.println("Listener AttackTask");
-                    acc.handleCollision( colEnt);
-                } else {
-                    System.out.println("Null");
-                }
-            }
+             if (fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
+                 System.out.println("Enemy");
+                 AttackCollisionComponent acc = ent.getComponent(AttackCollisionComponent.class);
+                 if (acc != null) {
+                     System.out.println("Listener AttackTask");
+                     acc.handleCollision( colEnt);
+                 } else {
+                     System.out.println("Null");
+                 }
+             }
 
-        /*    CollisionComponent col = ent.getComponent(CollisionComponent.class);
-            CollisionComponent colb = colEnt.getComponent(CollisionComponent.class);
-
-
-
-            //TODO Make entities collision dynamic using ashley ECS
-            //Check for collisions
-
-            //Collision with the player
-            if(ent == EntityManager.getPlayer()){
-                Entity player = pc != null ? ent : colEnt;
-
-                //Check if player got hit by an drop
-                DropComponent dc = ent.getComponent(DropComponent.class);
-                DropComponent DC = colEnt.getComponent(DropComponent.class);
-
-                if (dc != null || DC != null){
-                    System.out.println("Got hit by an Drop");
-                    StatsComponent stats = player.getComponent(StatsComponent.class);
-                    stats.health -= 50;
-                }
-
-            }else {
+         /*    CollisionComponent col = ent.getComponent(CollisionComponent.class);
+             CollisionComponent colb = colEnt.getComponent(CollisionComponent.class);
 
 
-                //Check if an melee attack has hit an enemy
-                MeleeAttackComponent ac = ent.getComponent(MeleeAttackComponent.class);
-                MeleeAttackComponent AC = colEnt.getComponent(MeleeAttackComponent.class);
 
-                if (ac != null || AC != null) {
-                    MeleeAttackComponent attack = ac != null ? ac : AC;
+             //TODO Make entities collision dynamic using ashley ECS
+             //Check for collisions
 
-                    //Check if has hit an enemy
-                    EnemyComponent ec = ent.getComponent(EnemyComponent.class);
-                    EnemyComponent EC = colEnt.getComponent(EnemyComponent.class);
+             //Collision with the player
+             if(ent == EntityManager.getPlayer()){
+                 Entity player = pc != null ? ent : colEnt;
 
-                    if (ec != null || EC != null) {
-                        System.out.println("Attacked an Enemy");
-                        StatsComponent enemy = attack == ac ? colEnt.getComponent(StatsComponent.class) : ent.getComponent(StatsComponent.class);
-                        enemy.health -= attack.damage - enemy.armor;
-                    }else{
-                        //Check if has hit an drop
-                        DropComponent dc = ent.getComponent(DropComponent.class);
-                        DropComponent DC = colEnt.getComponent(DropComponent.class);
+                 //Check if player got hit by an drop
+                 DropComponent dc = ent.getComponent(DropComponent.class);
+                 DropComponent DC = colEnt.getComponent(DropComponent.class);
 
-                        if (dc != null || DC != null){
-                            Entity drop = dc != null ? ent : colEnt;
-                            System.out.println("Destroyed an Drop");
-                            //TODO Make a reset dropper method in the DropComponent also usable in the system
-                            EntityManager.setToDestroy(drop);
-                        }
-                    }
+                 if (dc != null || DC != null){
+                     System.out.println("Got hit by an Drop");
+                     StatsComponent stats = player.getComponent(StatsComponent.class);
+                     stats.health -= 50;
+                 }
 
-                } else {
+             }else {
 
-                    //Check other collisions
-                }
-            }
-            */
+
+                 //Check if an melee attack has hit an enemy
+                 MeleeAttackComponent ac = ent.getComponent(MeleeAttackComponent.class);
+                 MeleeAttackComponent AC = colEnt.getComponent(MeleeAttackComponent.class);
+
+                 if (ac != null || AC != null) {
+                     MeleeAttackComponent attack = ac != null ? ac : AC;
+
+                     //Check if has hit an enemy
+                     EnemyComponent ec = ent.getComponent(EnemyComponent.class);
+                     EnemyComponent EC = colEnt.getComponent(EnemyComponent.class);
+
+                     if (ec != null || EC != null) {
+                         System.out.println("Attacked an Enemy");
+                         StatsComponent enemy = attack == ac ? colEnt.getComponent(StatsComponent.class) : ent.getComponent(StatsComponent.class);
+                         enemy.health -= attack.damage - enemy.armor;
+                     }else{
+                         //Check if has hit an drop
+                         DropComponent dc = ent.getComponent(DropComponent.class);
+                         DropComponent DC = colEnt.getComponent(DropComponent.class);
+
+                         if (dc != null || DC != null){
+                             Entity drop = dc != null ? ent : colEnt;
+                             System.out.println("Destroyed an Drop");
+                             //TODO Make a reset dropper method in the DropComponent also usable in the system
+                             EntityManager.setToDestroy(drop);
+                         }
+                     }
+
+                 } else {
+
+                     //Check other collisions
+                 }
+             }
+             *//*
         }
     }
-
+*/
     @Override
     public void endContact(Contact contact) {
         Fixture fa = contact.getFixtureA();
@@ -209,8 +215,8 @@ public class CollisionListener implements ContactListener {
         if (actorA == null || actorB == null) return;
 
         if (sensorMap.has(actorA) || sensorMap.has(actorB)) {
-            PlayerCollisionComponent data;
-            short categoryBits;
+            PlayerCollisionComponent data = null;
+            short categoryBits = 0;
 
             if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
                 data = sensorMap.get(actorA);
@@ -218,10 +224,7 @@ public class CollisionListener implements ContactListener {
             } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
                 data = sensorMap.get(actorB);
                 categoryBits = fb.getFilterData().categoryBits;
-            } else {
-                return;
             }
-
 
             switch (categoryBits) {
                 case PhysicsConstants.FOOT_SENSOR:
@@ -237,6 +240,14 @@ public class CollisionListener implements ContactListener {
         }
 
         if (enemyMap.has(actorA) || enemyMap.has(actorB)) {
+
+            if (fa.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR)
+                enemyMap.get(actorA).handleCollision(actorA, actorB);
+            else if (fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR)
+                enemyMap.get(actorB).handleCollision(actorB, actorA);
+
+
+
             EnemyCollisionComponent data;
             short categoryBits;
 
@@ -263,6 +274,9 @@ public class CollisionListener implements ContactListener {
                     break;
                 case PhysicsConstants.WALL_RIGHT_SENSOR:
                     data.numWallRight--;
+                    break;
+                case PhysicsConstants.ENEMY_ATTACK_SENSOR:
+                    data.attackPlayer = false;
                     break;
             }
         }

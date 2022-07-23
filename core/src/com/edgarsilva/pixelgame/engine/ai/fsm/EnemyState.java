@@ -17,6 +17,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
            
         }
     },
+
     Seeking(){
         @Override
         public void enter(EnemyAgentComponent agent) {
@@ -25,6 +26,9 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
         @Override
         public void update(EnemyAgentComponent agent) {
+
+            if (agent.attackableEntities.size > 0) agent.stateMachine.changeState(Attacking);
+
             if  (agent.isTouchingWallRight  || !agent.hasGroundRight ){
                 agent.moveToLeft = true;
             }else if  (agent.isTouchingWallLeft || !agent.hasGroundLeft){
@@ -50,6 +54,18 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         @Override
         public void enter(EnemyAgentComponent agent) {
             super.enter(agent);
+        }
+
+        @Override
+        public void update(EnemyAgentComponent agent) {
+            if (agent.anim.isAnimationFinished(agent.timer)) {
+                agent.stateMachine.changeState(Seeking);
+            }
+        }
+
+        @Override
+        public void exit(EnemyAgentComponent agent) {
+            agent.attackableEntities.clear();
         }
     },
 

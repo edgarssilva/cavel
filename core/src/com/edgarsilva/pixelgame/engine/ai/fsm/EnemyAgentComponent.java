@@ -3,12 +3,11 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
@@ -28,6 +27,7 @@ public class EnemyAgentComponent implements Component, Updateable {
     public boolean hasGroundLeft = false;
     public boolean hasGroundRight = false;
 
+    public Array<Entity> attackableEntities = new Array<Entity>();
     public boolean moveToLeft = false;
 
     public float timer = 1f;
@@ -62,14 +62,44 @@ public class EnemyAgentComponent implements Component, Updateable {
         hasGroundRight      =  collisionComp.numGroundRight >  0;
         isTouchingWallLeft  =  collisionComp.numWallLeft    >  0;
         isTouchingWallRight =  collisionComp.numWallRight   >  0;
+    }
 
+    public void moveLeft(){
+        body.setLinearVelocity(-1.1f, body.getLinearVelocity().y);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F))
-            System.out.println(hasGroundLeft+" "+
-                    hasGroundRight+" "+
-                    isTouchingWallLeft+" "+
-                    isTouchingWallRight);
+    }
 
+    public void moveRight(){
+        body.setLinearVelocity(1.1f, body.getLinearVelocity().y);
+    }
+
+    public void hit() {
+        //Proteção para não contar o ataque mais que uma vez
+        if (stateMachine.isInState(EnemyState.Hit) || stateMachine.isInState(EnemyState.Dying)) {
+            if (timer < 0.05f || stateMachine.isInState(EnemyState.Dying)) return;
+        }
+
+        statsComp.attack(statsCompMap.get(EntityManager.getPlayer()));
+        if (statsComp.health <= 0) {
+            stateMachine.changeState(EnemyState.Dying);
+        }else{
+            stateMachine.changeState(EnemyState.Hit);
+        }
+    }
+
+    public void addEntityToAttack(Entity entity){
+        attackableEntities.add(entity);
+    }
+
+    public void removeEntityToAttack(Entity entity){
+        attackableEntities.removeValue(entity, false);
+    }
+
+}
+
+/**
+ * Path Finding Code
+ **/
 /*        node = LevelManager.graph.getNodeByXY((int) body.getPosition().x + LevelManager.tilePixelHeight, (int) body.getPosition().y - LevelManager.tilePixelHeight);
         stateMachine.update();
 
@@ -139,27 +169,3 @@ public class EnemyAgentComponent implements Component, Updateable {
 
 
         if (PixelGame.DEBUG) PathfindingDebugger.drawPath(resultPath);*/
-    }
-
-    public void moveLeft(){
-        body.setLinearVelocity(-1.5f, body.getLinearVelocity().y);
-    }
-
-    public void moveRight(){
-        body.setLinearVelocity(1.5f, body.getLinearVelocity().y);
-    }
-
-    public void hit() {
-        //Proteção para não contar o ataque mais que uma vez
-        if (stateMachine.isInState(EnemyState.Hit)) {
-            if (timer < 0.05f) return;
-        }
-
-        statsComp.attack(statsCompMap.get(EntityManager.getPlayer()));
-        if (statsComp.health <= 0) {
-            stateMachine.changeState(EnemyState.Dying);
-        }else{
-            stateMachine.changeState(EnemyState.Hit);
-        }
-    }
-}

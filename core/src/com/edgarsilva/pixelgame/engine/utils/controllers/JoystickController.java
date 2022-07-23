@@ -1,12 +1,12 @@
 package com.edgarsilva.pixelgame.engine.utils.controllers;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
+import com.edgarsilva.pixelgame.PixelGame;
 
-public class JoystickController extends Controller implements ControllerListener {
+public class JoystickController implements ControllerListener {
 
     /*
      * Square = 0
@@ -51,14 +51,10 @@ public class JoystickController extends Controller implements ControllerListener
      * Left Stick Right = Axis 3, Positive Value
      */
 
-    public static final int Right_Stick_Up    = /* Axis */  0  /* -1 Value */;
-    public static final int Right_Stick_Down  = /* Axis */  0  /* 1 Value */;
-    public static final int Right_Stick_Left  = /* Axis */  1  /* -1 Value */;
-    public static final int Right_Stick_Right = /* Axis */  2  /* 1 Value */;
-    public static final int Left_Stick_Up     = /* Axis */  2  /* -1 Value */;
-    public static final int Left_Stick_Down   = /* Axis */  2  /* 1 Value */;
-    public static final int Left_Stick_Left   = /* Axis */  3  /* -1 Value */;
-    public static final int Left_Stick_Right  = /* Axis */  3  /* 1 Value */;
+    public static final int Right_Stick_Y = 0;
+    public static final int Right_Stick_X = 1;
+    public static final int Left_Stick_Y  = 2;
+    public static final int Left_Stick_X  = 3;
 
 
     /*
@@ -76,32 +72,38 @@ public class JoystickController extends Controller implements ControllerListener
     public static final String D_Pad_Right  =  "  East  ";
     public static final String Nothing_down =  " Center ";
 
+    public static boolean connected = false;
 
     public JoystickController() {
-
-        Controllers controllers = new Controllers();
-        if (controllers.getControllers().size > 1);
+        if (Controllers.getControllers().size > 1) {
+            connected = true;
+        }
+        if (PixelGame.DEBUG)
+            for (com.badlogic.gdx.controllers.Controller control : Controllers.getControllers())
+                System.out.println(control.getName());
 
     }
 
     @Override
     public void connected(com.badlogic.gdx.controllers.Controller controller) {
-      if (controller != null) System.out.println("Connect "+ controller.getName());
+        connected = Controllers.getControllers().size > 1;
+        if (controller != null) System.out.println("Connect " + controller.getName());
     }
 
     @Override
     public void disconnected(com.badlogic.gdx.controllers.Controller controller) {
-        if (controller != null) System.out.println("Disconnect "+ controller.getName());
+        connected = Controllers.getControllers().size > 1;
+        if (controller != null) System.out.println("Disconnect " + controller.getName());
     }
 
     @Override
     public boolean buttonDown(com.badlogic.gdx.controllers.Controller controller, int buttonCode) {
         switch (buttonCode) {
-            case Square:
-                attack = true;
+            case Triangle:
+                Controller.attack = true;
                 break;
-            case Cross:
-                up = true;
+            case Circle:
+                Controller.up = true;
                 break;
         }
         return true;
@@ -110,11 +112,11 @@ public class JoystickController extends Controller implements ControllerListener
     @Override
     public boolean buttonUp(com.badlogic.gdx.controllers.Controller controller, int buttonCode) {
         switch (buttonCode) {
-            case Square:
-                attack = false;
+            case Triangle:
+                Controller.attack = false;
                 break;
-            case Cross:
-                up = false;
+            case Circle:
+                Controller.up = false;
                 break;
         }
         return true;
@@ -122,13 +124,18 @@ public class JoystickController extends Controller implements ControllerListener
 
     @Override
     public boolean axisMoved(com.badlogic.gdx.controllers.Controller controller, int axisCode, float value) {
-        return false;
+        if (axisCode == Right_Stick_Y) {
+            Controller.right = value ==  1;
+            Controller.left  = value == -1;
+        }
+        return true;
     }
 
     @Override
     public boolean povMoved(com.badlogic.gdx.controllers.Controller controller, int povCode, PovDirection value) {
-        System.out.println(value);
-        return false;
+        Controller.left = value.name().equalsIgnoreCase(D_Pad_Left.trim());
+        Controller.right = value.name().equalsIgnoreCase(D_Pad_Right.trim());
+        return true;
     }
 
     @Override
@@ -144,11 +151,5 @@ public class JoystickController extends Controller implements ControllerListener
     @Override
     public boolean accelerometerMoved(com.badlogic.gdx.controllers.Controller controller, int accelerometerCode, Vector3 value) {
         return false;
-    }
-
-
-    @Override
-    public InputProcessor getInputProcessor() {
-        return null;
     }
 }

@@ -28,6 +28,8 @@ public class HUDManager implements Updateable, Disposable {
     private static ProgressBar healthBar;
     private ComponentMapper<StatsComponent> stats;
 
+    public static final int INPUT_INDEX = 1;
+
     public HUDManager(PlayScreen screen) {
         this.screen = screen;
         //screen.getGame().assets.getSkin()

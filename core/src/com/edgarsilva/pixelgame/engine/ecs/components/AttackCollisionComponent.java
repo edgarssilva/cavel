@@ -19,11 +19,16 @@ public class AttackCollisionComponent implements CollisionComponent, Pool.Poolab
     }
 
     @Override
-    public void handleCollision(Entity collider) {
+    public void handleCollision(Entity owner, Entity collider) {
         if (enemyCompMap.has(collider)) {
             enemyCompMap.get(collider).hit();
         }else {
             EntityManager.setToDestroy(collider);
         }
+    }
+
+    @Override
+    public void endCollision(Entity owner, Entity collider) {
+
     }
 }

@@ -1,5 +1,7 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -19,7 +21,7 @@ public class PauseManager {
     private Table table;
 
     private PlayScreen screen;
-
+    public static final int INPUT_INDEX = 3;
 
     public PauseManager(final PlayScreen screen) {
         this.screen = screen;
@@ -72,6 +74,16 @@ public class PauseManager {
 
     public void render(){
         stage.act();
+
+        //Fundo preto semi-transparente
+        Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+        Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+        screen.getShapeRenderer().setColor(0, 0, 0, 0.5f);
+        screen.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
+        screen.getShapeRenderer().rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        screen.getShapeRenderer().end();
+        Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
+
         stage.draw();
     }
 

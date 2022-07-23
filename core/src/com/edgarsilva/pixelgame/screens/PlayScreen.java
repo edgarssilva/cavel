@@ -13,12 +13,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.engine.ai.pfa.GraphPathImp;
-import com.edgarsilva.pixelgame.engine.ai.pfa.PathfindingDebugger;
-import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.controllers.JoystickController;
 import com.edgarsilva.pixelgame.engine.utils.controllers.KeyboardController;
@@ -47,7 +43,7 @@ public class PlayScreen implements Screen {
 
     //Graphics
     private SpriteBatch batch;
-    public static ShapeRenderer shapeRenderer;
+    private ShapeRenderer shapeRenderer;
 
 
     //Physics
@@ -64,11 +60,6 @@ public class PlayScreen implements Screen {
 
     public boolean paused = false;
 
-    //Test
-    public static GraphPathImp resultPath;
-    TransformComponent tc;
-
-    Vector3 mouse = new Vector3();
 
     public PlayScreen(PixelGame game, String map) {
         PlayScreen.game = game;
@@ -84,8 +75,6 @@ public class PlayScreen implements Screen {
 
         engine = new PooledEngine();
         entityManager = new EntityManager(this);
-
-
 
         //		Gdx.input.setCursorCatched(true); // remove mouse cursor
 
@@ -106,8 +95,8 @@ public class PlayScreen implements Screen {
         else if (Gdx.app.getType() == Application.ApplicationType.Android)
             controller = new OnScreenController(this);
 
-        inputMultiplexer.addProcessor(controller.getInputProcessor());
-        inputMultiplexer.addProcessor(hud.getStage());
+        inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
+        inputMultiplexer.addProcessor(HUDManager.INPUT_INDEX, hud.getStage());
         Controllers.addListener(new JoystickController());
 
         new BodyFactory(world);
@@ -123,18 +112,12 @@ public class PlayScreen implements Screen {
 
         // EntityManager.add(hud);
 
-
-        //Try code here
-        PathfindingDebugger.setCamera(cameraManager.getCamera());
-        tc = EntityManager.getPlayer().getComponent(TransformComponent.class);
-        resultPath = new GraphPathImp();
-
-
+/*
         EntitiesFactory.createWitch(new Vector2(
                 EntityManager.getPlayer().getComponent(TransformComponent.class).position.x,
                 EntityManager.getPlayer().getComponent(TransformComponent.class).position.y
         ));
-
+*/
     }
 
 
@@ -146,25 +129,19 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
-
-        //Parar o jogo
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            if (paused)
-                inputMultiplexer.removeProcessor(pauseMenu.getStage());
-            else
-                inputMultiplexer.addProcessor(pauseMenu.getStage());
-            paused = !paused;
-        }
-
-        //Verificar se o jogo está parado
-        if (paused) delta = 0;
-
         //Gdx.gl.glClearColor(38/255f,32/255f,51/255f,1);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(0, 0, 0, 1);
 
+        Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
+
+        //Verficar se o jogo deverá estar em pausa e se um comando está ligado
+        checkChanges();
+
+
+        //Verificar se o jogo está parado
+        if (paused) delta = 0;
 
         cameraManager.update(delta);
         batch.setProjectionMatrix(cameraManager.getCamera().combined);
@@ -175,28 +152,9 @@ public class PlayScreen implements Screen {
 
         GdxAI.getTimepiece().update(delta);
         entityManager.update(delta);
-        // hud.update(delta);
+        hud.update(delta);
 
-        //PathfindingDebugger.drawPath(resultPath);
-
-        if (paused) {
-            //Fundo preto semi-transparente
-            Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-            Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-            shapeRenderer.setColor(0, 0, 0, 0.5f);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            shapeRenderer.end();
-            Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
-
-
-            pauseMenu.render();
-        }
-
-       /* for (com.badlogic.gdx.controllers.Controller controller : Controllers.getControllers()) {
-            System.out.println(controller.getName());
-        }*/
-
+        if (paused) pauseMenu.render();
     }
 
 
@@ -207,6 +165,25 @@ public class PlayScreen implements Screen {
         pauseMenu.resize(width, height);
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).resize(width, height);
+    }
+
+    private void checkChanges(){
+        //Parar o jogo
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            if (paused)
+                inputMultiplexer.removeProcessor(PauseManager.INPUT_INDEX);
+            else
+                inputMultiplexer.addProcessor(PauseManager.INPUT_INDEX, pauseMenu.getStage());
+            paused = !paused;
+        }
+
+        //
+        if (JoystickController.connected) {
+            inputMultiplexer.removeProcessor(Controller.INPUT_INDEX);
+        }else{
+            inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
+        }
+
     }
 
     @Override
@@ -254,6 +231,7 @@ public class PlayScreen implements Screen {
     public SpriteBatch getBatch() {
         return batch;
     }
+    public ShapeRenderer getShapeRenderer(){return shapeRenderer;}
     public static PixelGame getGame() {
         return game;
     }

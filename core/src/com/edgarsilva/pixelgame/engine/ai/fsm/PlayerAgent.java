@@ -3,7 +3,7 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
@@ -44,6 +44,8 @@ public class PlayerAgent implements Updateable {
 
     public Entity attack;
 
+    private float deltaTime;
+
     public PlayerAgent(Entity player) {
         body = player.getComponent(BodyComponent.class).body;
         transform = player.getComponent(TransformComponent.class);
@@ -58,6 +60,7 @@ public class PlayerAgent implements Updateable {
 
     @Override
     public void update(float deltaTime) {
+        this.deltaTime = deltaTime;
         isTouchingGround = (sensors.numFoot > 0);
         isTouchingWallLeft = (sensors.numLeftWall > 0);
         isTouchingWallRight = (sensors.numRightWall > 0);
@@ -66,8 +69,8 @@ public class PlayerAgent implements Updateable {
         attackStateMachine.update();
 
 
-        if (!Controller.left && !Controller.right)
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, 0, 0.2f), body.getLinearVelocity().y);
+        if (!Controller.left && !Controller.right);
+        //body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, 0, 0.2f), body.getLinearVelocity().y);
     }
 
 
@@ -85,35 +88,48 @@ public class PlayerAgent implements Updateable {
 
 
     public boolean moveOnGround() {
-        //Verificar a tecla "up" está pressionada
+        float speedX = body.getLinearVelocity().x;
+        float desiredSpeedX = 0f;
+        float impulseY = 0f;
+
+        if (Controller.left && !isTouchingWallLeft)
+            desiredSpeedX = -2f;
+        if (Controller.right && !isTouchingWallRight)
+            desiredSpeedX = 2f;
+
         if (Controller.up) {
-            body.applyLinearImpulse(0, 2.7f, body.getWorldCenter().x, body.getWorldCenter().y, true);
+            impulseY = 5f * body.getMass();
             Controller.up = false;
         }
-        if (Controller.left && !isTouchingWallLeft)
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, -3f, 0.1f), body.getLinearVelocity().y);
-        if (Controller.right && !isTouchingWallRight)
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, 3f, 0.1f), body.getLinearVelocity().y);
 
+        float speedChange = desiredSpeedX - speedX;
+        float impulse = body.getMass() * speedChange;
+
+        body.applyLinearImpulse(new Vector2(impulse, impulseY), body.getWorldCenter(), true);
 
         return (Controller.left || Controller.right);
     }
 
     public boolean moveOnAir() {
-        if (Controller.left && !isTouchingWallLeft) {
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, -1.5f, 0.1f), body.getLinearVelocity().y);
-            transform.flipX = true;
-        }
-        if (Controller.right && !isTouchingWallRight) {
-            transform.flipX = false;
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x, 1.5f, 0.1f), body.getLinearVelocity().y);
-        }
+        float speedX = body.getLinearVelocity().x;
+        float desiredSpeedX = 0f;
+
+        if (Controller.left && !isTouchingWallLeft)
+            desiredSpeedX = -1.5f;
+        if (Controller.right && !isTouchingWallRight)
+            desiredSpeedX =  1.5f;
+
+        float speedChange = desiredSpeedX - speedX;
+        float impulse = body.getMass() * speedChange;
+
+        body.applyLinearImpulse(new Vector2(impulse, 0f), body.getWorldCenter(), true);
+
         return (Controller.left || Controller.right);
     }
 
     public boolean jumpOnAir() {
         if (Controller.up) {
-            body.applyLinearImpulse(0, 2.5f, body.getWorldCenter().x, body.getWorldCenter().y, true);
+            body.applyLinearImpulse(0, 4f * body.getMass(), body.getWorldCenter().x, body.getWorldCenter().y, true);
             Controller.up = false;
             return true;
         }

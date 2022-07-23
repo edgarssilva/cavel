@@ -29,4 +29,5 @@ public class PhysicsConstants {
     public static final short   RIGHT_GROUND_SENSOR     = 200;
     public static final short   WALL_LEFT_SENSOR        = 400;
     public static final short   WALL_RIGHT_SENSOR       = 800;
+    public static final short   ENEMY_ATTACK_SENSOR     = 32;
 }

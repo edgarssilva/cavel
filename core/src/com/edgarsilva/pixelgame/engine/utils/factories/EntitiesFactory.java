@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -350,6 +351,25 @@ public class EntitiesFactory {
                 PhysicsConstants.ENEMY_BITS);
 
 
+        PolygonShape shape = new PolygonShape();
+        shape.set(new float[]{
+                0,0,
+                0.3f,0.8f,
+                0.2f,0.3f,
+                0.25f,0,
+                0.2f,0.8f,
+                0.3f,-1f,
+                0,0
+        });
+
+        FixtureDef fdef = new FixtureDef();
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = PhysicsConstants.ENEMY_ATTACK_SENSOR;
+        fdef.filter.maskBits = PhysicsConstants.FRIENDLY_BITS;
+        fdef.shape = shape;
+
+        b2dbody.body.createFixture(fdef).setUserData(entity);
+        shape.dispose();
         for (Fixture fix : b2dbody.body.getFixtureList()) {
             fix.setUserData(entity);
         }
