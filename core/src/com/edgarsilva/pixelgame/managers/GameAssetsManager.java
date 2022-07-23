@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -13,7 +14,6 @@ public class GameAssetsManager {
 
     //Loading Screen
     public static final String loadingBackground = "raw/loading.png";
-
 
     // Textures
     public static final String hudImage = "hud/ui_upscaled.png";
@@ -38,6 +38,9 @@ public class GameAssetsManager {
     public static final String ending = "raw/audio/music/Ending.ogg";
 
     public static final String skin = "skin/glassy-ui.json";
+    public static final String BitPotion = "bitmaps/BitPotionExt.fnt";
+
+
 
     // a small set of images used by the loading screen
     public void queueAddLoadingImages(){
@@ -71,6 +74,7 @@ public class GameAssetsManager {
     }
 
     public void queueAddFonts(){
+        manager.load(BitPotion, BitmapFont.class);
     }
 
     public void queueAddParticleEffects(){

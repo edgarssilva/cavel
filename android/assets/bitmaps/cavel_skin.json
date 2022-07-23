@@ -1,0 +1,12 @@
+{
+  BitmapFont: {
+    font: {
+      file: BitPotionExt.fnt
+    }
+    font-black:{
+      file: BitPotionExt_Black.fnt
+    }
+  }
+
+
+}

@@ -115,6 +115,11 @@ public class PlayerAgent implements Updateable {
         }
     }
 
+
+    public static void kill() {
+        stateMachine.changeState(PlayerState.Dying);
+    }
+
     public boolean moveOnGround() {
         float speedX = body.getLinearVelocity().x;
         float desiredSpeedX = 0f;

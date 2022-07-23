@@ -50,8 +50,11 @@ public class PhysicsSystem extends IteratingSystem {
             if (body.getLinearVelocity().x < -1) tfm.flipX = true;
         }
 
+
         //Remove the Entity in case it went over the ground
-        if (body.getPosition().y < 0) EntityManager.setToDestroy(entity);
+        if (body.getPosition().y < 0){
+            EntityManager.setToDestroy(entity);}
+
 
     }
 

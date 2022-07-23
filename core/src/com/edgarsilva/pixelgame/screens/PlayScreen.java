@@ -64,7 +64,6 @@ public class PlayScreen implements Screen {
     private boolean gameOver;
     private String  mapTitle;
 
-
     public PlayScreen(PixelGame game, String map) {
         this.paused        = false;
         this.gameOver      = false;
@@ -111,6 +110,8 @@ public class PlayScreen implements Screen {
         new LevelFactory(this);
 
         LevelManager.loadLevel(map);
+
+        EntitiesFactory.createWitch(new Vector2(4,10));
     }
 
 
@@ -148,12 +149,13 @@ public class PlayScreen implements Screen {
         GdxAI.getTimepiece().update(delta);
         entityManager.update(delta);
         hud.update(delta);
+
+
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).update(delta);
 
         if (paused) pauseMenu.render();
         if (gameOver) {
-
             gameOverTimer += Gdx.graphics.getDeltaTime();
             alpha += Gdx.graphics.getDeltaTime() / 1.5;
             Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
@@ -215,7 +217,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resume() {
-        paused = false;
+
     }
 
     @Override

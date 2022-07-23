@@ -19,6 +19,7 @@ public class SplashScreen implements Screen {
         game.assets.queueAddLoadingImages();
         game.assets.queueAddSounds();
         game.assets.queueAddMusic();
+        game.assets.queueAddFonts();
         game.assets.manager.finishLoading();
     }
 

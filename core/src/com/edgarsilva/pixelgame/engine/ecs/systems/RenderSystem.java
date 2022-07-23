@@ -73,16 +73,18 @@ public class RenderSystem extends SortedIteratingSystem {
 
                 HealthBarComponent healthBar = healthM.get(entity);
 
-                float width  = PixelsToMeters(30f);
-                float height = PixelsToMeters(4f);
+                float scale = t.width /110f;
+
+                float width  = PixelsToMeters(110f * scale);
+                float height = PixelsToMeters( 12f * scale);
 
                 Texture texture    = healthBar.texture;
                 Texture damage     = healthBar.damage;
                 Texture background = healthBar.background;
 
-                batch.draw(background, t.position.x - width / 2, t.position.y + height * 3.5f, width, height);
-                batch.draw(damage, t.position.x - width / 2, t.position.y + height * 3.5f, width * healthBar.damagedHealth, height);
-                batch.draw(texture, t.position.x - width / 2, t.position.y + height * 3.5f, width * healthBar.scale, height);
+                batch.draw(background, t.position.x - width / 2, t.position.y + .35f, width, height);
+                batch.draw(damage, t.position.x - width / 2, t.position.y + .35f, width * healthBar.damagedHealth, height);
+                batch.draw(texture, t.position.x - width / 2, t.position.y + .35f, width * healthBar.scale, height);
 
             }
 

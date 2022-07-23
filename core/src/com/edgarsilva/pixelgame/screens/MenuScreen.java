@@ -3,6 +3,7 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -35,9 +36,18 @@ public class MenuScreen implements Screen {
 
         skin = pixelGame.assets.getSkin();
 
-        TextButton newGame = new TextButton("New Game", skin);
-        TextButton preferences = new TextButton("Preferences", skin);
-        TextButton exit = new TextButton("Exit", skin);
+        BitmapFont bitPotion = game.assets.manager.get(GameAssetsManager.BitPotion, BitmapFont.class);
+
+        bitPotion.getData().setScale(6);
+
+        TextButton.TextButtonStyle previous = skin.get(TextButton.TextButtonStyle.class);
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(
+                previous.up, previous.down, previous.checked,bitPotion);
+
+
+        TextButton newGame = new TextButton("New Game", style);
+        TextButton preferences = new TextButton("Preferences", style);
+        TextButton exit = new TextButton("Exit", style);
 
         newGame.addListener(new ChangeListener() {
             @Override
@@ -60,7 +70,7 @@ public class MenuScreen implements Screen {
             }
         });
 
-        TextButton connect = new TextButton("Connect", skin);
+        TextButton connect = new TextButton("Connect", style);
 
         connect.addListener(new ChangeListener() {
             @Override

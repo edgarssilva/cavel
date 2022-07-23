@@ -15,7 +15,7 @@ public class PixelGame extends Game {
     public static final float WIDTH = 960;
     public static final float HEIGHT = 540;
 
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     private GamePreferences preferences;
 
@@ -24,7 +24,6 @@ public class PixelGame extends Game {
     public PixelGame() {
         assets = new GameAssetsManager();
     }
-
 
     @Override
     public void render() {
@@ -35,8 +34,6 @@ public class PixelGame extends Game {
 
     @Override
     public void create () {
-      /*  Gdx.graphics.setVSync(false);
-        System.out.println(Gdx.graphics.getGLVersion().getMajorVersion());*/
         preferences = new GamePreferences();
         new SoundManager(preferences.sound, assets);
 

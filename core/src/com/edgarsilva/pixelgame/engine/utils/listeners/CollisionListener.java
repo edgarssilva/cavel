@@ -44,7 +44,6 @@ public class CollisionListener implements ContactListener {
 
 
 
-
         if (actorA == null || actorB == null) return;
 
         if (fa.getFilterData().categoryBits == PhysicsConstants.ATTACK_SENSOR && fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
@@ -62,9 +61,11 @@ public class CollisionListener implements ContactListener {
             if (fa.isSensor() && (fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorA);
                 categoryBits = fa.getFilterData().categoryBits;
+                if (fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS) sensorMap.get(actorA).hitObstacle();
             } else if (fb.isSensor() && (fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS || fb.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS )) {
                 data = sensorMap.get(actorB);
                 categoryBits = fb.getFilterData().categoryBits;
+                if (fa.getFilterData().categoryBits == PhysicsConstants.OBSTACLE_BITS) sensorMap.get(actorB).hitObstacle();
             }
 
 

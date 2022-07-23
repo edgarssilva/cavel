@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -24,6 +25,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.AttachedComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.BossComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
@@ -32,6 +34,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
+import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -600,9 +603,31 @@ public class EntitiesFactory {
         TextureComponent   textComp  = engine.createComponent(TextureComponent.class);
         TransformComponent transComp = engine.createComponent(TransformComponent.class);
 
+
+
+        Body body;
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.position.set(pos);
+
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(RenderSystem.PixelsToMeters(25), RenderSystem.PixelsToMeters(45));
+        fdef.shape = shape;
+        fdef.filter.categoryBits = PhysicsConstants.ENEMY_BITS;
+        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+
+        body = world.createBody(bdef);
+        body.setUserData(entity);
+        body.createFixture(fdef).setUserData(entity);
+
+        bodyComp.body = body;
+        bodyComp.flippable = true;
+        shape.dispose();
+
         Texture region = assets.manager.get(GameAssetsManager.witchTexture, Texture.class);
 
-        TextureRegion[][] regions = TextureRegion.split(region, 20 ,200);
+        TextureRegion[][] regions = TextureRegion.split(region, 200 ,200);
 
         animComp.add(EnemyState.Attacking, frameDuration, Animation.PlayMode.NORMAL,
                 regions[0][0],
@@ -620,22 +645,20 @@ public class EntitiesFactory {
         transComp.position.x = pos.x;
         transComp.position.y = pos.y;
         transComp.position.z = 1;
-        transComp.width = 20;
-        transComp.height = 20;
+        transComp.width = 120;
+        transComp.height = 120;
+        transComp.paddingBottom = 5;
 
         textComp.region = regions[0][0];
-
-        // typeComp.type = TypeComponent.ENEMY;
-
+        //textComp.region = new TextureRegion(region);
         entity//.add(animComp)
-                // .add(bodyComp)
-                //.add(statsComp)
+                 .add(bodyComp)
+                .add(statsComp)
                 .add(textComp)
-                .add(transComp);
-        //.add(typeComp);
+                .add(transComp)
+        .add(new BossComponent());
 
         engine.addEntity(entity);
-
 
         return entity;
     }

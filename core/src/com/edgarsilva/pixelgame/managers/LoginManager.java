@@ -57,7 +57,7 @@ public class LoginManager {
         Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
         httpPost.setHeader("Access-Control-Allow-Methods","POST");
         httpPost.setHeader("Access-Control-Allow-Origin", "*");
-        httpPost.setUrl("https://spaghettigames.ga/inGame/login.php");
+        httpPost.setUrl("https://papspaghetti.000webhostapp.com/inGame/login.php");
         httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
 
         Gdx.net.sendHttpRequest(httpPost, httpResponseListener);

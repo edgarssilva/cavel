@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.btree.LeafTask;
 import com.badlogic.gdx.ai.btree.Task;
 
 public class AttackTask extends LeafTask<Entity> {
+
     float cont;
     public void start() {
     }
