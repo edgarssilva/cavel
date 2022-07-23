@@ -3,16 +3,18 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
+
+
 
 /**
  * Classe responsável por carregar os assets necessários e libertar os desnecessários
@@ -22,20 +24,22 @@ import com.edgarsilva.pixelgame.PixelGame;
  */
 public class LoadingScreen implements Screen {
 
-
     private PixelGame game;
+
+    private Viewport viewport;
+    private SpriteBatch batch;
+    private ShapeRenderer shape;
+
     private String map;
 
     private Animation anim;
     private float frame;
-
-    private SpriteBatch batch;
     private Texture background;
-    private int bX;
 
-
-    private Viewport viewport;
-    private OrthographicCamera camera;
+    private int bX = 0;
+    private float minDuration = 3f;
+    private float playerX = 100f;
+    private float alpha = 0;
 
     /**
      *  Construtor da classe
@@ -49,12 +53,13 @@ public class LoadingScreen implements Screen {
         game.assets.queueAddLoadingImages();
         game.assets.manager.finishLoading();
 
-
-        camera = new OrthographicCamera();
-        viewport = new ExtendViewport(PixelGame.WIDTH, PixelGame.HEIGHT, camera);
+        viewport = new ExtendViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
+        batch = new SpriteBatch();
+        shape = new ShapeRenderer();
 
         TextureAtlas atlas = new TextureAtlas("entities/sprites/Player.atlas");
         background = new Texture("raw/loading.png");
+        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
@@ -68,8 +73,6 @@ public class LoadingScreen implements Screen {
 
         anim = new Animation<TextureRegion>( 1 / 12f, frames, Animation.PlayMode.LOOP);
 
-        batch = new SpriteBatch();
-        bX = background.getWidth();
 
         game.assets.queueAddTextures();
         game.assets.queueAddFonts();
@@ -85,31 +88,43 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0 ,0 ,0 ,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
-        Gdx.gl.glClearColor(0 ,0 ,0 ,1);
 
-
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(viewport.getCamera().combined);
 
         batch.begin();
-        batch.draw(background, bX - camera.viewportWidth, 0,  camera.viewportWidth, camera.viewportHeight);
-        batch.draw(background, bX,0,camera.viewportWidth, camera.viewportHeight);
-        batch.draw((TextureRegion) anim.getKeyFrame(frame), 100, 150, 180, 120);
+        batch.draw(background, 0, 0, bX, 0, (int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
+        batch.draw((TextureRegion) anim.getKeyFrame(frame+=delta), playerX, 150, 180, 120);
         batch.end();
 
+        if(game.assets.manager.update() && minDuration < 0){
+            playerX += 8;
+            alpha += delta * 0.75;
 
-        frame += delta;
-        bX -= 10;
+            shape.setProjectionMatrix(viewport.getCamera().combined);
 
-        if(bX < 0) bX = (int) camera.viewportWidth;
+            Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+            Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+            shape.setColor(0, 0, 0, alpha);
+            shape.begin(ShapeRenderer.ShapeType.Filled);
+            shape.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shape.end();
+            Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
 
-        if(game.assets.manager.update()){
-            game.setScreen(new PlayScreen(game, map));
-            this.dispose();
+            if(alpha > 1.5) {
+                game.setScreen(new PlayScreen(game, map));
+                dispose();
+            }
+
         }else{
-            Gdx.graphics.setTitle("Cavel - " + game.assets.manager.getProgress() +"%");
+            minDuration -= delta;
+            bX += 10;
+
         }
+
+        Gdx.graphics.setTitle("Cavel - " + game.assets.manager.getProgress() * 100 +"%");
     }
 
     @Override

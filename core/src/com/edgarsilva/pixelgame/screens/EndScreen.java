@@ -42,7 +42,7 @@ public class EndScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-            game.changeScreen(PixelGame.MENU);
+            game.setScreen(new MenuScreen(game));
         }
         stage.act(delta);
         stage.draw();

@@ -42,14 +42,14 @@ public class MenuScreen implements Screen {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.changeScreen(PixelGame.APPLICATION);
+                game.setScreen(new LevelScreen(game));
             }
         });
 
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.changeScreen(PixelGame.SETTINGS);
+                game.setScreen(new SettingsScreen(game));
             }
         });
 

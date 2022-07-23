@@ -97,7 +97,7 @@ public class SettingsScreen implements Screen{
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.changeScreen(PixelGame.MENU);
+                game.setScreen(new MenuScreen(game));
                 SoundManager.update();
             }
         });

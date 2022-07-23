@@ -183,7 +183,7 @@ public class PlayScreen implements Screen {
     public static void gameOver() {
         System.out.println("Game Over");
         //Set to game over screen
-        game.changeScreen(PixelGame.ENDGAME);
+        game.setScreen(new EndScreen(game));
     }
 
 

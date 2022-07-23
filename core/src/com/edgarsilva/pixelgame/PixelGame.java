@@ -7,11 +7,6 @@ import com.badlogic.gdx.Input;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 import com.edgarsilva.pixelgame.preferences.GamePreferences;
-import com.edgarsilva.pixelgame.screens.EndScreen;
-import com.edgarsilva.pixelgame.screens.LoadingScreen;
-import com.edgarsilva.pixelgame.screens.MenuScreen;
-import com.edgarsilva.pixelgame.screens.PlayScreen;
-import com.edgarsilva.pixelgame.screens.SettingsScreen;
 import com.edgarsilva.pixelgame.screens.SplashScreen;
 
 
@@ -26,18 +21,6 @@ public class PixelGame extends Game {
 
     public  GameAssetsManager assets;
 
-    private SplashScreen splashScreen;
-    private SettingsScreen settingsScreen;
-    private MenuScreen menuScreen;
-    private PlayScreen playScreen;
-    private EndScreen endScreen;
-
-    public final static int MENU = 0;
-    public final static int SETTINGS = 1;
-    public final static int APPLICATION = 2;
-    public final static int ENDGAME = 3;
-
-
     public PixelGame() {
         assets = new GameAssetsManager();
     }
@@ -50,31 +33,8 @@ public class PixelGame extends Game {
             preferences.graphics.changeWindowMode();
     }
 
-    public void changeScreen(int screen){
-        switch(screen){
-            case MENU:
-                if(menuScreen == null) menuScreen = new MenuScreen(this);
-                this.setScreen(menuScreen);
-                break;
-            case SETTINGS:
-                if(settingsScreen == null) settingsScreen = new SettingsScreen(this);
-                this.setScreen(settingsScreen);
-                break;
-            case APPLICATION:
-                playScreen = new PlayScreen(this, "maps/Cave.tmx");
-               // else playScreen.restartGame();*/
-                this.setScreen(playScreen);
-                break;
-            case ENDGAME:
-                if(endScreen == null) endScreen = new EndScreen(this);
-                this.setScreen(endScreen);
-                break;
-        }
-    }
-
-
-	@Override
-	public void create () {
+    @Override
+    public void create () {
       /*  Gdx.graphics.setVSync(false);
         System.out.println(Gdx.graphics.getGLVersion().getMajorVersion());*/
         preferences = new GamePreferences();
@@ -84,14 +44,14 @@ public class PixelGame extends Game {
             Gdx.input.setCatchBackKey(true);
 
 
-       // splashScreen = new SplashScreen(this);
-        //setScreen(splashScreen);
-       // setScreen(new TestScreen());
-        setScreen(new LoadingScreen(this, "maps/Cave.tmx"));
-	}
 
-	@Override
-	public void dispose () {
+        setScreen(new SplashScreen(this));
+        // setScreen(new TestScreen());
+       // setScreen(new LoadingScreen(this, "maps/Cave.tmx"));
+    }
+
+    @Override
+    public void dispose () {
         super.dispose();
         super.screen.dispose();
         assets.manager.dispose();

@@ -58,7 +58,8 @@ public class LevelScreen implements Screen {
     }
 
     void setLevel(String map) {
-        game.setScreen(new PlayScreen(game, map));
+        game.setScreen(new LoadingScreen(game, map));
+        this.dispose();
     }
 
     @Override
