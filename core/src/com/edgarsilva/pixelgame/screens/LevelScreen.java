@@ -70,7 +70,7 @@ public class LevelScreen implements Screen {
     }
 
     void setLevel(String map) {
-        game.setScreen(PixelGame.LOADING_SCREEN, map);
+        game.setMap(PixelGame.LOADING_SCREEN, map);
     }
 
     @Override

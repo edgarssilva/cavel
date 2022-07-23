@@ -4,68 +4,26 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.ai.fsm.State;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
-import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
-import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
-
 
 public class AnimationSystem extends IteratingSystem {
 
-    private ComponentMapper<TextureComponent> tm;
-    private ComponentMapper<AnimationComponent> am;
-    private ComponentMapper<EnemyAgentComponent> agentmap;
+    private ComponentMapper<AnimationComponent> animMap;
+    private ComponentMapper<TextureComponent>   textMap;
 
-    public AnimationSystem(){
-        super(Family.all(TextureComponent.class, AnimationComponent.class).get());
-
-        tm = ComponentMapper.getFor(TextureComponent.class);
-        am = ComponentMapper.getFor(AnimationComponent.class);
-        agentmap = ComponentMapper.getFor(EnemyAgentComponent.class);
+    public AnimationSystem() {
+        super(Family.all(AnimationComponent.class, TextureComponent.class).get());
+        animMap = ComponentMapper.getFor(AnimationComponent.class);
+        textMap = ComponentMapper.getFor(TextureComponent.class);
     }
-
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        //deltaTime = Gdx.graphics.getDeltaTime();
+        AnimationComponent animComp = animMap.get(entity);
+        TextureComponent   textComp = textMap.get(entity);
 
-        AnimationComponent ani = am.get(entity);
-        TextureComponent tex = tm.get(entity);
-
-
-        if (agentmap.has(entity)) {
-            EnemyAgentComponent state = agentmap.get(entity);
-            if (ani.animations.containsKey(state.stateMachine.getCurrentState())) {
-
-                tex.region = ani.animations.get(state.stateMachine.getCurrentState()).getKeyFrame(state.timer);
-                state.anim = ani.animations.get(state.stateMachine.getCurrentState());
-                state.timer += deltaTime;
-               // System.out.println(state.timer + deltaTime);
-            }
-
-        }else{
-            if (entity != EntityManager.getPlayer()) return;
-            State animState;
-
-            if (PlayerAgent.attacking) {
-                animState = PlayerAgent.getAttackState();
-            } else
-                animState = PlayerAgent.getCurrentState();
-
-            if (animState == null || ani.animations == null) return;
-
-            Animation anim  =  ani.animations.get(animState);
-
-            if (anim == null) return;
-
-            PlayerAgent.finishedAnimation = anim.isAnimationFinished(PlayerAgent.timer);
-
-            tex.region = ani.animations.get(animState).getKeyFrame(PlayerAgent.timer);
-            PlayerAgent.timer += deltaTime;
-        }
-
+        animComp.timer += deltaTime;
+        textComp.region = animComp.animation.getKeyFrame(animComp.timer, animComp.looping);
     }
 }

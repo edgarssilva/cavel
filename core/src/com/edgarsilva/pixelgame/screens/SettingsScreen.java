@@ -70,7 +70,7 @@ public class SettingsScreen implements Screen{
             @Override
             public boolean handle(Event event) {
                 game.getPreferences().sound.setSoundVolume(soundMusicSlider.getValue());
-                PlayScreen.getGame().sound.update();
+                game.sound.update();
                 return false;
             }
         });
@@ -102,7 +102,7 @@ public class SettingsScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
               changeScreen();
-                PlayScreen.getGame().sound.update();
+                game.sound.update();
             }
         });
 

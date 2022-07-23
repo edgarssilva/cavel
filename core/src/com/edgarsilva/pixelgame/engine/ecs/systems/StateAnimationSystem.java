@@ -1,0 +1,71 @@
+package com.edgarsilva.pixelgame.engine.ecs.systems;
+
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
+import com.edgarsilva.pixelgame.engine.ecs.components.StateAnimationComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
+import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
+
+
+public class StateAnimationSystem extends IteratingSystem {
+
+    private ComponentMapper<TextureComponent> tm;
+    private ComponentMapper<StateAnimationComponent> am;
+    private ComponentMapper<EnemyAgentComponent> agentmap;
+
+    public StateAnimationSystem(){
+        super(Family.all(TextureComponent.class, StateAnimationComponent.class).get());
+
+        tm = ComponentMapper.getFor(TextureComponent.class);
+        am = ComponentMapper.getFor(StateAnimationComponent.class);
+        agentmap = ComponentMapper.getFor(EnemyAgentComponent.class);
+    }
+
+
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        //deltaTime = Gdx.graphics.getDeltaTime();
+
+        StateAnimationComponent ani = am.get(entity);
+        TextureComponent tex = tm.get(entity);
+
+
+        if (agentmap.has(entity)) {
+            EnemyAgentComponent state = agentmap.get(entity);
+            if (ani.animations.containsKey(state.stateMachine.getCurrentState())) {
+
+                tex.region = ani.animations.get(state.stateMachine.getCurrentState()).getKeyFrame(state.timer);
+                state.anim = ani.animations.get(state.stateMachine.getCurrentState());
+                state.timer += deltaTime;
+               // System.out.println(state.timer + deltaTime);
+            }
+
+        }else{
+            if (entity != EntityManager.getPlayer()) return;
+            State animState;
+
+            if (PlayerAgent.attacking) {
+                animState = PlayerAgent.getAttackState();
+            } else
+                animState = PlayerAgent.getCurrentState();
+
+            if (animState == null || ani.animations == null) return;
+
+            Animation anim  =  ani.animations.get(animState);
+
+            if (anim == null) return;
+
+            PlayerAgent.finishedAnimation = anim.isAnimationFinished(PlayerAgent.timer);
+
+            tex.region = ani.animations.get(animState).getKeyFrame(PlayerAgent.timer);
+            PlayerAgent.timer += deltaTime;
+        }
+
+    }
+}

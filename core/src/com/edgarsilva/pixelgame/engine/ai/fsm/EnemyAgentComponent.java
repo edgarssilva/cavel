@@ -9,7 +9,6 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
-import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
@@ -22,8 +21,9 @@ import java.util.Random;
 public class EnemyAgentComponent implements Component, Updateable {
 
     public Entity entity;
+    public Enemies enemyType;
     public Body body;
-    public Node node = null;
+    //public Node node = null;
     // public Node target = new Node();
 
     public boolean isTouchingWallLeft = false;
@@ -52,9 +52,9 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     }
 
-    public EnemyAgentComponent(Entity entity) {
+    public EnemyAgentComponent(Entity entity, Enemies type) {
         this.entity   =  entity;
-
+        this.enemyType = type;
         random = new Random();
 
         statsCompMap  =  ComponentMapper.getFor(StatsComponent.class);

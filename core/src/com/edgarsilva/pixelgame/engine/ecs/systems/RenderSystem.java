@@ -29,6 +29,7 @@ public class RenderSystem extends SortedIteratingSystem {
     private ComponentMapper<TextureComponent>   textureM;
     private ComponentMapper<TransformComponent> transformM;
     private ComponentMapper<HealthBarComponent> healthM;
+
     public RenderSystem(SpriteBatch batch, OrthographicCamera camera) {
         super(Family.all(TransformComponent.class).one(TextureComponent.class).get(), new ZComparator());
         this.batch = batch;

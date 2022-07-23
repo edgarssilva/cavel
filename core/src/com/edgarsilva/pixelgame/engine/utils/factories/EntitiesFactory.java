@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
@@ -28,6 +30,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.CoinComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.HealthBarComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.StateAnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
@@ -65,14 +68,14 @@ public class EntitiesFactory {
         random = new Random();
     }
 
-    public static void createPlayer(Vector2 position){
+    public static void createPlayer(Vector2 position, PlayerState state, PlayerAttackState attackState){
 
         Entity entity = engine.createEntity();
 
         BodyComponent            b2dbody    = engine.createComponent(BodyComponent.class);
         TransformComponent       transform  = engine.createComponent(TransformComponent.class);
         TextureComponent         texture    = engine.createComponent(TextureComponent.class);
-        AnimationComponent       animation  = engine.createComponent(AnimationComponent.class);
+        StateAnimationComponent animation  = engine.createComponent(StateAnimationComponent.class);
         StatsComponent           sc         = engine.createComponent(StatsComponent.class);
         PlayerCollisionComponent sensorComp = engine.createComponent(PlayerCollisionComponent.class);
         AttackComponent          attackComp = engine.createComponent(AttackComponent.class);
@@ -242,7 +245,7 @@ public class EntitiesFactory {
         // add the entity to the engine
         engine.addEntity(entity);
         EntityManager.setPlayer(entity);
-        EntityManager.add(new PlayerAgent(entity));
+        EntityManager.add(new PlayerAgent(entity, state, attackState));
     }
 
     public static Entity createAttack(PlayerAttackState state) {
@@ -320,7 +323,7 @@ public class EntitiesFactory {
         BodyComponent b2dbody = engine.createComponent(BodyComponent.class);
         TransformComponent transform = engine.createComponent(TransformComponent.class);
         TextureComponent texture = engine.createComponent(TextureComponent.class);
-        AnimationComponent animation = engine.createComponent(AnimationComponent.class);
+        StateAnimationComponent animation = engine.createComponent(StateAnimationComponent.class);
         //EnemyComponent enemyCom = engine.createComponent(EnemyComponent.class);
         StatsComponent sc = engine.createComponent(StatsComponent.class);
         EnemyCollisionComponent collisionComp = engine.createComponent(EnemyCollisionComponent.class);
@@ -472,7 +475,7 @@ public class EntitiesFactory {
                 .add(sc).add(collisionComp).add(healthBarComp);
 
 
-        agentComp = new EnemyAgentComponent(entity);
+        agentComp = new EnemyAgentComponent(entity, Enemies.SKELETON);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -484,7 +487,7 @@ public class EntitiesFactory {
     public static Entity createSlime(Vector2 position){
         Entity entity = engine.createEntity();
 
-        AnimationComponent       animComp    =  engine.createComponent(AnimationComponent.class);
+        StateAnimationComponent animComp    =  engine.createComponent(StateAnimationComponent.class);
         BodyComponent            bodyComp    =  engine.createComponent(BodyComponent.class);
         EnemyCollisionComponent  collComp    =  engine.createComponent(EnemyCollisionComponent.class);
 
@@ -586,7 +589,7 @@ public class EntitiesFactory {
                 .add(healthComp)
         ;//.add(pathComp);
 
-        agentComp = new EnemyAgentComponent(entity);
+        agentComp = new EnemyAgentComponent(entity, Enemies.SLIME);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -603,7 +606,7 @@ public class EntitiesFactory {
         TransformComponent tfc = engine.createComponent(TransformComponent.class);
         TextureComponent   tc  = engine.createComponent(TextureComponent.class);
         CoinComponent      cc  = engine.createComponent(CoinComponent.class);
-
+        AnimationComponent ac  = engine.createComponent(AnimationComponent.class);
 
         Body body;
         BodyDef bodyDef = new BodyDef();
@@ -647,8 +650,19 @@ public class EntitiesFactory {
 
         tc.region = atlas.findRegion("coin-1");
 
+        ac.animation = new Animation<TextureRegion>(fastFrameDuration,
+                atlas.findRegion("coin-0"),
+                atlas.findRegion("coin-1"),
+                atlas.findRegion("coin-2"),
+                atlas.findRegion("coin-3"),
+                atlas.findRegion("coin-4"),
+                atlas.findRegion("coin-5"),
+                atlas.findRegion("coin-6"),
+                atlas.findRegion("coin-7"));
 
-        entity.add(bc).add(tfc).add(tc).add(cc);
+        ac.looping = true;
+
+        entity.add(bc).add(tfc).add(tc).add(cc).add(ac);
         engine.addEntity(entity);
         return entity;
     }
@@ -667,7 +681,7 @@ public class EntitiesFactory {
     public static Entity createWitch(Vector2 pos){
         Entity entity = engine.createEntity();
 
-        AnimationComponent animComp  = engine.createComponent(AnimationComponent.class);
+        StateAnimationComponent animComp  = engine.createComponent(StateAnimationComponent.class);
         BodyComponent      bodyComp  = engine.createComponent(BodyComponent.class);
         StatsComponent     statsComp = engine.createComponent(StatsComponent.class);
         TextureComponent   textComp  = engine.createComponent(TextureComponent.class);

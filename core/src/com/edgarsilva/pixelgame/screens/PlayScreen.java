@@ -1,6 +1,7 @@
 package com.edgarsilva.pixelgame.screens;
 
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -18,7 +19,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
+import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAttackState;
+import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerState;
+import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.CoinSystem;
 import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
@@ -36,7 +43,10 @@ import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.HUDManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.PauseManager;
+import com.edgarsilva.pixelgame.managers.EnemySave;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
+import com.edgarsilva.pixelgame.managers.PlayerSave;
+import com.edgarsilva.pixelgame.managers.Save;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -71,10 +81,13 @@ public class PlayScreen implements Screen {
     private boolean paused;
     private boolean gameOver;
 
+
     //Test
     private boolean light = true;
+    private String map;
 
-    public PlayScreen(PixelGame game, String map) {
+
+    public PlayScreen(PixelGame game) {
         this.paused        = false;
         this.gameOver      = false;
         this.gameOverTimer = 0f;
@@ -131,20 +144,57 @@ public class PlayScreen implements Screen {
         BodyGenerator.registerWorld(world);
         new EntitiesFactory(this);
         new LevelFactory(this);
+    }
 
-        setMap(map);
+    public void setSave(Save save){
+        resetGame();
+        setMap(save.map);
+
+        CoinSystem.current_coins = CoinSystem.coins = save.coins;
+
+        for (PlayerSave player : save.playerSaves) {
+            EntitiesFactory.createPlayer(
+                    new Vector2(player.x,player.y),
+                    PlayerState.valueOf(player.stateName),
+                    PlayerAttackState.valueOf(player.attackStateName)
+            );
+
+            Entity entity = EntityManager.getPlayer();
+            entity.add(player.stats);
+            entity.getComponent(TransformComponent.class).flipX = player.flipX;
+        }
+
+        for (EnemySave enemy : save.enemySaves) {
+            if (enemy.enemyTypeName.equals(Enemies.SKELETON.name())) {
+                Entity entity = EntitiesFactory.createSkeleton(new Vector2(enemy.x, enemy.y));
+
+                StatsComponent stats = entity.getComponent(StatsComponent.class);
+                stats.maxHealth = enemy.stats.maxHealth;
+                stats.health = enemy.stats.health;
+                stats.magic = enemy.stats.magic;
+                stats.armor = enemy.stats.armor;
+                stats.damage = enemy.stats.damage;
+
+                entity.getComponent(TransformComponent.class).flipX = enemy.flipX;
+                entity.getComponent(EnemyAgentComponent.class).stateMachine.changeState(EnemyState.valueOf(enemy.stateName));
+                entity.getComponent(EnemyAgentComponent.class).moveToLeft = enemy.moveToLeft;
+            }
+        }
+
     }
 
     public void setMap(String map) {
+        this.map = map;
+        System.out.println(map);
         LevelManager.loadLevel(map);
-        resetGame();
+        LevelManager.generateLevel();
     }
 
     @Override
     public void show() {
         PlayScreen.getGame().sound.setMusic(GameAssetsManager.level1, true);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        if (PlayerAgent.getCurrentState() == null || EntityManager.getPlayer() == null) resetGame();
+        if (EntityManager.getPlayer() == null) generateGame();
     }
 
     @Override
@@ -158,7 +208,7 @@ public class PlayScreen implements Screen {
         if (!gameOver) checkChanges();
 
         // A definir o delta para 0 secs não há alteraçoes a fazer pois nao passou tempo desdo ultimo frame
-        if (paused) delta = 0;
+        if (paused  ) delta = 0;
 
         Gdx.input.setCursorCatched(!paused);
         cameraManager.update(delta);
@@ -183,7 +233,8 @@ public class PlayScreen implements Screen {
             alpha += Gdx.graphics.getDeltaTime() / 1.5;
             ColorDrawer.drawColor(shapeRenderer, 0, 0, 0, alpha);
         }
-        if (gameOverTimer > 3) resetGame();
+        if (gameOverTimer > 3){ resetGame(); generateGame();}
+
     }
 
 
@@ -213,6 +264,9 @@ public class PlayScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)) light = !light;
         if (Gdx.input.isKeyJustPressed(Input.Keys.R)) resetGame();
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.S)) new Save(this);
+        }
     }
 
     public void gameOver() {
@@ -220,24 +274,24 @@ public class PlayScreen implements Screen {
         MessageManager.getInstance().dispatchMessage(0);
     }
 
-    private void resetGame(){
+    public void resetGame() {
         entityManager.reset();
 
-        paused        = false;
-        gameOver      = false;
+        paused = false;
+        gameOver = false;
         gameOverTimer = 0f;
-        alpha         = 0f;
-
-
-
+        alpha = 0f;
+    }
+    public void generateGame(){
         EntityManager.add(hud);
         LevelManager.generateLevel();
+        LevelManager.generateEntities();
         CoinSystem.coins =  PixelGame.coins;
     }
 
     public static void levelComplete(){
         PixelGame.coins = CoinSystem.coins;
-        game.setScreen(PixelGame.LOADING_SCREEN, "maps/2.tmx");
+        game.setMap(PixelGame.LOADING_SCREEN, "maps/2.tmx");
     }
 
     @Override
@@ -281,6 +335,9 @@ public class PlayScreen implements Screen {
     //Getters and Setters
     public PooledEngine getEngine() {
         return engine;
+    }
+    public String getMap() {
+        return map;
     }
     public World getWorld() {
         return world;

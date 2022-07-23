@@ -49,20 +49,22 @@ public class LevelManager {
         lvlPixelHeight = lvlTileHeight * tilePixelHeight;
         lvlMeterWidth = lvlPixelWidth * RenderSystem.PIXELS_TO_METERS;
         lvlMeterHeight = lvlPixelHeight * RenderSystem.PIXELS_TO_METERS;
-
+        tiledMap.getLayers().getByType(TiledMapTileLayer.class, layers);
         //  graph = GraphGenerator.gereneratePlatformGraph((TiledMapTileLayer) LevelManager.tiledMap.getLayers().get("Walls"));
         // pathFinder = new IndexedAStarPathFinder<Node>(graph, false);
 
     }
 
     public static void generateLevel(){
-        LevelFactory.makeEntities(tiledMap,"Entities");
         LevelFactory.createPhysics(tiledMap,"Collisions");
         LevelFactory.makeObstacles(tiledMap,"Obstacles");
         LevelFactory.makeLights(tiledMap,"Light");
         LevelFactory.makeMessages(tiledMap, "Messages");
         LevelFactory.makeHiddenWalls(tiledMap, "HiddenCollisions");
-        tiledMap.getLayers().getByType(TiledMapTileLayer.class, layers);
+    }
+
+    public static void generateEntities(){
+        LevelFactory.makeEntities(tiledMap,"Entities");
     }
 
     public static void render(OrthographicCamera cam){

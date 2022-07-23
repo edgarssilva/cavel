@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
-
+import com.edgarsilva.pixelgame.managers.Save;
 
 
 /**
@@ -29,6 +29,7 @@ public class LoadingScreen implements Screen {
     private ShapeRenderer shape;
 
     private String map;
+    private Save save;
 
     private Animation anim;
     private float frame;
@@ -44,14 +45,15 @@ public class LoadingScreen implements Screen {
      *
      * @param game Instância do jogo.
      */
-    public LoadingScreen(PixelGame game, String map) {
+    public LoadingScreen(PixelGame game) {
         this.game = game;
-        this.map = map;
-
     }
 
     public void setMap(String map) {
         this.map = map;
+    }
+    public void setSave(Save save){
+        this.save = save;
     }
 
     @Override
@@ -116,8 +118,12 @@ public class LoadingScreen implements Screen {
             shape.end();
             Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
 
-            if (alpha > 1.5) game.setScreen(PixelGame.PLAY_SCREEN, map);
-
+            if (alpha > 1.5){
+                if (save != null)
+                    game.setSave(PixelGame.PLAY_SCREEN, save);
+                else if (map != null)
+                    game.setMap(PixelGame.PLAY_SCREEN, map);
+            }
 
         }else{
             minDuration -= delta;

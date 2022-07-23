@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
+import com.edgarsilva.pixelgame.managers.Save;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 
@@ -39,6 +40,15 @@ public class PauseManager {
             }
         });
 
+        TextButton saveBtn = new TextButton("Save", PlayScreen.getGame().assets.getSkin());
+        saveBtn.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                new Save(screen);
+            }
+        });
+
+
         TextButton settingsBtn = new TextButton("Settings", PlayScreen.getGame().assets.getSkin());
         settingsBtn.addListener(new ChangeListener() {
             @Override
@@ -62,6 +72,8 @@ public class PauseManager {
         table.add(pauseText).center().width(stage.getWidth() / 4).uniformY();
         table.row().pad(10, 0, 10, 0);
         table.add(continueBtn).height(continueBtn.getHeight() / 2).uniform();
+        table.row().pad(10, 0, 10, 0);
+        table.add(saveBtn).height(continueBtn.getHeight() / 2).uniform();
         table.row().pad(10, 0, 10, 0);
         table.add(settingsBtn).height(settingsBtn.getHeight() / 2).uniform();
         table.row().pad(10, 0, 10, 0);

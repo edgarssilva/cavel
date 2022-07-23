@@ -5,8 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
+import com.edgarsilva.pixelgame.managers.Save;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 import com.edgarsilva.pixelgame.preferences.GamePreferences;
+import com.edgarsilva.pixelgame.preferences.GameSave;
 import com.edgarsilva.pixelgame.screens.LevelScreen;
 import com.edgarsilva.pixelgame.screens.LoadingScreen;
 import com.edgarsilva.pixelgame.screens.MenuScreen;
@@ -61,13 +63,14 @@ public class PixelGame extends Game {
     public void create () {
         preferences = new GamePreferences();
         sound = new SoundManager(preferences.sound, assets);
+        GameSave.load();
 
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             Gdx.input.setCatchBackKey(true);
 
 
-        //setScreen(LOADING_SCREEN, "maps/2.tmx");
-        // setScreen(new TestScreen());
+        //setMap(LOADING_SCREEN, "maps/2.tmx");
+        // setMap(new TestScreen());
          setScreen(SPLASH_SCREEN);
     }
 
@@ -83,10 +86,10 @@ public class PixelGame extends Game {
                 setScreen(menuScreen);
                 break;
             case LOADING_SCREEN:
-                if (loadingScreen != null) setScreen(loadingScreen);
+                if (loadingScreen == null) loadingScreen = new LoadingScreen(this);
                 break;
             case PLAY_SCREEN:
-                if (playScreen != null) setScreen(playScreen);
+                if (playScreen == null) playScreen = new PlayScreen(this);
                 break;
             case LEVEL_SCREEN:
                 if (levelScreen == null) levelScreen = new LevelScreen(this);
@@ -101,20 +104,36 @@ public class PixelGame extends Game {
         previousScreen = screen;
     }
 
-    public void setScreen(int screen, String map){
+    public void setMap(int screen, String map){
+        setScreen(screen);
         switch (screen) {
             case LOADING_SCREEN:
-                if (loadingScreen == null) loadingScreen = new LoadingScreen(this, map);
-                else loadingScreen.setMap(map);
+                loadingScreen.setMap(map);
+                setScreen(loadingScreen);
                 break;
             case PLAY_SCREEN:
-                if (playScreen == null) playScreen = new PlayScreen(this, map);
-                else playScreen.setMap(map);
+                playScreen.setMap(map);
+                playScreen.resetGame();
+                playScreen.generateGame();
+                setScreen(playScreen);
                 break;
         }
         setScreen(screen);
     }
 
+    public void setSave(int screen, Save save) {
+        setScreen(screen);
+        switch (screen) {
+            case LOADING_SCREEN:
+                loadingScreen.setSave(save);
+                setScreen(loadingScreen);
+                break;
+            case PLAY_SCREEN:
+                playScreen.setSave(save);
+                setScreen(playScreen);
+                break;
+        }
+    }
 
     @Override
     public void dispose () {

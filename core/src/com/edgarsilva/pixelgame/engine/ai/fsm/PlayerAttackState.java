@@ -21,7 +21,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
         @Override
         public void update(PlayerAgent agent) {
-            if (Controller.attack) {
+            if (Controller.attack && !PlayerAgent.stateMachine.isInState(PlayerState.Hit) && !PlayerAgent.stateMachine.isInState(PlayerState.Dying)) {
                 PlayerAttackState nextState;
                 PlayerAttackState previousState = PlayerAgent.attackStateMachine.getPreviousState();
 

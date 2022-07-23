@@ -6,10 +6,10 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.StateAnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
@@ -35,17 +35,15 @@ public class PlayerAgent implements Updateable {
     private TransformComponent transform;
     public PlayerCollisionComponent sensors;
     public AttackComponent attackComp;
-    public AnimationComponent animComp;
+    public StateAnimationComponent animComp;
     public static StatsComponent statsComp;
     public BodyComponent bodyComp;
 
     private ComponentMapper<StatsComponent> statsCompMap;
     private ComponentMapper<BodyComponent> bodyCompMap;
 
-
     protected static StateMachine<PlayerAgent, PlayerState> stateMachine;
     protected static StateMachine<PlayerAgent, PlayerAttackState> attackStateMachine;
-
 
     public boolean isTouchingGround = true;
     public boolean isTouchingWallLeft = false;
@@ -60,7 +58,7 @@ public class PlayerAgent implements Updateable {
 
     public float deltaTime;
 
-    public PlayerAgent(Entity player) {
+    public PlayerAgent(Entity player,  PlayerState state, PlayerAttackState attackState) {
         this.player = player;
 
         statsCompMap = ComponentMapper.getFor(StatsComponent.class);
@@ -70,11 +68,11 @@ public class PlayerAgent implements Updateable {
         transform = player.getComponent(TransformComponent.class);
         sensors = player.getComponent(PlayerCollisionComponent.class);
         attackComp = player.getComponent(AttackComponent.class);
-        animComp = player.getComponent(AnimationComponent.class);
+        animComp = player.getComponent(StateAnimationComponent.class);
         statsComp = statsCompMap.get(EntityManager.getPlayer());
 
-        stateMachine = new DefaultStateMachine<PlayerAgent, PlayerState>(this, PlayerState.Idle);
-        attackStateMachine = new DefaultStateMachine<PlayerAgent, PlayerAttackState>(this, PlayerAttackState.NONE);
+        stateMachine = new DefaultStateMachine<PlayerAgent, PlayerState>(this, state);
+        attackStateMachine = new DefaultStateMachine<PlayerAgent, PlayerAttackState>(this, attackState);
         lastAttack = 0;
     }
 

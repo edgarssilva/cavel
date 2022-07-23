@@ -12,25 +12,21 @@ import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 public class HealthBarSystem extends IteratingSystem {
 
     private ComponentMapper<StatsComponent>     scm;
-    private ComponentMapper<TransformComponent> tcm;
     private ComponentMapper<HealthBarComponent> hcm;
 
     public HealthBarSystem() {
         super(Family.all(HealthBarComponent.class, TransformComponent.class, StatsComponent.class).exclude(PlayerCollisionComponent.class).get());
 
         scm = ComponentMapper.getFor(StatsComponent.class);
-        tcm = ComponentMapper.getFor(TransformComponent.class);
         hcm = ComponentMapper.getFor(HealthBarComponent.class);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TransformComponent tc = tcm.get(entity);
         StatsComponent     sc = scm.get(entity);
         HealthBarComponent hc = hcm.get(entity);
 
         int damaged = hc.previousHealth - sc.health;
-
         hc.show = hc.scale < 1;
         hc.previousHealth = sc.health;
         hc.scale = (sc.health / (float) sc.maxHealth);

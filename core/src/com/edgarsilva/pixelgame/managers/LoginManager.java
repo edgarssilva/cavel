@@ -44,9 +44,6 @@ public class LoginManager {
 
         @Override
         public void failed(Throwable t) {
-            System.out.println(t.getCause());
-            System.out.println("Connection Failed");
-
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.edgarsilva.pixelgame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
+import com.edgarsilva.pixelgame.managers.Save;
 
 public class MenuScreen implements Screen {
 
@@ -43,6 +45,7 @@ public class MenuScreen implements Screen {
 
 
         TextButton newGame = new TextButton("New Game", style);
+        TextButton loadGame = new TextButton("Load Game", style);
         TextButton preferences = new TextButton("Preferences", style);
         TextButton exit = new TextButton("Exit", style);
 
@@ -50,6 +53,13 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(PixelGame.LEVEL_SCREEN);
+            }
+        });
+
+        loadGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setSave(PixelGame.LOADING_SCREEN, Save.load());
             }
         });
 
@@ -88,11 +98,12 @@ public class MenuScreen implements Screen {
 
         table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
+        table.add(loadGame).fillX().uniformX();
+        table.row().pad(10, 0, 10, 0);
         table.add(preferences).fillX().uniformX();
-        table.row();
+        table.row().pad(10, 0, 10, 0);
         table.add(exit).fillX().uniformX();
         table.row();
-
 
     }
 
@@ -108,6 +119,7 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) game.setSave(PixelGame.LOADING_SCREEN, Save.load());
     }
 
     @Override

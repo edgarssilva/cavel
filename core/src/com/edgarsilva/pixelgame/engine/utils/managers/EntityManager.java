@@ -15,6 +15,7 @@ import com.edgarsilva.pixelgame.engine.ecs.systems.MessageSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsDebugSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
+import com.edgarsilva.pixelgame.engine.ecs.systems.StateAnimationSystem;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
@@ -27,10 +28,12 @@ public class EntityManager {
         engine = screen.getEngine();
 
         //Visual Systems
+        engine.addSystem(new StateAnimationSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderSystem(screen.getBatch(), screen.getCameraManager().getCamera()));
         engine.addSystem(new HealthBarSystem());
         engine.addSystem(new MessageSystem(screen));
+
 
         //Physics Systems
         engine.addSystem(new PhysicsSystem(screen.getWorld()));
