@@ -5,5 +5,5 @@ import com.badlogic.ashley.core.Entity;
 
 public interface CollisionComponent extends Component {
 
-    void handleCollision(Entity owner, Entity collider);
+    void handleCollision(Entity collider);
 }

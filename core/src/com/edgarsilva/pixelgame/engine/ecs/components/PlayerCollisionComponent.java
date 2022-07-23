@@ -20,7 +20,7 @@ public class PlayerCollisionComponent implements CollisionComponent, Pool.Poolab
     }
 
     @Override
-    public void handleCollision(Entity owner, Entity collider) {
+    public void handleCollision(Entity collider) {
 
     }
 }

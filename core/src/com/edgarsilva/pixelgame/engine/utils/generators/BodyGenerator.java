@@ -83,8 +83,8 @@ public class BodyGenerator {
                 shape = new PolygonShape();
                 ((PolygonShape) shape).setAsBox(fixture.getFloat("width") * RenderSystem.PIXELS_TO_METERS,
                         fixture.getFloat("height") * RenderSystem.PIXELS_TO_METERS,
-                        new Vector2((body.getLocalCenter().x + fixture.getFloat("x")) * RenderSystem.PIXELS_TO_METERS,
-                                (body.getLocalCenter().y + fixture.getFloat("y")) * RenderSystem.PIXELS_TO_METERS), 0f);
+                        new Vector2((body.getLocalCenter().x + fixture.getFloat("x") * RenderSystem.PIXELS_TO_METERS),
+                                (body.getLocalCenter().y + fixture.getFloat("y") * RenderSystem.PIXELS_TO_METERS)), 0f);
 
             } else if (fixtureType.equalsIgnoreCase("CircleShape")) {
                 shape = new CircleShape();
@@ -104,7 +104,7 @@ public class BodyGenerator {
             fixtureDef.density = fixture.getFloat("density");
 
             if (isSensor) {
-                fixtureDef.filter.categoryBits = (short) (filterCategory << fixture.getShort("bitShifts"));
+                fixtureDef.filter.categoryBits =  fixture.getShort("bitShifts");   //(short) (filterCategory << fixture.getShort("bitShifts"));
                 fixtureDef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
             } else {
                 fixtureDef.friction = fixture.getFloat("friction");

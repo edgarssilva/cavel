@@ -1,19 +1,24 @@
 package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.edgarsilva.pixelgame.engine.ai.pfa.Node;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
-import com.edgarsilva.pixelgame.engine.utils.objects.Steering;
+import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
+import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 
 public class EnemyAgentComponent implements Component, Updateable {
 
-    private Entity entity;
+    public Entity entity;
     public Body body;
     public Node node = null;
     // public Node target = new Node();
@@ -25,21 +30,27 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     public boolean moveToLeft = false;
 
+    public float timer = 1f;
+    public Animation anim;
+
     public StateMachine<EnemyAgentComponent, EnemyState> stateMachine;
 
     private EnemyCollisionComponent collisionComp;
-
+    public StatsComponent statsComp;
+    private ComponentMapper<StatsComponent> statsCompMap;
     // private IndexedAStarPathFinder<Node> pathFinder;
     // private GraphPathImp resultPath = new GraphPathImp();
 
     public EnemyAgentComponent() {
     }
 
-    public EnemyAgentComponent(Entity entity, Steering steering) {
-        this.entity   = entity;
-        body = entity.getComponent(BodyComponent.class).body;
-        collisionComp = entity.getComponent(EnemyCollisionComponent.class);
-        stateMachine = new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
+    public EnemyAgentComponent(Entity entity) {
+        this.entity   =  entity;
+        body          =  entity.getComponent(BodyComponent.class).body;
+        collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
+        statsCompMap  =  ComponentMapper.getFor(StatsComponent.class);
+        statsComp     =  statsCompMap.get(entity);
+        stateMachine  =  new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
     }
 
 
@@ -51,6 +62,13 @@ public class EnemyAgentComponent implements Component, Updateable {
         hasGroundRight      =  collisionComp.numGroundRight >  0;
         isTouchingWallLeft  =  collisionComp.numWallLeft    >  0;
         isTouchingWallRight =  collisionComp.numWallRight   >  0;
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F))
+            System.out.println(hasGroundLeft+" "+
+                    hasGroundRight+" "+
+                    isTouchingWallLeft+" "+
+                    isTouchingWallRight);
 
 /*        node = LevelManager.graph.getNodeByXY((int) body.getPosition().x + LevelManager.tilePixelHeight, (int) body.getPosition().y - LevelManager.tilePixelHeight);
         stateMachine.update();
@@ -131,4 +149,17 @@ public class EnemyAgentComponent implements Component, Updateable {
         body.setLinearVelocity(1.5f, body.getLinearVelocity().y);
     }
 
+    public void hit() {
+        //Proteção para não contar o ataque mais que uma vez
+        if (stateMachine.isInState(EnemyState.Hit)) {
+            if (timer < 0.05f) return;
+        }
+
+        statsComp.attack(statsCompMap.get(EntityManager.getPlayer()));
+        if (statsComp.health <= 0) {
+            stateMachine.changeState(EnemyState.Dying);
+        }else{
+            stateMachine.changeState(EnemyState.Hit);
+        }
+    }
 }

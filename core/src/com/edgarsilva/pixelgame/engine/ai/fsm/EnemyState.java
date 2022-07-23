@@ -2,16 +2,27 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
 public enum EnemyState implements State<EnemyAgentComponent> {
 
     IDLE(){
+        @Override
+        public void enter(EnemyAgentComponent agent) {
+            super.enter(agent);
+        }
+
         @Override
         public void update(EnemyAgentComponent agent) {
            
         }
     },
     Seeking(){
+        @Override
+        public void enter(EnemyAgentComponent agent) {
+            super.enter(agent);
+        }
+
         @Override
         public void update(EnemyAgentComponent agent) {
             if  (agent.isTouchingWallRight  || !agent.hasGroundRight ){
@@ -34,16 +45,51 @@ public enum EnemyState implements State<EnemyAgentComponent> {
             }*/
         }
     },
-    Attacking,
-    Die,
-    Hit,
 
+    Attacking(){
+        @Override
+        public void enter(EnemyAgentComponent agent) {
+            super.enter(agent);
+        }
+    },
 
+    Dying(){
+        @Override
+        public void enter(EnemyAgentComponent agent) {
+            super.enter(agent);
+        }
+
+        @Override
+        public void update(EnemyAgentComponent agent) {
+            if (agent.anim.isAnimationFinished(agent.timer)) {
+                agent.stateMachine.changeState(IDLE);
+                EntityManager.setToDestroy(agent.entity);
+            }
+        }
+
+        @Override
+        public void exit(EnemyAgentComponent agent) {
+        }
+    },
+
+    Hit(){
+        @Override
+        public void enter(EnemyAgentComponent agent) {
+            super.enter(agent);
+        }
+
+        @Override
+        public void update(EnemyAgentComponent agent) {
+            if (agent.anim.isAnimationFinished(agent.timer)) {
+                agent.stateMachine.changeState(Seeking);
+            }
+        }
+    },
     ;
 
     @Override
     public void enter(EnemyAgentComponent agent) {
-
+        agent.timer = 0f;
     }
 
     @Override

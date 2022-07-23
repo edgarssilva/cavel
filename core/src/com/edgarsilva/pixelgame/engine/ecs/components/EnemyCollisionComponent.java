@@ -16,7 +16,8 @@ public class EnemyCollisionComponent implements CollisionComponent, Pool.Poolabl
     public int numWallRight   =  0;
 
     @Override
-    public void handleCollision(Entity owner, Entity collider) {
+    public void handleCollision(Entity collider) {
+        System.out.println("Enemy got hit");
        /* if (EntityManager.getPlayer().equals(collider)) {
             EnemyAgentComponent agent = agentMap.get(owner);
             agent.stateMachine.changeState(EnemyState.Attacking);

@@ -47,15 +47,13 @@ public class CollisionListener implements ContactListener {
         Entity actorB = (Entity) fb.getUserData();
 
 
-        if (actorA == null || actorB == null)
-            return;
+        if (actorA == null || actorB == null) return;
 
         if (fa.getFilterData().categoryBits == PhysicsConstants.ATTACK_SENSOR && fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
-            acm.get(actorA).handleCollision(actorA, actorB);
+            acm.get(actorA).handleCollision(actorB);
         } else if (fb.getFilterData().categoryBits == PhysicsConstants.ATTACK_SENSOR && fa.getFilterData().categoryBits == PhysicsConstants.ENEMY_BITS) {
-            acm.get(actorB).handleCollision(actorA, actorA);
+            acm.get(actorB).handleCollision(actorA);
         }
-
 
 
         if (sensorMap.has(actorA) || sensorMap.has(actorB)) {
@@ -131,7 +129,7 @@ public class CollisionListener implements ContactListener {
                 AttackCollisionComponent acc = ent.getComponent(AttackCollisionComponent.class);
                 if (acc != null) {
                     System.out.println("Listener AttackTask");
-                    acc.handleCollision(ent, colEnt);
+                    acc.handleCollision( colEnt);
                 } else {
                     System.out.println("Null");
                 }

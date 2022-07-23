@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -32,8 +31,6 @@ import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
-import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
-import com.edgarsilva.pixelgame.engine.utils.GroundSteering;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -224,7 +221,7 @@ public class EntitiesFactory {
                 atlas.findRegion("adventurer-hurt-02")
         );
 
-        animation.add(PlayerAttackState.Die,
+        animation.add(PlayerAttackState.Dying,
                 fastFrameDuration,
                 Animation.PlayMode.IDLE,
                 atlas.findRegion("adventurer-die-00"),
@@ -341,79 +338,30 @@ public class EntitiesFactory {
         EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
 
 
-        sc.health = 75;
+        sc.health = 60;
         sc.armor = 0;
         sc.damage = 20;
         sc.magic = 0;
 
-        Body body;
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.active = true;
-        bodyDef.gravityScale = 1;
-
-        //bodyDef.gravityScale = 0.5f;
-        bodyDef.position.set(position.x + (8 / 2f * RenderSystem.PIXELS_TO_METERS), position.y + (16 / 2f * RenderSystem.PIXELS_TO_METERS));
-        body = world.createBody(bodyDef);
-
-        PolygonShape box = new PolygonShape();
-        box.setAsBox(16 / 2f * RenderSystem.PIXELS_TO_METERS, 22 / 2f * RenderSystem.PIXELS_TO_METERS);
-
-        FixtureDef fdef = new FixtureDef();
-        fdef.shape = box;
-        fdef.density = 1;
-        fdef.filter.categoryBits = PhysicsConstants.ENEMY_BITS;
-        fdef.filter.maskBits = PhysicsConstants.ATTACK_SENSOR | PhysicsConstants.LEVEL_BITS;
+        b2dbody.body = BodyGenerator.bodyHelper(entity,
+                position,
+                new Vector2(transform.width, transform.height),
+                Gdx.files.internal("entities/bodies/skeleton.json"),
+                PhysicsConstants.ENEMY_BITS);
 
 
-        body.createFixture(fdef).setUserData(entity);
-        box.dispose();
-        body.setUserData(entity);
-        b2dbody.body = body;
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 6 / 2f * RenderSystem.PIXELS_TO_METERS,
-                new Vector2(body.getLocalCenter().x - 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y - 15 * RenderSystem.PIXELS_TO_METERS  )
-                , 0f);
-        fdef.shape = shape;
-        fdef.isSensor = true;
-        fdef.filter.categoryBits = PhysicsConstants.LEFT_GROUND_SENSOR;
-        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
-
-        body.createFixture(fdef);
-
-        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 6 / 2f * RenderSystem.PIXELS_TO_METERS,
-                new Vector2(body.getLocalCenter().x + 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y - 15 * RenderSystem.PIXELS_TO_METERS  )
-                , 0f);
-        fdef.filter.categoryBits = PhysicsConstants.RIGHT_GROUND_SENSOR;
-        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
-        body.createFixture(fdef);
-
-        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 8 / 2f * RenderSystem.PIXELS_TO_METERS,
-                new Vector2(body.getLocalCenter().x + 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y + 2 * RenderSystem.PIXELS_TO_METERS  )
-                , 0f);
-        fdef.filter.categoryBits = PhysicsConstants.WALL_RIGHT_SENSOR;
-        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
-        body.createFixture(fdef);
-
-        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 8 / 2f * RenderSystem.PIXELS_TO_METERS,
-                new Vector2(body.getLocalCenter().x - 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y + 2 * RenderSystem.PIXELS_TO_METERS  )
-                , 0f);
-        fdef.filter.categoryBits = PhysicsConstants.WALL_LEFT_SENSOR;
-        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
-        body.createFixture(fdef);
-        shape.dispose();
-
-        for (Fixture fix : body.getFixtureList()) {
+        for (Fixture fix : b2dbody.body.getFixtureList()) {
             fix.setUserData(entity);
         }
+        b2dbody.body.setUserData(entity);
+
 
         // set object position (x,y,z) z used to define draw order 0 first drawn
         transform.position.set(position.x, position.y,2);
         transform.width = 18;
         transform.height = 24;
         transform.flipX = true;
-        //position.paddingBottom = 3.5f;
+        transform.paddingBottom = 2.5f;
 
         TextureAtlas atlas = assets.manager.get(GameAssetsManager.skeletonAtlas, TextureAtlas.class);
 
@@ -469,6 +417,36 @@ public class EntitiesFactory {
                 atlas.findRegion("attack17")
         );
 
+        animation.add(EnemyState.Hit, fastFrameDuration, Animation.PlayMode.NORMAL,
+                atlas.findRegion("hit0"),
+                atlas.findRegion("hit1"),
+                atlas.findRegion("hit2"),
+                atlas.findRegion("hit3"),
+                atlas.findRegion("hit4"),
+                atlas.findRegion("hit5"),
+                atlas.findRegion("hit6"),
+                atlas.findRegion("hit7")
+        );
+
+        animation.add(EnemyState.Dying, fastFrameDuration, Animation.PlayMode.NORMAL,
+                atlas.findRegion("dead0"),
+                atlas.findRegion("dead1"),
+                atlas.findRegion("dead2"),
+                atlas.findRegion("dead3"),
+                atlas.findRegion("dead4"),
+                atlas.findRegion("dead5"),
+                atlas.findRegion("dead6"),
+                atlas.findRegion("dead7"),
+                atlas.findRegion("dead8"),
+                atlas.findRegion("dead9"),
+                atlas.findRegion("dead10"),
+                atlas.findRegion("dead11"),
+                atlas.findRegion("dead12"),
+                atlas.findRegion("dead13"),
+                atlas.findRegion("dead14")
+        );
+
+
         type.type = TypeComponent.ENEMY;
         b2dbody.body.setUserData(entity);
 
@@ -483,7 +461,7 @@ public class EntitiesFactory {
                 .add(sc).add(collisionComp);
 
 
-        agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
+        agentComp = new EnemyAgentComponent(entity);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -523,6 +501,21 @@ public class EntitiesFactory {
                 atlas.findRegion("slime-move-3")
         );
 
+        animComp.add(EnemyState.Hit, fastFrameDuration, Animation.PlayMode.NORMAL,
+                atlas.findRegion("slime-hurt-0"),
+                atlas.findRegion("slime-hurt-1"),
+                atlas.findRegion("slime-hurt-2"),
+                atlas.findRegion("slime-hurt-3")
+        );
+
+        animComp.add(EnemyState.Dying, fastFrameDuration, Animation.PlayMode.NORMAL,
+                atlas.findRegion("slime-die-0"),
+                atlas.findRegion("slime-die-1"),
+                atlas.findRegion("slime-die-2"),
+                atlas.findRegion("slime-die-3")
+        );
+
+
 
         bodyComp.body = BodyGenerator.bodyHelper(
                 entity,
@@ -532,17 +525,23 @@ public class EntitiesFactory {
                 PhysicsConstants.ENEMY_BITS
         );
 
+        for (Fixture fix : bodyComp.body.getFixtureList()) {
+            fix.setUserData(entity);
+        }
+        bodyComp.body.setUserData(entity);
+
+
         bodyComp.flippable = true;
 
 
-        statsComp.health    = 50;
+        statsComp.health    = 40;
         statsComp.damage    = 10;
-        statsComp.health    = 10;
         statsComp.maxHealth = 50;
 
         transfComp.width  = 16;
         transfComp.height = 16;
         transfComp.position.set(position.x, position.y, 2);
+        transfComp.scale.set(-1, 1);
 
         typeComp.type = TypeComponent.ENEMY;
 
@@ -556,8 +555,7 @@ public class EntitiesFactory {
                 .add(typeComp)
         ;//.add(pathComp);
 
-        agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
-        agentComp.stateMachine.changeState(EnemyState.Attacking);
+        agentComp = new EnemyAgentComponent(entity);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -594,24 +592,24 @@ public class EntitiesFactory {
                 regions[0][9]
         );
 
-         transComp.position.x = pos.x;
-         transComp.position.y = pos.y;
-         transComp.position.z = 1;
-         transComp.width = 20;
-         transComp.height = 20;
+        transComp.position.x = pos.x;
+        transComp.position.y = pos.y;
+        transComp.position.z = 1;
+        transComp.width = 20;
+        transComp.height = 20;
 
-         textComp.region = regions[0][0];
+        textComp.region = regions[0][0];
 
         // typeComp.type = TypeComponent.ENEMY;
 
-         entity//.add(animComp)
+        entity//.add(animComp)
                 // .add(bodyComp)
-                 //.add(statsComp)
-                 .add(textComp)
-                 .add(transComp);
-                 //.add(typeComp);
+                //.add(statsComp)
+                .add(textComp)
+                .add(transComp);
+        //.add(typeComp);
 
-         engine.addEntity(entity);
+        engine.addEntity(entity);
 
 
         return entity;
