@@ -242,9 +242,9 @@ public class CollisionListener implements ContactListener {
         if (enemyMap.has(actorA) || enemyMap.has(actorB)) {
 
             if (fa.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR)
-                enemyMap.get(actorA).handleCollision(actorA, actorB);
+                enemyMap.get(actorA).endCollision(actorA, actorB);
             else if (fb.getFilterData().categoryBits == PhysicsConstants.ENEMY_ATTACK_SENSOR)
-                enemyMap.get(actorB).handleCollision(actorB, actorA);
+                enemyMap.get(actorB).endCollision(actorB, actorA);
 
 
 

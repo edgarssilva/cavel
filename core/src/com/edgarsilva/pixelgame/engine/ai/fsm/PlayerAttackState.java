@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.audio.Sound;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
+import com.edgarsilva.pixelgame.engine.utils.managers.CameraManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
@@ -140,6 +141,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
         @Override
         public void enter(PlayerAgent agent) {
             agent.makeAttackFixture(FallAttack);
+            CameraManager.shake(300, 300);
         }
 
         @Override

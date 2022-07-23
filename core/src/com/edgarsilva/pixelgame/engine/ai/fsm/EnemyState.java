@@ -2,6 +2,7 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.edgarsilva.pixelgame.engine.utils.managers.CameraManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
 public enum EnemyState implements State<EnemyAgentComponent> {
@@ -14,7 +15,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
         @Override
         public void update(EnemyAgentComponent agent) {
-           
+
         }
     },
 
@@ -59,13 +60,17 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         @Override
         public void update(EnemyAgentComponent agent) {
             if (agent.anim.isAnimationFinished(agent.timer)) {
-                agent.stateMachine.changeState(Seeking);
+                agent.attack();
+                if (agent.attackableEntities.size > 0)
+                    agent.stateMachine.changeState(Attacking);
+                else
+                    agent.stateMachine.changeState(Seeking);
             }
         }
 
         @Override
         public void exit(EnemyAgentComponent agent) {
-            agent.attackableEntities.clear();
+
         }
     },
 
@@ -73,6 +78,7 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         @Override
         public void enter(EnemyAgentComponent agent) {
             super.enter(agent);
+            CameraManager.shake(250, 450);
         }
 
         @Override

@@ -103,8 +103,6 @@
   <object id="16" x="600" y="192" width="8" height="16"/>
   <object id="17" x="-8" y="200" width="616" height="8"/>
   <object id="18" x="-8" y="0" width="8" height="208"/>
-  <object id="19" x="-9" y="-75"/>
-  <object id="20" x="609" y="-70"/>
  </objectgroup>
  <objectgroup name="Entities">
   <object id="9" name="Player" gid="97" x="0" y="136" width="37.5" height="27.5"/>

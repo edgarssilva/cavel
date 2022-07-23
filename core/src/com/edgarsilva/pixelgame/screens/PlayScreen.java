@@ -129,10 +129,8 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //Gdx.gl.glClearColor(38/255f,32/255f,51/255f,1);
-        //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
 
         Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
 

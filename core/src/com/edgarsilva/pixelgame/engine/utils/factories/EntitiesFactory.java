@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -40,7 +40,7 @@ import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 /**
- * Classe responsável por criar as Entities usando métodos estáticos
+ * Classe responsável por criar as Entities utilizando métodos estáticos
  *
  * @autor: Edgar Silva
  */
@@ -283,7 +283,7 @@ public class EntitiesFactory {
 
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("entities/bodies/attacks.json"));
 
-        String name = null;
+        String name;
 
         switch (state) {
             case Attack1:
@@ -316,6 +316,7 @@ public class EntitiesFactory {
         for (Fixture fix : body.getFixtureList()) {
             fix.setUserData(attack);
         }
+
         body.setUserData(attack);
         bodyComp.body = body;
         bodyComp.flippable = true;
@@ -351,7 +352,7 @@ public class EntitiesFactory {
                 PhysicsConstants.ENEMY_BITS);
 
 
-        PolygonShape shape = new PolygonShape();
+      /*  PolygonShape shape = new PolygonShape();
         shape.set(new float[]{
                 0,0,
                 0.3f,0.8f,
@@ -360,7 +361,10 @@ public class EntitiesFactory {
                 0.2f,0.8f,
                 0.3f,-1f,
                 0,0
-        });
+        });*/
+
+        CircleShape shape = new CircleShape();
+        shape.setRadius(0.4f);
 
         FixtureDef fdef = new FixtureDef();
         fdef.isSensor = true;
@@ -370,6 +374,7 @@ public class EntitiesFactory {
 
         b2dbody.body.createFixture(fdef).setUserData(entity);
         shape.dispose();
+
         for (Fixture fix : b2dbody.body.getFixtureList()) {
             fix.setUserData(entity);
         }
@@ -415,7 +420,7 @@ public class EntitiesFactory {
 
         );
 
-        animation.add(EnemyState.Attacking, fastFrameDuration, Animation.PlayMode.NORMAL,
+        animation.add(EnemyState.Attacking, 0.08f, Animation.PlayMode.NORMAL,
                 atlas.findRegion("attack0"),
                 atlas.findRegion("attack1"),
                 atlas.findRegion("attack2"),
@@ -437,7 +442,7 @@ public class EntitiesFactory {
                 atlas.findRegion("attack17")
         );
 
-        animation.add(EnemyState.Hit, fastFrameDuration, Animation.PlayMode.NORMAL,
+        animation.add(EnemyState.Hit, 0.08f, Animation.PlayMode.NORMAL,
                 atlas.findRegion("hit0"),
                 atlas.findRegion("hit1"),
                 atlas.findRegion("hit2"),
@@ -448,7 +453,7 @@ public class EntitiesFactory {
                 atlas.findRegion("hit7")
         );
 
-        animation.add(EnemyState.Dying, fastFrameDuration, Animation.PlayMode.NORMAL,
+        animation.add(EnemyState.Dying, 0.08f, Animation.PlayMode.NORMAL,
                 atlas.findRegion("dead0"),
                 atlas.findRegion("dead1"),
                 atlas.findRegion("dead2"),
@@ -521,6 +526,14 @@ public class EntitiesFactory {
                 atlas.findRegion("slime-move-3")
         );
 
+        animComp.add(EnemyState.Attacking, frameDuration, Animation.PlayMode.LOOP,
+                atlas.findRegion("slime-attack-0"),
+                atlas.findRegion("slime-attack-1"),
+                atlas.findRegion("slime-attack-2"),
+                atlas.findRegion("slime-attack-3")
+        );
+
+
         animComp.add(EnemyState.Hit, fastFrameDuration, Animation.PlayMode.NORMAL,
                 atlas.findRegion("slime-hurt-0"),
                 atlas.findRegion("slime-hurt-1"),
@@ -544,6 +557,19 @@ public class EntitiesFactory {
                 Gdx.files.internal("entities/bodies/slime.json"),
                 PhysicsConstants.ENEMY_BITS
         );
+
+        CircleShape shape = new CircleShape();
+        shape.setRadius(0.3f);
+
+        FixtureDef fdef = new FixtureDef();
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = PhysicsConstants.ENEMY_ATTACK_SENSOR;
+        fdef.filter.maskBits = PhysicsConstants.FRIENDLY_BITS;
+        fdef.shape = shape;
+
+        bodyComp.body.createFixture(fdef).setUserData(entity);
+        shape.dispose();
+
 
         for (Fixture fix : bodyComp.body.getFixtureList()) {
             fix.setUserData(entity);

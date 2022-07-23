@@ -95,6 +95,12 @@ public class EnemyAgentComponent implements Component, Updateable {
         attackableEntities.removeValue(entity, false);
     }
 
+    public void attack() {
+        for (Entity ent: attackableEntities) {
+            if (statsCompMap.has(ent))
+                statsCompMap.get(ent).attack(statsComp);
+        }
+    }
 }
 
 /**
