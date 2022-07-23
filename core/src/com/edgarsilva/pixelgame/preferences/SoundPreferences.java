@@ -9,14 +9,15 @@ public class SoundPreferences {
     private static final String PREF_MUSIC_ENABLED = "music.enabled";
     private static final String PREF_SOUND_ENABLED = "sound.enabled";
     private static final String PREF_SOUND_VOL = "sound";
-    private static  String PREFS_NAME = "default";
+    private static  String PREFS_NAME = "cavel.audio";
 
-    public SoundPreferences(String name) {
-        PREFS_NAME = name;
-    }
+
+    private Preferences preferences;
 
     protected Preferences getPrefs() {
-        return Gdx.app.getPreferences(PREFS_NAME);
+        if (preferences == null)
+            preferences = Gdx.app.getPreferences(PREFS_NAME);
+        return preferences;
     }
 
     public boolean isSoundEffectsEnabled() {
@@ -54,5 +55,7 @@ public class SoundPreferences {
         getPrefs().putFloat(PREF_SOUND_VOL, volume);
         getPrefs().flush();
     }
-
+    public void reset() {
+        getPrefs().clear();
+    }
 }

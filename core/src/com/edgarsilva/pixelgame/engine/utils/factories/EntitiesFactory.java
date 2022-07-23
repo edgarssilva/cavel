@@ -184,7 +184,7 @@ public class EntitiesFactory {
         f.filter.categoryBits = PhysicsConstants.ATTACK_SENSOR;
         f.filter.maskBits = PhysicsConstants.ENEMY_BITS;
 
-        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("entities/bodies/attacks.json"));
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("entities/attacks.json"));
 
         String name;
 
@@ -362,8 +362,8 @@ public class EntitiesFactory {
         //healthComp.scale = 10f;
         healthComp.y  = 1.5f;
 
-        statsComp.maxHealth = 20;
-        statsComp.health    = 20;
+        statsComp.maxHealth = 120;
+        statsComp.health    = 120;
 
         Body body;
         BodyDef bdef = new BodyDef();

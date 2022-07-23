@@ -2,6 +2,7 @@ package com.edgarsilva.pixelgame.engine.utils.managers;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,6 +24,8 @@ public class PauseManager {
     private PlayScreen screen;
     public static final int INPUT_INDEX = 3;
 
+    TextButton saveBtn;
+
     public PauseManager(final PlayScreen screen) {
         this.screen = screen;
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), screen.getBatch());
@@ -41,11 +44,12 @@ public class PauseManager {
             }
         });
 
-        TextButton saveBtn = new TextButton("Save", PlayScreen.getGame().assets.getSkin());
+        saveBtn = new TextButton("Save", PlayScreen.getGame().assets.getSkin());
         saveBtn.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                new Save(screen);
+                if (!screen.getGame().getPreferences().account.logedIn())
+                    new Save(screen);
             }
         });
 
@@ -90,6 +94,10 @@ public class PauseManager {
 
     public void render(){
         stage.act();
+
+        if (!screen.getGame().getPreferences().account.logedIn()) {
+            saveBtn.addAction(Actions.alpha(.5f));
+        }
 
         //Fundo preto semi-transparente
         ColorDrawer.drawColor(screen.getShapeRenderer(), 0, 0, 0, 0.5f);

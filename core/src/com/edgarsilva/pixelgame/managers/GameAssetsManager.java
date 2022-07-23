@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,45 +15,37 @@ public class GameAssetsManager {
 
 
     public final AssetManager manager = new AssetManager();
-    public BitmapFont font;
-
-    //Loading Screen
-    public static final String loadingBackground = "raw/loading.png";
 
     // Textures
-    public static final String hudImage      = "hud/ui_upscaled.png";
-    public static final String gameOverImage = "raw/textures/gameover.jpg";
-    public static final String splashAtlas   = "raw/textures/splash.atlas";
+    public static final String splashAtlas   = "atlas/splash.atlas";
     public static final String menuFrame1    = "raw/frame1.png";
     public static final String menuFrame2    = "raw/frame2.png";
-    public static final String atlas       = "entities/sprites/cavel.atlas";
+    public static final String atlas         = "atlas/cavel.atlas";
+    public static final String keyboardAtlas = "atlas/keyboard.atlas";
+
+    // Sounds
+    public static final String attack1 = "sounds/attack1.ogg";
+    public static final String attack2 = "sounds/attack2.ogg";
+    public static final String attack3 = "sounds/attack3.ogg";
+    public static final String jump = "sounds/jump.ogg";
+    public static final String doublejump = "sounds/doublejump.ogg";
+    public static final String coinSound = "sounds/coin1.wav";
+
+    // Music
+    public final String playingSong = "";
+    public static final String titleSong = "audio/music/Title-Screen.ogg";
+    public static final String level1 = "audio/music/Level-1.ogg";
+    public static final String ending = "audio/music/Ending.ogg";
+
+    // Skin
+    private static final String skin = "skin/bitpotion.json";
 
     //Keyboard
     public HashMap<String, Animation<TextureRegion>> keyboard = new HashMap<String, Animation<TextureRegion>>();
 
-    // Sounds
-    public static final String attack1 = "entities/sounds/attack1.ogg";
-    public static final String attack2 = "entities/sounds/attack2.ogg";
-    public static final String attack3 = "entities/sounds/attack3.ogg";
-    public static final String jump = "entities/sounds/jump.ogg";
-    public static final String doublejump = "entities/sounds/doublejump.ogg";
-    public static final String coinSound = "entities/sounds/coin1.wav";
-
-    // Music
-    public final String playingSong = "";
-    public static final String titleSong = "raw/audio/music/Title-Screen.ogg";
-    public static final String level1 = "raw/audio/music/Level-1.ogg";
-    public static final String ending = "raw/audio/music/Ending.ogg";
-
-    public static final String skin = "skin/bitpotion.json";
-    public static final String BitPotion = "bitmaps/BitPotionExt.fnt";
-
-
-
     // a small set of images used by the loading screen
     public void queueAddLoadingAssets(){
         manager.load(splashAtlas, TextureAtlas.class);
-        manager.load(loadingBackground, Texture.class);
         manager.load(skin, Skin.class);
         manager.load(titleSong,Music.class);
         manager.load(menuFrame1, Texture.class);
@@ -63,8 +54,6 @@ public class GameAssetsManager {
     }
 
     public void queueAddTextures(){
-        manager.load(hudImage, Texture.class);
-        manager.load(gameOverImage, Texture.class);
         manager.load(atlas, TextureAtlas.class);
     }
 
@@ -75,6 +64,7 @@ public class GameAssetsManager {
         manager.load(jump, Sound.class);
         manager.load(doublejump, Sound.class);
         manager.load(coinSound, Sound.class);
+        manager.load(keyboardAtlas, TextureAtlas.class);
     }
 
     public void queueAddMusic(){
@@ -85,7 +75,6 @@ public class GameAssetsManager {
     }
 
     public void queueAddFonts(){
-        manager.load(BitPotion, BitmapFont.class);
     }
 
     public void queueAddParticleEffects(){
@@ -103,7 +92,7 @@ public class GameAssetsManager {
     }
 
     public void loadKeyboard() {
-        TextureAtlas atlas = manager.get("bitmaps/keyboard.atlas");
+        TextureAtlas atlas = manager.get("atlas/keyboard.atlas");
         String[] letters = {
                 "w",
                 "a",

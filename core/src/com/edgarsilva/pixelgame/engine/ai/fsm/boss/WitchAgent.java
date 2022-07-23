@@ -62,7 +62,7 @@ public class WitchAgent extends Agent {
             lastHit = 0f;
             statsComp.health -= 20;
             if (statsComp.health <= 0) {
-                coins = 100 + random.nextInt(50);
+                coins = 70 + random.nextInt(10);
                 EntityManager.setToDestroy(attack);
                 EntityManager.destroyAllEnemies();
                 EntityManager.setToDestroy(owner);
@@ -73,7 +73,7 @@ public class WitchAgent extends Agent {
 
     public void spawnDropables() {
         EntitiesFactory.createCoin(
-                body.getPosition().add(random.nextInt(5) - 3, random.nextInt(4) - 2),
+                body.getPosition(),
                 random.nextInt(10) + 10);
         coins --;
     }

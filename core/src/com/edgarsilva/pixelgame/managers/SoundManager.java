@@ -21,7 +21,7 @@ public class SoundManager implements Disposable {
     }
 
     public void setMusic(String file, boolean looping){
-        if (music!=null)music.dispose();
+        if (music!=null) music.dispose();
         music = assets.manager.get(file, Music.class);
         music.setLooping(looping);
         update();

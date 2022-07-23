@@ -16,13 +16,19 @@ import com.edgarsilva.pixelgame.screens.PlayScreen;
 import com.edgarsilva.pixelgame.screens.SettingsScreen;
 import com.edgarsilva.pixelgame.screens.SplashScreen;
 
+/**
+ * Classe principal que faz o redirecionamento para os vários ecrãs
+ *
+ */
 
 public class PixelGame extends Game {
 
+    // Tamanho da Viewport em pixeis
     public static final float WIDTH = 960;
     public static final float HEIGHT = 540;
 
-    public static boolean DEBUG = false;
+    //
+    public static boolean DEBUG = true;
 
     public static int coins = 0;
     public static short hp = 3;
@@ -67,15 +73,15 @@ public class PixelGame extends Game {
     public void create () {
         preferences = new GamePreferences();
         sound = new SoundManager(preferences.sound, assets);
+
+        // Carregar o jogo
         GameSave.load();
 
+        // Desativar o botão voltar no Android
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             Gdx.input.setCatchBackKey(true);
 
-
-        //setMap(LOADING_SCREEN, "maps/2.tmx");
-        // setMap(new TestScreen());
-         setScreen(SPLASH_SCREEN);
+        setScreen(SPLASH_SCREEN);
     }
 
 
@@ -145,7 +151,6 @@ public class PixelGame extends Game {
     public void dispose () {
         super.dispose();
         assets.manager.dispose();
-
     }
 
     public GamePreferences getPreferences() {

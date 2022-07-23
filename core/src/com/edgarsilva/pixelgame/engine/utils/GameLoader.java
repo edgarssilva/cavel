@@ -18,7 +18,7 @@ import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class GameLoader {
 
-    public static void loadGame(Save save, PlayScreen playscreen){
+        public static void loadGame(Save save, PlayScreen playscreen){
         for (PlayerSave player : save.playerSaves) {
             EntitiesFactory.createPlayer(
                     new Vector2(player.x,player.y),
@@ -35,8 +35,7 @@ public class GameLoader {
         }
 
         for (EnemySave enemy : save.enemySaves) {
-            if (enemy.enemyTypeName.equals(Enemies.SKELETON.name())) {
-                Entity entity = EntitiesFactory.createEnemy(Enemies.SKELETON, new Vector2(enemy.x, enemy.y));
+                Entity entity = EntitiesFactory.createEnemy(Enemies.valueOf(enemy.enemyTypeName), new Vector2(enemy.x, enemy.y));
 
                 StatsComponent stats = entity.getComponent(StatsComponent.class);
                 stats.maxHealth = enemy.stats.maxHealth;
@@ -46,7 +45,6 @@ public class GameLoader {
                 entity.getComponent(TransformComponent.class).flipX = enemy.flipX;
                 entity.getComponent(EnemyAgent.class).stateMachine.changeState(EnemyState.valueOf(enemy.stateName));
                 entity.getComponent(EnemyAgent.class).moveToLeft = enemy.moveToLeft;
-            }
         }
     }
 

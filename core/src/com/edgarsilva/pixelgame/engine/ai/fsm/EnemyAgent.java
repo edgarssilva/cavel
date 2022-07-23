@@ -17,8 +17,7 @@ public class EnemyAgent extends Agent {
 
     public Enemies enemyType;
     public Body body;
-    //public Node node = null;
-    // public Node target = new Node();
+
 
     public boolean isTouchingWallLeft = false;
     public boolean isTouchingWallRight = false;
@@ -36,6 +35,10 @@ public class EnemyAgent extends Agent {
     private ComponentMapper<StatsComponent> statsCompMap;
     private ComponentMapper<BodyComponent>  bodyCompMap;
     private ComponentMapper<PlayerAgent>    playerAgentMap;
+
+    //Path Finding não utilizado
+    //public Node node = null;
+    // public Node target = new Node();
     // private IndexedAStarPathFinder<Node> pathFinder;
     // private GraphPathImp resultPath = new GraphPathImp();
 
@@ -108,6 +111,7 @@ public class EnemyAgent extends Agent {
         for (Entity ent: attackableEntities)
             if (playerAgentMap.has(ent)) {
                 playerAgentMap.get(ent).hit(statsComp);
+                return;
             }
     }
 

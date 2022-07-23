@@ -19,7 +19,6 @@ import com.edgarsilva.pixelgame.managers.LoginManager;
 
 public class LoginScreen implements Screen {
 
-
     public static Stage stage;
     private Table table;
 
@@ -31,6 +30,7 @@ public class LoginScreen implements Screen {
 
     public static Dialog successDialog;
     public static Dialog errorDialog;
+    public static Dialog loadingDialog;
 
     public LoginScreen(final PixelGame game) {
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
@@ -45,10 +45,12 @@ public class LoginScreen implements Screen {
             @Override
             protected void result(Object object) {
                 if ((Boolean) object) {
+                    game.getPreferences().account.setUser(username.getText(), password.getText());
                     game.setScreen(PixelGame.MENU_SCREEN);
                 }
             }
         };
+
         successDialog.text("Success");
         successDialog.button("OK",true);
         successDialog.key(Input.Keys.ENTER, true);
@@ -61,17 +63,22 @@ public class LoginScreen implements Screen {
                 }
             }
         };
-        //errorDialog.text("Error");
-        errorDialog.button("OK",true);
-        errorDialog.key(Input.Keys.ENTER, true);
+        errorDialog.text("Attempt to login failed !");
+        errorDialog.button("OK",false);
+        errorDialog.key(Input.Keys.ENTER, false);
+
+        loadingDialog = new Dialog("Login", PixelGame.assets.getSkin());
+        loadingDialog.text("Loading");
+        loadingDialog.setMovable(false);
 
 
-        username = new TextField("", game.assets.getSkin());
-        password = new TextField("", game.assets.getSkin());
         submit = new TextButton("Login", game.assets.getSkin());
         exit = new TextButton("Back", game.assets.getSkin());
         signUp = new TextButton("Signup", game.assets.getSkin());
-
+        username = new TextField("", game.assets.getSkin());
+        password = new TextField("", game.assets.getSkin());
+        password.setPasswordCharacter('*');
+        password.setPasswordMode(true);
 
         submit.addListener(new ChangeListener() {
             @Override

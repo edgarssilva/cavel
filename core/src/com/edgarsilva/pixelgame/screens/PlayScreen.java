@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ecs.systems.CoinSystem;
 import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
@@ -72,12 +73,11 @@ public class PlayScreen implements Screen {
     public static boolean paused;
     private boolean       gameOver;
 
-    //Test
     public static boolean light = true;
-    private String map;
+    private static String map;
+    private static Dialog dialog;
 
-
-    public PlayScreen(PixelGame game) {
+    public PlayScreen(final PixelGame game) {
         this.paused        = false;
         this.gameOver      = false;
         this.gameOverTimer = 0f;
@@ -141,7 +141,6 @@ public class PlayScreen implements Screen {
 
         CoinSystem.current_coins = CoinSystem.coins = save.coins;
         GameLoader.loadGame(save, this);
-
     }
 
     public void setMap(String map) {
@@ -169,7 +168,7 @@ public class PlayScreen implements Screen {
         if (!gameOver) checkChanges();
 
         // A definir o delta para 0 secs não há alteraçoes a fazer pois nao passou tempo desdo ultimo frame
-        if (paused  ) delta = 0;
+        if (paused) delta = 0;
 
         Gdx.input.setCursorCatched(!paused);
         cameraManager.update(delta);
@@ -251,12 +250,15 @@ public class PlayScreen implements Screen {
 
     public static void levelComplete(){
         PixelGame.coins = CoinSystem.coins;
-        game.setMap(PixelGame.LOADING_SCREEN, "maps/2.tmx");
+        getGame().getPreferences().gameplay.update();
+        int n =  map.charAt(5);
+        getGame().setMap(PixelGame.LOADING_SCREEN, map.replace((char) n, (char) (n + 1)));
     }
 
     @Override
     public void pause() {
         paused = true;
+        inputMultiplexer.addProcessor(PauseManager.INPUT_INDEX, pauseMenu.getStage());
     }
 
     public void unPause() {
@@ -265,7 +267,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resume() {
-        resetGame();
+
     }
 
     @Override

@@ -20,7 +20,7 @@ public class HUDManager implements Updateable, Disposable {
 
     private PlayScreen screen;
 
-    public Stage stage;
+    public static Stage stage;
 
     /*private Texture raw;
     private static TextureRegion icon;
@@ -45,7 +45,7 @@ public class HUDManager implements Updateable, Disposable {
 
         // font = new BitmapFont();
 
-        font = PlayScreen.getGame().assets.font;
+        font = PlayScreen.getGame().assets.getSkin().getFont("BitPotionExt");
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         font.setUseIntegerPositions(false);
         fontWidth = font.getData().getGlyph('0').width;
@@ -122,7 +122,6 @@ public class HUDManager implements Updateable, Disposable {
     @Override
     public void dispose() {
         stage.dispose();
-        PlayScreen.getGame().assets.unloadAssets(GameAssetsManager.hudImage);
         font.dispose();
         //raw.dispose();
     }

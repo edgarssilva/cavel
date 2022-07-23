@@ -29,7 +29,7 @@ public class MessageSystem extends IteratingSystem {
         mcm = ComponentMapper.getFor(MessageComponent.class);
         bcm = ComponentMapper.getFor(BodyComponent.class);
 
-        font = PlayScreen.getGame().assets.font;
+        font = PlayScreen.getGame().assets.getSkin().getFont("BitPotionExt");
 
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         font.setUseIntegerPositions(false);

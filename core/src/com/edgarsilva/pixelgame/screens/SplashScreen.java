@@ -13,15 +13,18 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 
+/**
+ * Este ecrã desmonstra uma animação da equipa "Spaghetti Games"
+ * enquanto carrega em memória os recursos necessários para os menus
+ */
+
 public class SplashScreen implements Screen {
 
     private PixelGame game;
     private SpriteBatch batch;
     private Viewport viewport;
 
-    private float countDown = 3f;
-
-    public static boolean ready = false;
+    private float countDown = 3f; // Tempo da animação
 
     private Sprite spaghetti;
     private Sprite games;
@@ -42,9 +45,6 @@ public class SplashScreen implements Screen {
             texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
 
-        game.assets.font = game.assets.manager.get(GameAssetsManager.BitPotion);
-        game.assets.manager.load("bitmaps/keyboard.atlas", TextureAtlas.class);
-
         TextureAtlas atlas = game.assets.manager.get(GameAssetsManager.splashAtlas);
         games     = new Sprite(atlas.findRegion("games"));
         spaghetti = new Sprite(atlas.findRegion("spaghetti"));
@@ -56,9 +56,7 @@ public class SplashScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -73,9 +71,11 @@ public class SplashScreen implements Screen {
         spaghetti.draw(batch);
         logo.draw(batch);
         batch.end();
+
+        // Atulizar o carregamento das texturas
         game.assets.manager.update();
 
-
+        // Movimento das texturas
         if (spaghetti.getY() == 260f) {
             if (games.getY() == 200f) {
                 if (logo.getX() == 600f)
@@ -89,19 +89,7 @@ public class SplashScreen implements Screen {
             else spaghetti.setY(spaghetti.getY() - delta * 400f);
         }
 
-
-        if (game.assets.manager.isLoaded("bitmaps/keyboard.atlas") && !ready)
-            Gdx.app.postRunnable(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            game.assets.loadKeyboard();
-                            ready = true;
-                        }
-                    }
-            );
-
-        if (countDown < 0 && ready) game.setScreen(PixelGame.MENU_SCREEN);
+        if (countDown < 0) game.setScreen(PixelGame.MENU_SCREEN);
     }
 
 
@@ -111,18 +99,13 @@ public class SplashScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

@@ -7,15 +7,18 @@ import com.edgarsilva.pixelgame.PixelGame;
 public class GraphicPreferences {
 
     private static final String PREF_FULLSCREEN = "window.fullscreen";
-    private static  String PREFS_NAME = "default";
+    private static  String PREFS_NAME = "cavel.graphics";
 
-    public GraphicPreferences(String name) {
-        PREFS_NAME = name;
+    public GraphicPreferences() {
         updateScreen();
     }
 
+    private Preferences preferences;
+
     protected Preferences getPrefs() {
-        return Gdx.app.getPreferences(PREFS_NAME);
+        if (preferences == null)
+            preferences = Gdx.app.getPreferences(PREFS_NAME);
+        return preferences;
     }
 
     public void updateScreen(){
@@ -29,6 +32,10 @@ public class GraphicPreferences {
             getPrefs().putBoolean(PREF_FULLSCREEN,!getPrefs().getBoolean(PREF_FULLSCREEN) );
             getPrefs().flush();
             updateScreen();
+    }
+
+    public void reset() {
+        getPrefs().clear();
     }
 
 }

@@ -21,11 +21,11 @@ public class OnScreenController extends Controller implements Updateable, Dispos
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT), screen.getBatch());
         //Gdx.input.setInputProcessor(stage);
 
-        Image upImage = new Image(new Texture("hud/flatDark/flatDark25.png"));
-        Image downImage = new Image(new Texture("hud/flatDark/flatDark26.png"));
-        Image leftImage = new Image(new Texture("hud/flatDark/flatDark23.png"));
-        Image rightImage = new Image(new Texture("hud/flatDark/flatDark24.png"));
-        Image attackImage = new Image(new Texture("hud/flatDark/flatDark48.png"));
+        Image upImage = new Image(new Texture("hud/flatDark25.png"));
+        Image downImage = new Image(new Texture("hud/flatDark26.png"));
+        Image leftImage = new Image(new Texture("hud/flatDark23.png"));
+        Image rightImage = new Image(new Texture("hud/flatDark24.png"));
+        Image attackImage = new Image(new Texture("hud/flatDark48.png"));
 
         upImage.setSize(70, 70);
         downImage.setSize(70, 70);

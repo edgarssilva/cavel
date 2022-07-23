@@ -63,7 +63,7 @@ public class LoadingScreen implements Screen {
         game.assets.queueAddMusic();
         game.assets.queueAddSounds();
 
-        font = game.assets.font;
+        font = game.assets.getSkin().getFont("BitPotionExt");
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         startTime = System.currentTimeMillis();
@@ -86,6 +86,7 @@ public class LoadingScreen implements Screen {
         batch.end();
 
         if (game.assets.manager.update() && System.currentTimeMillis() - startTime >= minDuration ) {
+            game.assets.loadKeyboard();
             if (save != null)
                 game.setSave(PixelGame.PLAY_SCREEN, save);
             else if (map != null)

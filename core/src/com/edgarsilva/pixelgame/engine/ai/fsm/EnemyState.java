@@ -52,22 +52,20 @@ public enum EnemyState implements State<EnemyAgent> {
     },
 
     Attacking(){
-        boolean attack = false;
+        boolean attack;
 
         @Override
         public void enter(EnemyAgent agent) {
             super.enter(agent);
+            attack = false;
         }
 
         @Override
         public void update(EnemyAgent agent) {
-            if (agent.finishedAnimation) {
-                if (!attack){ agent.attack(); attack = true; }
-                if (agent.finishedAnimation) {
-                        attack = false;
-                        agent.timer = 0;
-                   agent.stateMachine.changeState(Seeking);
-                }
+            if (agent.animationDuration * 0.7f <= agent.timer) {
+                if (!attack) agent.attack(); attack = true;
+                if (agent.finishedAnimation)
+                    agent.stateMachine.changeState(Seeking);
             }
         }
 

@@ -19,6 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 
+/**
+ * Ecrã das definições
+ */
+
 public class SettingsScreen implements Screen{
 
     private PixelGame game;
@@ -55,6 +59,8 @@ public class SettingsScreen implements Screen{
 
         table.setFillParent(true);
         table.setDebug(PixelGame.DEBUG);
+        stage.addActor(table);
+
 
         skin = game.assets.getSkin();
 
@@ -127,7 +133,7 @@ public class SettingsScreen implements Screen{
                     @Override
                     protected void result(Object object) {
                         if ((Boolean) object) {
-                            //TODO Reset Saves
+                            game.getPreferences().reset();
                         }
                     }
                 }.
@@ -145,11 +151,14 @@ public class SettingsScreen implements Screen{
         volumeSoundLabel = new Label("Sounds Volume", skin);
         musicOnOffLabel = new Label("Music", skin);
         soundOnOffLabel = new Label("Sounds", skin);
+
+        backButton.setPosition(15, 10);
         backButton.scaleBy(4);
 
         skin.getFont("BitPotionExt").getData().setScale(2);
         Table left = new Table();
         left.setDebug(PixelGame.DEBUG);
+
         left.add(audioLabel).colspan(12);
         left.row();
         left.row().pad(10,10,10,10);
@@ -167,32 +176,29 @@ public class SettingsScreen implements Screen{
 
         Table right = new Table();
         right.setDebug(PixelGame.DEBUG);
-        right.add(videoLabel).expandX();
+        right.add(videoLabel).colspan(12);
         right.row().pad(10,10,10,10);
         right.add(new Label("Light Effects", skin));
-        right.add(lightCheckBox).expandX();
+        right.add(lightCheckBox).center().expandX();
         right.row().pad(10,10,10,10);
         right.add(new Label("Game", skin)).expandX();
         right.row().pad(10,10,10,10);
-        right.add(resetButton).width(150);
+        right.add(resetButton).center().width(150);
         right.row().pad(10,10,10,10);
-        right.add(new TextButton("Credits", skin)).width(150);
+        right.add(new TextButton("Credits", skin)).center().width(150);
 
         table.center();
-        table.add(titleLabel).fill().center();
-        table.row().padTop(30);
+        table.add(titleLabel).colspan(24);
+        table.row();
         table.add(left).fill();
         table.add(right).fill();
-        table.row().pad(10,10,10,10);
-        table.add(backButton).fill().center();
+        table.row();
+        stage.addActor(backButton);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-
-        stage.clear();
-        stage.addActor(table);
 
     }
 
@@ -238,5 +244,6 @@ public class SettingsScreen implements Screen{
     }
     private void changeScreen(){
         game.setScreen(screen);
+
     }
 }

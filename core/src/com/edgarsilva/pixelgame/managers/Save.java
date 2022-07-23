@@ -21,7 +21,6 @@ import com.edgarsilva.pixelgame.preferences.GameSave;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Save{
 
@@ -74,16 +73,16 @@ public class Save{
 
         GameSave.save(output);
 
-        Map parameters = new HashMap();
+        HashMap<String, String> parameters = new HashMap<String, String>();
 
         output = Base64Coder.encodeString(output);
 
-        parameters.put("username", "admin");
-        parameters.put("password", "admin");
+        parameters.put("username", screen.getGame().getPreferences().account.getUser());
+        parameters.put("password", screen.getGame().getPreferences().account.getPass());
         parameters.put("save", output);
 
         Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
-        //  httpPost.setHeader("Access-Control-Allow-Methods","GET");
+        httpPost.setHeader("Access-Control-Allow-Methods","POST");
         httpPost.setHeader("Access-Control-Allow-Origin", "*");
         httpPost.setUrl("http://papspaghetti.000webhostapp.com/inGame/save.php");
         httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
@@ -92,16 +91,17 @@ public class Save{
     }
 
     public static Save load(String serialization){
-        //System.out.println(new Json().prettyPrint(GameSave.load()));
         return new Json().fromJson(Save.class, serialization);
     }
 
-    public static boolean loadFromServer(){
-        Map parameters = new HashMap();
-        parameters.put("username", "admin");
-        parameters.put("password", "admin");
+    public static boolean loadFromServer(PixelGame game){
+        HashMap<String, String> parameters = new HashMap<String, String>();
+
+        parameters.put("username", game.getPreferences().account.getUser());
+        parameters.put("password", game.getPreferences().account.getPass());
+
         Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
-        //  httpPost.setHeader("Access-Control-Allow-Methods","GET");
+        httpPost.setHeader("Access-Control-Allow-Methods","POST");
         httpPost.setHeader("Access-Control-Allow-Origin", "*");
         httpPost.setUrl("http://papspaghetti.000webhostapp.com/inGame/load.php");
         httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
