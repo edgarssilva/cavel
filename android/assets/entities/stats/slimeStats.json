@@ -1,7 +1,5 @@
 {
   "health" : 40,
   "maxHealth" : 40,
-  "damage"  : 60,
-  "magic" : 0,
-  "armor" : 0
+  "damage"  : 1
 }

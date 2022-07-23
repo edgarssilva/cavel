@@ -25,6 +25,7 @@ public class PixelGame extends Game {
     public static boolean DEBUG = false;
 
     public static int coins = 0;
+    public static short hp = 3;
 
     private GamePreferences preferences;
 

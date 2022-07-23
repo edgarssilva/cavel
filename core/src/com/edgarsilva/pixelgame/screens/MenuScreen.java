@@ -11,10 +11,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.utils.Shake;
@@ -44,11 +42,6 @@ public class MenuScreen implements Screen {
 
 
         anim = new Animation<TextureRegion>( 1 / 8f, frame1, frame2);
-
-        Table table = new Table();
-        table.setFillParent(true);
-        table.setDebug(PixelGame.DEBUG);
-        stage.addActor(table);
         stage.setDebugAll(PixelGame.DEBUG);
 
         skin = game.assets.getSkin();
@@ -106,20 +99,30 @@ public class MenuScreen implements Screen {
         });
 
         connect.setTransform(true);
-        connect.setScale(0.4f);
-        connect.setOrigin(Align.right, Align.bottom);
-        connect.setPosition(PixelGame.WIDTH - 150f, 20f);
+        connect.setScale(1.2f);
+        connect.getLabel().setFontScale(2f);
+        connect.setPosition(stage.getWidth() - 90f, stage.getHeight() - 45f);
+
+
+        newGame.setTransform(true);
+        newGame.setScale(3f);
+        newGame.getLabel().setFontScale(1.5f);
+        newGame.setPosition(stage.getWidth() - 225f, 10f);
+
+        preferences.setTransform(true);
+        preferences.setScale(2f, 1f);
+        preferences.getLabel().setFontScale(1f, 2f);
+        preferences.setPosition(10f, 10f);
+
+        exit.setTransform(true);
+        exit.setScale(.7f);
+        exit.getLabel().setFontScale(2f);
+        exit.setPosition(10, stage.getHeight() - 30f);
+
         stage.addActor(connect);
-
-        table.add(newGame).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
-        table.add(loadGame).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
-        table.add(preferences).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
-        table.add(exit).fillX().uniformX();
-        table.row();
-
+        stage.addActor(newGame);
+        stage.addActor(preferences);
+        stage.addActor(exit);
     }
 
     @Override
@@ -139,7 +142,7 @@ public class MenuScreen implements Screen {
             playerY = MathUtils.lerp(playerY, Shake.getPos().y, delta);
             playerA = MathUtils.lerp(playerA, Shake.getPos().z, delta);
         }else{
-            Shake.shake(150, 100f);
+            Shake.shake(100, 300f);
         }
 
         stage.getBatch().begin();
@@ -159,7 +162,6 @@ public class MenuScreen implements Screen {
             loadFromServer = false;
             game.setSave(PixelGame.LOADING_SCREEN, PixelGame.serverSave);
         }
-
     }
 
     @Override

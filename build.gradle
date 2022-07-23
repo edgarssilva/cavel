@@ -6,11 +6,11 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url 'https://maven.google.com' }
         jcenter()
-        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         
 
     }
@@ -33,7 +33,7 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        google()
+        maven { url 'https://maven.google.com' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }

@@ -29,7 +29,7 @@ public class Save{
     public Array<EnemySave> enemySaves = new Array<EnemySave>();
 
     public int coins;
-    public  String map;
+    public String map;
 
     Save(){}
 

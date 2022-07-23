@@ -162,8 +162,6 @@ public class PlayScreen implements Screen {
             StatsComponent stats = entity.getComponent(StatsComponent.class);
             stats.maxHealth = player.stats.maxHealth;
             stats.health = player.stats.health;
-            stats.magic = player.stats.magic;
-            stats.armor = player.stats.armor;
             stats.damage = player.stats.damage;
             entity.getComponent(TransformComponent.class).flipX = player.flipX;
         }
@@ -175,8 +173,6 @@ public class PlayScreen implements Screen {
                 StatsComponent stats = entity.getComponent(StatsComponent.class);
                 stats.maxHealth = enemy.stats.maxHealth;
                 stats.health = enemy.stats.health;
-                stats.magic = enemy.stats.magic;
-                stats.armor = enemy.stats.armor;
                 stats.damage = enemy.stats.damage;
 
                 entity.getComponent(TransformComponent.class).flipX = enemy.flipX;

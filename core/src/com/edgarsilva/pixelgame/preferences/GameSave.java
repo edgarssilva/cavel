@@ -19,11 +19,18 @@ public class GameSave {
 
     public static String load(){
         Preferences preferences = Gdx.app.getPreferences(PREF_NAME);
+
         try {
             PixelGame.coins = Integer.parseInt(Base64Coder.decodeString(preferences.getString("coins")));
         } catch (NumberFormatException ex) {
             PixelGame.coins = 0;
         }
+
+        try {
+            PixelGame.hp = Short.parseShort(Base64Coder.decodeString(preferences.getString("maxHealth")));
+        } catch (NumberFormatException ex) {
+        PixelGame.hp = 3;
+    }
 
        return(Base64Coder.decodeString(preferences.getString("game", "")));
     }

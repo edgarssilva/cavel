@@ -13,8 +13,6 @@ public class StatsGenerator {
         JsonValue  root    = reader.parse(rawJson);
 
         stats.damage    = root.getShort("damage");
-        stats.armor     = root.getShort("armor");
-        stats.magic     = root.getShort("magic");
         stats.health    = root.getShort("health");
         stats.maxHealth = root.getShort("maxHealth");
     }

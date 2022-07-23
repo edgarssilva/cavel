@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -86,6 +87,7 @@ public class EntitiesFactory {
         AttackComponent attackComp = engine.createComponent(AttackComponent.class);
 
         StatsGenerator.generateStats(Gdx.files.internal("entities/stats/playerStats.json"), sc);
+        sc.maxHealth = PixelGame.hp;
 
         transform.position.set(position.x, position.y, 0);
         transform.width = 37.50f;

@@ -8,17 +8,12 @@ public class StatsComponent implements Component, Pool.Poolable {
     public short maxHealth = 100;
     public short health = maxHealth;
 
-
-    public short armor = 10;
-    public short damage = 50;
-    public short magic = 10;
+    public short damage = 1;
 
     @Override
     public void reset() {
         this.maxHealth = this.health = 100;
-        this.armor =  10;
-        this.damage = 50;
-        this.magic =  10;
+        this.damage = 1;
     }
 
     public void attack(StatsComponent playerStats) {

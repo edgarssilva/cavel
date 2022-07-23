@@ -38,6 +38,10 @@ public class LoadingScreen implements Screen {
      */
     public LoadingScreen(PixelGame game) {
         this.game = game;
+
+        viewport = new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
+        batch = new SpriteBatch();
+
     }
 
     public void setMap(String map) {
@@ -51,8 +55,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
-        viewport = new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
-        batch = new SpriteBatch();
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         game.assets.queueAddTextures();
         game.assets.queueAddFonts();
@@ -61,8 +64,6 @@ public class LoadingScreen implements Screen {
         game.assets.queueAddSounds();
 
         font = game.assets.font;
-        font.setColor(1, 1, 1, 1);
-        font.getData().setScale(3.5f);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         startTime = System.currentTimeMillis();
@@ -77,7 +78,9 @@ public class LoadingScreen implements Screen {
         minDuration -= delta;
 
         batch.setProjectionMatrix(viewport.getCamera().combined);
-
+        font.setColor(1, 1, 1, 1);
+        font.getData().setScale(3.5f);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         batch.begin();
         font.draw(batch, "Loading . . ." ,PixelGame.WIDTH - 230f, 50f);
         batch.end();
