@@ -6,6 +6,7 @@ public class PhysicsConstants {
     public final static short   FRIENDLY_BITS           = 1;
     public final static short   ENEMY_BITS              = 2;
     public final static short   LEVEL_BITS              = 4;
+    public static final short   HIDDEN_BITS             = 24;
     public static final short   OBSTACLE_BITS           = 18;
     public static final short   MESSAGE_BITS            = 12;
     public final static short   NEUTRAL_BITS            = 8;
@@ -24,5 +25,5 @@ public class PhysicsConstants {
     public static final short   ENEMY_ATTACK_SENSOR     = 32;
 
     //Neutral
-    public static final short   COIN_BITS               = 64;
+    public static final short   COIN_BITS               = 8;
 }

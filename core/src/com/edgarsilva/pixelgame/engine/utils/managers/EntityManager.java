@@ -7,6 +7,7 @@ import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ecs.listeners.EntitiesListener;
 import com.edgarsilva.pixelgame.engine.ecs.systems.AnimationSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.AttachedSystem;
+import com.edgarsilva.pixelgame.engine.ecs.systems.CoinSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.DeathSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.DropperSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.HealthBarSystem;
@@ -41,6 +42,7 @@ public class EntityManager {
         //Map Objects Systems
         engine.addSystem(new DropperSystem());
         engine.addSystem(new DeathSystem());
+        engine.addSystem(new CoinSystem());
 
         //Listeners
         engine.addEntityListener(new EntitiesListener(screen));

@@ -70,19 +70,18 @@ public class LevelScreen implements Screen {
     }
 
     void setLevel(String map) {
-        game.setScreen(new LoadingScreen(game, map));
-        this.dispose();
+        game.setScreen(PixelGame.LOADING_SCREEN, map);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(PixelGame.MENU_SCREEN);
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);

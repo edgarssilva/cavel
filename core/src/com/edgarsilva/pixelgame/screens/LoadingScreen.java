@@ -48,8 +48,19 @@ public class LoadingScreen implements Screen {
         this.game = game;
         this.map = map;
 
-        game.assets.queueAddLoadingImages();
-        game.assets.manager.finishLoading();
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    @Override
+    public void show() {
+
+        bX = 0;
+        minDuration = 2f;
+        playerX = 100f;
+        alpha = 0;
 
         viewport = new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT);
         batch = new SpriteBatch();
@@ -79,11 +90,6 @@ public class LoadingScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -110,10 +116,8 @@ public class LoadingScreen implements Screen {
             shape.end();
             Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
 
-            if (alpha > 1.5) {
-                game.setScreen(new PlayScreen(game, map));
-                dispose();
-            }
+            if (alpha > 1.5) game.setScreen(PixelGame.PLAY_SCREEN, map);
+
 
         }else{
             minDuration -= delta;
@@ -122,6 +126,8 @@ public class LoadingScreen implements Screen {
         }
         Gdx.graphics.setTitle("Cavel - " + game.assets.manager.getProgress() * 100 +"%");
     }
+
+
 
     @Override
     public void resize(int width, int height) {
@@ -147,5 +153,7 @@ public class LoadingScreen implements Screen {
     public void dispose() {
         batch.dispose();
         shape.dispose();
+        background.dispose();
     }
+
 }

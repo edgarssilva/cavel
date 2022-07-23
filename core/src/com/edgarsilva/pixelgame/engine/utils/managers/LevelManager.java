@@ -1,9 +1,12 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
 import com.edgarsilva.pixelgame.engine.utils.factories.LevelFactory;
 
@@ -27,8 +30,11 @@ public class LevelManager {
     public static int tilePixelHeight;
     public static OrthogonalTiledMapRenderer renderer;
 
-   // public static GraphImp graph;
-   // public static IndexedAStarPathFinder<Node> pathFinder;
+    public static boolean showHiddenWalls = true;
+    private static Array<TiledMapTileLayer> layers = new Array<TiledMapTileLayer>();
+
+    // public static GraphImp graph;
+    // public static IndexedAStarPathFinder<Node> pathFinder;
 
     public static void loadLevel(String filePath){
         tiledMap = new TmxMapLoader().load(filePath);
@@ -44,16 +50,31 @@ public class LevelManager {
         lvlMeterWidth = lvlPixelWidth * RenderSystem.PIXELS_TO_METERS;
         lvlMeterHeight = lvlPixelHeight * RenderSystem.PIXELS_TO_METERS;
 
-      //  graph = GraphGenerator.gereneratePlatformGraph((TiledMapTileLayer) LevelManager.tiledMap.getLayers().get("Walls"));
-       // pathFinder = new IndexedAStarPathFinder<Node>(graph, false);
+        //  graph = GraphGenerator.gereneratePlatformGraph((TiledMapTileLayer) LevelManager.tiledMap.getLayers().get("Walls"));
+        // pathFinder = new IndexedAStarPathFinder<Node>(graph, false);
 
+    }
+
+    public static void generateLevel(){
         LevelFactory.makeEntities(tiledMap,"Entities");
         LevelFactory.createPhysics(tiledMap,"Collisions");
         LevelFactory.makeObstacles(tiledMap,"Obstacles");
         LevelFactory.makeLights(tiledMap,"Light");
-        if (tiledMap.getLayers().size() == 8) {
-            LevelFactory.makeMessages(tiledMap, "Messages");
+        LevelFactory.makeMessages(tiledMap, "Messages");
+        LevelFactory.makeHiddenWalls(tiledMap, "HiddenCollisions");
+        tiledMap.getLayers().getByType(TiledMapTileLayer.class, layers);
+    }
+
+    public static void render(OrthographicCamera cam){
+        renderer.setView(cam);
+        renderer.getBatch().begin();
+
+        for (TiledMapTileLayer layer : layers) {
+            if((!showHiddenWalls) && layer.getName().equalsIgnoreCase("Hidden")) continue;
+            renderer.renderTileLayer(layer);
         }
+
+        renderer.getBatch().end();
     }
 
     public static void dispose(){

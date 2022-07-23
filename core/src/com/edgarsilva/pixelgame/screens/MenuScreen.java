@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
-import com.edgarsilva.pixelgame.managers.SoundManager;
 
 public class MenuScreen implements Screen {
 
@@ -50,14 +49,14 @@ public class MenuScreen implements Screen {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new LevelScreen(game));
+                game.setScreen(PixelGame.LEVEL_SCREEN);
             }
         });
 
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SettingsScreen(game,MenuScreen.this));
+                game.setScreen(PixelGame.SETTINGS_SCREEN);
             }
         });
 
@@ -100,7 +99,7 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        SoundManager.setMusic(GameAssetsManager.titleSong,true);
+        game.sound.setMusic(GameAssetsManager.titleSong,true);
     }
 
     @Override

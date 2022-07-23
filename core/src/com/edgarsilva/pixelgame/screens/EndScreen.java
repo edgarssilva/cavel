@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.utils.Scene2dAnimations;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
-import com.edgarsilva.pixelgame.managers.SoundManager;
 
 public class EndScreen implements Screen {
 
@@ -33,7 +32,7 @@ public class EndScreen implements Screen {
 
     @Override
     public void show() {
-        SoundManager.setMusic(GameAssetsManager.ending, true);
+        game.sound.setMusic(GameAssetsManager.ending, true);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class EndScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(PixelGame.MENU_SCREEN);
         }
         stage.act(delta);
         stage.draw();

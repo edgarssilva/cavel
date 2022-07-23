@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.managers.SoundManager;
 
 public class SettingsScreen implements Screen{
 
@@ -39,10 +38,11 @@ public class SettingsScreen implements Screen{
     private final  CheckBox musicCheckbox;
     private final  TextButton backButton;
 
+    int screen = 0;
 
-
-    public SettingsScreen(final PixelGame game, final Screen screen) {
+    public SettingsScreen(final PixelGame game, int screen) {
         this.game = game;
+        this.screen = screen;
 
         stage = new Stage(new ScreenViewport());
 
@@ -70,7 +70,7 @@ public class SettingsScreen implements Screen{
             @Override
             public boolean handle(Event event) {
                 game.getPreferences().sound.setSoundVolume(soundMusicSlider.getValue());
-                SoundManager.update();
+                PlayScreen.getGame().sound.update();
                 return false;
             }
         });
@@ -101,10 +101,8 @@ public class SettingsScreen implements Screen{
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               game.setScreen(screen);
-                dispose();
-                SoundManager.update();
-
+              changeScreen();
+                PlayScreen.getGame().sound.update();
             }
         });
 
@@ -147,7 +145,7 @@ public class SettingsScreen implements Screen{
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(PixelGame.MENU_SCREEN);
         }
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -180,4 +178,11 @@ public class SettingsScreen implements Screen{
         stage.dispose();
     }
 
+    public void setPreviousScreen(int previousScreen) {
+        this.screen = previousScreen;
+
+    }
+    private void changeScreen(){
+        game.setScreen(screen);
+    }
 }

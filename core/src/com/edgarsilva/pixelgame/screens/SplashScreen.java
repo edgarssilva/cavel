@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.edgarsilva.pixelgame.PixelGame;
+import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 
 public class SplashScreen implements Screen {
 
@@ -16,11 +17,10 @@ public class SplashScreen implements Screen {
     public SplashScreen(PixelGame game) {
         this.game = game;
         batch = new SpriteBatch();
-        game.assets.queueAddLoadingImages();
-        game.assets.queueAddSounds();
-        game.assets.queueAddMusic();
-        game.assets.queueAddFonts();
+        game.assets.queueAddLoadingAssets();
         game.assets.manager.finishLoading();
+
+        game.assets.font = game.assets.manager.get(GameAssetsManager.BitPotion);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SplashScreen implements Screen {
 
         countDown -= delta;
         if (countDown < 0) {
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(PixelGame.MENU_SCREEN);
         }
 
     }

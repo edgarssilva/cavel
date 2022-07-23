@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
@@ -54,7 +55,13 @@ public class AnimationSystem extends IteratingSystem {
             } else
                 animState = PlayerAgent.getCurrentState();
 
-            PlayerAgent.finishedAnimation = ani.animations.get(animState).isAnimationFinished(PlayerAgent.timer);
+            if (animState == null || ani.animations == null) return;
+
+            Animation anim  =  ani.animations.get(animState);
+
+            if (anim == null) return;
+
+            PlayerAgent.finishedAnimation = anim.isAnimationFinished(PlayerAgent.timer);
 
             tex.region = ani.animations.get(animState).getKeyFrame(PlayerAgent.timer);
             PlayerAgent.timer += deltaTime;

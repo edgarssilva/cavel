@@ -2,7 +2,6 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.badlogic.gdx.audio.Sound;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.managers.CameraManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
@@ -73,9 +72,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
     Attack1() {
         @Override
         public void enter(PlayerAgent agent) {
-           Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.attack1, Sound.class);
-
-           sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+            PlayScreen.getGame().sound.playSound(GameAssetsManager.attack1);
         }
 
         @Override
@@ -88,9 +85,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
     Attack2() {
         @Override
         public void enter(PlayerAgent agent) {
-            Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.attack2, Sound.class);
-
-            sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+            PlayScreen.getGame().sound.playSound(GameAssetsManager.attack2);
         }
         @Override
         public void update(PlayerAgent agent) {
@@ -102,9 +97,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
     Attack3() {
         @Override
         public void enter(PlayerAgent agent) {
-            Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.attack3, Sound.class);
-
-            sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+            PlayScreen.getGame().sound.playSound(GameAssetsManager.attack3);
         }
         @Override
         public void update(PlayerAgent agent) {

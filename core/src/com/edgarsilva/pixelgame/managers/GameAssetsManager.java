@@ -10,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameAssetsManager {
 
+
     public final AssetManager manager = new AssetManager();
+    public BitmapFont font;
 
     //Loading Screen
     public static final String loadingBackground = "raw/loading.png";
@@ -30,6 +32,7 @@ public class GameAssetsManager {
     public static final String attack3 = "entities/sounds/attack3.ogg";
     public static final String jump = "entities/sounds/jump.ogg";
     public static final String doublejump = "entities/sounds/doublejump.ogg";
+    public static final String coinSound = "entities/sounds/coin1.wav";
 
     // Music
     public final String playingSong = "";
@@ -43,10 +46,11 @@ public class GameAssetsManager {
 
 
     // a small set of images used by the loading screen
-    public void queueAddLoadingImages(){
-        manager.load(playerAtlas, TextureAtlas.class);
+    public void queueAddLoadingAssets(){
         manager.load(loadingBackground, Texture.class);
         manager.load(skin, Skin.class);
+        manager.load(titleSong,Music.class);
+        queueAddFonts();
     }
 
     public void queueAddTextures(){
@@ -64,17 +68,19 @@ public class GameAssetsManager {
         manager.load(attack3, Sound.class);
         manager.load(jump, Sound.class);
         manager.load(doublejump, Sound.class);
+        manager.load(coinSound, Sound.class);
     }
 
     public void queueAddMusic(){
        // manager.load(playingSong, Music.class);
-        manager.load(titleSong,Music.class);
+
         manager.load(level1,Music.class);
         manager.load(ending,Music.class);
     }
 
     public void queueAddFonts(){
         manager.load(BitPotion, BitmapFont.class);
+
     }
 
     public void queueAddParticleEffects(){

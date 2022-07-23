@@ -6,15 +6,15 @@ import com.badlogic.gdx.utils.Pool;
 public class MessageComponent implements Component, Pool.Poolable {
 
     public enum TutorialMessages {
-        Movement, Jump, DoubleJump, Attack, FallAttack
+        NONE, Movement, Jump, DoubleJump, Attack, FallAttack, Wall
     }
 
-    public TutorialMessages message;
+    public TutorialMessages message = TutorialMessages.NONE;
     public boolean showMessage = false;
     public float timer = 0f;
     @Override
     public void reset() {
-        message = null;
+        message = TutorialMessages.NONE;
         showMessage = false;
         timer = 0f;
     }

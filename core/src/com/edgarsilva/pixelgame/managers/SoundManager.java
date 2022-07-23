@@ -10,8 +10,8 @@ public class SoundManager implements Disposable {
     private static SoundPreferences preferences;
     private static GameAssetsManager assets;
 
-    private static Music music;
-    private static Sound sfx;
+    private  Music music;
+    private  Sound sfx;
 
     private static boolean playing = true;
 
@@ -20,18 +20,21 @@ public class SoundManager implements Disposable {
         SoundManager.assets = assets;
     }
 
-    public static void setMusic(String file, boolean looping){
+    public void setMusic(String file, boolean looping){
         if (music!=null)music.dispose();
-        music = assets.manager.get(file,Music.class);
+        music = assets.manager.get(file, Music.class);
         music.setLooping(looping);
         update();
     }
 
-    public static void playSound(){
+    public void playSound(String file){
+        if (!preferences.isSoundEffectsEnabled()) return;
 
+        sfx = assets.manager.get(file, Sound.class);
+        sfx.play(preferences.getSoundVolume());
     }
 
-    public static void update(){
+    public void update(){
         music.setVolume(preferences.getMusicVolume());
         if (!music.isPlaying() && preferences.isMusicEnabled() && playing) music.play();
         if (music.isPlaying() && !playing) music.pause();
@@ -39,6 +42,7 @@ public class SoundManager implements Disposable {
 
     @Override
     public void dispose(){
-        if (music!=null)music.dispose();
+        if (music!=null) music.dispose();
+        if (sfx != null) sfx.dispose();
     }
 }

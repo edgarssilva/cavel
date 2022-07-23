@@ -15,7 +15,9 @@ import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
+import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
+import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 /**
  * Classe responsável por instanciar as stateMachines do Player.
@@ -89,6 +91,7 @@ public class PlayerAgent implements Updateable {
         attackStateMachine.update();
 
         if (bodyComp == null && bodyCompMap.has(player)) bodyComp = bodyCompMap.get(player);
+        if (body.getPosition().x > LevelManager.lvlMeterWidth) PlayScreen.levelComplete();
     }
 
     public static void reset(Vector2 position) {

@@ -3,7 +3,6 @@ package com.edgarsilva.pixelgame.engine.utils.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -86,16 +84,18 @@ public class LevelFactory {
             // All collisions need an entity, and all entities need a type to handle collisions
             Entity levelEntity = engine.createEntity();
 
+            BodyComponent bodyComp = engine.createComponent(BodyComponent.class);
 
-            Body body = world.createBody(bodyDef);
+            bodyComp.body = world.createBody(bodyDef);
+            bodyComp.body.setUserData(levelEntity);
+            bodyComp.body.createFixture(fixtureDef).setUserData(levelEntity);
 
-            body.setUserData(levelEntity);
-
-            body.createFixture(fixtureDef).setUserData(levelEntity);
-
+            levelEntity.add(bodyComp);
+            engine.addEntity(levelEntity);
 
             fixtureDef.shape = null;
             shape.dispose();
+
         }
     }
 
@@ -122,106 +122,54 @@ public class LevelFactory {
     }
 
     public static void makeObstacles(TiledMap map, String layerName) {
-        /* MapObjects objects =  map.getLayers().get(layerName).getObjects();
+        MapObjects objects =  map.getLayers().get(layerName).getObjects();
         for (MapObject object : objects){
-           if (object.getProperties().containsKey("platform")) {
-
-                Vector2 position = getObjectPosition(object);
-
-
-
-                Shape shape = BodyFactory.getRectangle((RectangleMapObject)object);
-                BodyDef bodyDef = new BodyDef();
-                bodyDef.type = BodyDef.BodyType.KinematicBody;
-                bodyDef.gravityScale = 0;
-
-
-                Entity levelEntity = engine.createEntity();
-
-                FixtureDef fixtureDef = new FixtureDef();
-                fixtureDef.shape = shape;
-
-                Body body = world.createBody(bodyDef);
-                body.setUserData(levelEntity);
-                body.createFixture(fixtureDef).setUserData(levelEntity);
-
-
-                fixtureDef.shape = null;
-                shape.dispose();
-
-                BodyComponent bc = engine.createComponent(BodyComponent.class);
-                TextureComponent tc = engine.createComponent(TextureComponent.class);
-                TransformComponent tfc = engine.createComponent(TransformComponent.class);
-
-                tfc.position.set(position.x, position.y, 1);
-                tfc.width = 16;
-                tfc.height = 16;
-
-                //tc.texture = new TextureRegion(new Texture("sprites/swoosh.png"));
-
-                bc.body = body;
-
-                levelEntity
-                        .add(bc)
-                        .add(tc)
-                        .add(tfc);
-                engine.addEntity(levelEntity);
-            }else if (object.getProperties().containsKey("drop")){
-
-                Vector2 position = getObjectPosition(object);
-                Vector2 dimension = getObjectDimension(object);
-
-                float odd = Float.parseFloat(object.getProperties().get("drop").toString());
-
-                EntitiesFactory.createDropper(odd, position.x, position.y, dimension.x, dimension.y);
-            }else{
-                if (object instanceof TextureMapObject) {
-                    continue;
-                }
-
-                Shape shape;
-                BodyDef bodyDef = new BodyDef();
-                bodyDef.awake = false;
-                bodyDef.type = BodyDef.BodyType.StaticBody;
-
-                if (object instanceof RectangleMapObject) {
-                    shape = BodyFactory.getRectangle((RectangleMapObject) object);
-                } else if (object instanceof PolygonMapObject) {
-                    shape = BodyFactory.getPolygon((PolygonMapObject) object);
-                } else if (object instanceof PolylineMapObject) {
-                    shape = BodyFactory.getPolyline((PolylineMapObject) object);
-                } else if (object instanceof CircleMapObject) {
-                    shape = BodyFactory.getCircle((CircleMapObject) object);
-                } else {
-                    Gdx.app.log("Unrecognized shape", "" + object.toString());
-                    continue;
-                }
-
-                FixtureDef fixtureDef = new FixtureDef();
-                fixtureDef.shape = shape;
-                fixtureDef.filter.categoryBits = PhysicsConstants.OBSTACLE_BITS;
-                fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
-                        PhysicsConstants.ENEMY_BITS |
-                        PhysicsConstants.NEUTRAL_BITS |
-                        PhysicsConstants.FOOT_SENSOR |
-                        PhysicsConstants.RIGHT_WALL_SENSOR |
-                        PhysicsConstants.LEFT_WALL_SENSOR);
-
-                // All collisions need an entity, and all entities need a type to handle collisions
-                Entity levelEntity = engine.createEntity();
-
-
-                Body body = world.createBody(bodyDef);
-
-                body.setUserData(levelEntity);
-
-                body.createFixture(fixtureDef).setUserData(levelEntity);
-
-
-                fixtureDef.shape = null;
-                shape.dispose();
+            if (object instanceof TextureMapObject) {
+                continue;
             }
-        }*/
+
+            Shape shape;
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.awake = false;
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+
+            if (object instanceof RectangleMapObject) {
+                shape = BodyFactory.getRectangle((RectangleMapObject) object);
+            } else if (object instanceof PolygonMapObject) {
+                shape = BodyFactory.getPolygon((PolygonMapObject) object);
+            } else if (object instanceof PolylineMapObject) {
+                shape = BodyFactory.getPolyline((PolylineMapObject) object);
+            } else if (object instanceof CircleMapObject) {
+                shape = BodyFactory.getCircle((CircleMapObject) object);
+            } else {
+                Gdx.app.log("Unrecognized shape", "" + object.toString());
+                continue;
+            }
+
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = PhysicsConstants.OBSTACLE_BITS;
+            fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
+                    PhysicsConstants.ENEMY_BITS |
+                    PhysicsConstants.NEUTRAL_BITS |
+                    PhysicsConstants.FOOT_SENSOR |
+                    PhysicsConstants.RIGHT_WALL_SENSOR |
+                    PhysicsConstants.LEFT_WALL_SENSOR);
+
+            // All collisions need an entity, and all entities need a type to handle collisions
+            Entity levelEntity = engine.createEntity();
+
+            BodyComponent bodyComp = engine.createComponent(BodyComponent.class);
+
+            bodyComp.body = world.createBody(bodyDef);
+            bodyComp.body.setUserData(levelEntity);
+            bodyComp.body.createFixture(fixtureDef).setUserData(levelEntity);
+
+            engine.addEntity(levelEntity);
+
+            fixtureDef.shape = null;
+            shape.dispose();
+        }
     }
 
 
@@ -263,11 +211,69 @@ public class LevelFactory {
                     mc.message = MessageComponent.TutorialMessages.Attack;
                 }else if(message.equalsIgnoreCase("fallattack")){
                     mc.message = MessageComponent.TutorialMessages.FallAttack;
+                }else if(message.equalsIgnoreCase("wall")){
+                    mc.message = MessageComponent.TutorialMessages.Wall;
                 }
 
                 entity.add(bc).add(mc);
                 engine.addEntity(entity);
             }
+        }
+    }
+
+    public static void makeHiddenWalls(TiledMap map, String layerName) {
+        MapLayer layer = map.getLayers().get(layerName);
+
+        MapObjects objects = layer.getObjects();
+
+        for(MapObject object : objects) {
+
+
+            if (object instanceof TextureMapObject) {
+                continue;
+            }
+
+            Shape shape;
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.awake = false;
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+
+            if (object instanceof RectangleMapObject) {
+                shape = BodyFactory.getRectangle((RectangleMapObject) object);
+            } else if (object instanceof PolygonMapObject) {
+                shape = BodyFactory.getPolygon((PolygonMapObject) object);
+            } else if (object instanceof PolylineMapObject) {
+                shape = BodyFactory.getPolyline((PolylineMapObject) object);
+            } else if (object instanceof CircleMapObject) {
+                shape = BodyFactory.getCircle((CircleMapObject) object);
+            } else {
+                Gdx.app.log("Unrecognized shape", "" + object.toString());
+                continue;
+            }
+
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = PhysicsConstants.HIDDEN_BITS;
+            /*fixtureDef.filter.maskBits = (short) (PhysicsConstants.FRIENDLY_BITS |
+                    PhysicsConstants.ENEMY_BITS |
+                    PhysicsConstants.NEUTRAL_BITS |
+                    PhysicsConstants.FOOT_SENSOR |
+                    PhysicsConstants.RIGHT_WALL_SENSOR |
+                    PhysicsConstants.LEFT_WALL_SENSOR);*/
+
+            // All collisions need an entity, and all entities need a type to handle collisions
+            Entity levelEntity = engine.createEntity();
+
+            BodyComponent bodyComp = engine.createComponent(BodyComponent.class);
+
+            bodyComp.body = world.createBody(bodyDef);
+            bodyComp.body.setUserData(levelEntity);
+            bodyComp.body.createFixture(fixtureDef).setUserData(levelEntity);
+
+            engine.addEntity(levelEntity);
+
+            fixtureDef.shape = null;
+            shape.dispose();
         }
     }
 
@@ -277,9 +283,12 @@ public class LevelFactory {
         rayHandler.removeAll();
 
         for (MapObject object : objects){
-            PointLight light =  new PointLight(rayHandler,180, Color.valueOf("#f96d09"), getObjectDimension(object).x / 1.5f, getObjectPosition(object).x, getObjectPosition(object).y);
-            light.setSoftnessLength(getObjectDimension(object).x / 5 );
-            light.setXray(false);
+            PointLight light =  new PointLight(rayHandler,90);
+            light.setColor(0.9f, 0.4f, 0.03f, 1f);
+            light.setDistance(getObjectDimension(object).x / 1.75f);
+            light.setPosition(getObjectPosition(object));
+            light.setSoftnessLength(getObjectDimension(object).x / 6);
+            light.setSoft(true);
         }
     }
 

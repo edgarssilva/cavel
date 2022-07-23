@@ -1,7 +1,5 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.screens.MenuScreen;
+import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
-import com.edgarsilva.pixelgame.screens.SettingsScreen;
+
 
 public class PauseManager {
 
@@ -45,15 +43,15 @@ public class PauseManager {
         settingsBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                PlayScreen.getGame().setScreen(new SettingsScreen(PlayScreen.getGame(), screen));
+                PlayScreen.getGame().setScreen(PixelGame.SETTINGS_SCREEN);
             }
         });
         TextButton exitButton = new TextButton("Exit", PlayScreen.getGame().assets.getSkin());
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                screen.dispose();
-                PlayScreen.getGame().setScreen(new MenuScreen(PlayScreen.getGame()));
+                screen.exit();
+                PlayScreen.getGame().setScreen(PixelGame.MENU_SCREEN);
             }
         });
 
@@ -77,13 +75,7 @@ public class PauseManager {
         stage.act();
 
         //Fundo preto semi-transparente
-        Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-        Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-        screen.getShapeRenderer().setColor(0, 0, 0, 0.5f);
-        screen.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
-        screen.getShapeRenderer().rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        screen.getShapeRenderer().end();
-        Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
+        ColorDrawer.drawColor(screen.getShapeRenderer(), 0, 0, 0, 0.5f);
 
         stage.draw();
     }

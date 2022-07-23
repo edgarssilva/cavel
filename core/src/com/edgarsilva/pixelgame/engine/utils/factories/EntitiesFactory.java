@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
@@ -31,6 +31,7 @@ import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
+import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -38,6 +39,8 @@ import com.edgarsilva.pixelgame.engine.utils.generators.StatsGenerator;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
+
+import java.util.Random;
 
 /**
  * Classe responsável por criar as Entities utilizando métodos estáticos
@@ -53,10 +56,13 @@ public class EntitiesFactory {
     private static float frameDuration = 0.175f;
     private static float fastFrameDuration = 0.100f;
 
+    private static Random random;
+
     public EntitiesFactory(PlayScreen screen) {
         EntitiesFactory.engine = screen.getEngine();
         EntitiesFactory.world = screen.getWorld();
         EntitiesFactory.assets = screen.getGame().assets;
+        random = new Random();
     }
 
     public static void createPlayer(Vector2 position){
@@ -590,7 +596,7 @@ public class EntitiesFactory {
         return entity;
     }
 
-    public static Entity createCoin(Vector2 position) {
+    public static Entity createCoin(Vector2 position, int value) {
         Entity entity = engine.createEntity();
 
         BodyComponent      bc  = engine.createComponent(BodyComponent.class);
@@ -599,28 +605,48 @@ public class EntitiesFactory {
         CoinComponent      cc  = engine.createComponent(CoinComponent.class);
 
 
-        bc.body = BodyFactory.makeBox(position.x, position.y, 6.4f, 7.6f, BodyDef.BodyType.DynamicBody, false);
+        Body body;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.active = true;
+        bodyDef.position.set(position.x + (6.4f / 2f * RenderSystem.PIXELS_TO_METERS),position.y + (7.6f / 2f * RenderSystem.PIXELS_TO_METERS));
+
+
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(6.4f / 2f * RenderSystem.PIXELS_TO_METERS,7.6f / 2f * RenderSystem.PIXELS_TO_METERS);
+
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = box;
+        fdef.isSensor = false;
+        fdef.restitution = 0.6f;
+        fdef.density = 10;
+        fdef.filter.categoryBits = PhysicsConstants.COIN_BITS;
+        fdef.filter.maskBits = PhysicsConstants.FRIENDLY_BITS |
+                PhysicsConstants.LEVEL_BITS |
+                PhysicsConstants.OBSTACLE_BITS;
+
+
+        body = world.createBody(bodyDef);
+        body.setUserData(entity);
+        body.createFixture(fdef).setUserData(entity);
+        box.dispose();
+        bc.body = body;
 
         tfc.width = 16f;
         tfc.height = 19f;
 
-        Filter filter = new Filter();
-        filter.categoryBits = PhysicsConstants.COIN_BITS;
-        filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.OBSTACLE_BITS;
+        cc.value = value;
 
-        for (Fixture fix : bc.body.getFixtureList()) {
-            fix.setFilterData(filter);
-            fix.setUserData(entity);
-        }
 
-        bc.body.setUserData(entity);
-
+        float randomX = random.nextInt(1) / 10f + 0.5f;
+        float randomY = random.nextInt(2) / 10f + 2f;
+        if (random.nextBoolean()) randomX = -randomX;
+        bc.body.setLinearVelocity(randomX, randomY);
 
         TextureAtlas atlas = new TextureAtlas("entities/sprites/Coin.atlas");
 
         tc.region = atlas.findRegion("coin-1");
 
-        System.out.println("Create Coin");
 
         entity.add(bc).add(tfc).add(tc).add(cc);
         engine.addEntity(entity);

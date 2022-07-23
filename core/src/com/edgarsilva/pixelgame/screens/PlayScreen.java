@@ -10,6 +10,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
+import com.edgarsilva.pixelgame.engine.ecs.systems.CoinSystem;
+import com.edgarsilva.pixelgame.engine.utils.ColorDrawer;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.controllers.JoystickController;
@@ -34,7 +37,6 @@ import com.edgarsilva.pixelgame.engine.utils.managers.HUDManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.PauseManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
-import com.edgarsilva.pixelgame.managers.SoundManager;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -68,28 +70,26 @@ public class PlayScreen implements Screen {
     private float   alpha;
     private boolean paused;
     private boolean gameOver;
-    private String  mapTitle;
 
     //Test
     private boolean light = true;
-    public static int coins = 0;
-
 
     public PlayScreen(PixelGame game, String map) {
         this.paused        = false;
         this.gameOver      = false;
         this.gameOverTimer = 0f;
         this.alpha         = 0;
-        this.mapTitle      = map;
         PlayScreen.game    = game;
-
 
         world          = new World(new Vector2(0, -9.6f), true);
         world.setContactListener(new CollisionListener());
-        rayHandler     = new RayHandler(world);
-        rayHandler.setAmbientLight(0.4f, 0.4f, 0.4f, 0.1f);
-        rayHandler.setBlurNum(3);
+
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(Color.DARK_GRAY);
+        rayHandler.setAmbientLight(0.5f);
+        //rayHandler.setBlurNum(3);
         rayHandler.setShadows(true);
+        rayHandler.setCulling(true);
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
 
@@ -132,25 +132,25 @@ public class PlayScreen implements Screen {
         new EntitiesFactory(this);
         new LevelFactory(this);
 
-        //LevelManager.loadLevel(map);
-        // EntitiesFactory.createWitch(new Vector2(4,10));
-
+        setMap(map);
     }
 
+    public void setMap(String map) {
+        LevelManager.loadLevel(map);
+        resetGame();
+    }
 
     @Override
     public void show() {
-        resetGame();
-        SoundManager.setMusic(GameAssetsManager.level1, true);
+        PlayScreen.getGame().sound.setMusic(GameAssetsManager.level1, true);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        if (PlayerAgent.getCurrentState() == null || EntityManager.getPlayer() == null)
-            resetGame();
+        if (PlayerAgent.getCurrentState() == null || EntityManager.getPlayer() == null) resetGame();
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
+        Gdx.gl.glClearColor(33 / 255f, 38 / 255f, 63 / 255f, 1);
 
         Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
 
@@ -158,7 +158,7 @@ public class PlayScreen implements Screen {
         if (!gameOver) checkChanges();
 
         // A definir o delta para 0 secs não há alteraçoes a fazer pois nao passou tempo desdo ultimo frame
-        if (paused)  delta = 0;
+        if (paused) delta = 0;
 
         Gdx.input.setCursorCatched(!paused);
         cameraManager.update(delta);
@@ -166,14 +166,13 @@ public class PlayScreen implements Screen {
         shapeRenderer.setProjectionMatrix(cameraManager.getCamera().combined);
         rayHandler.setCombinedMatrix(cameraManager.getCamera());
 
-        LevelManager.renderer.setView(cameraManager.getCamera());
-        LevelManager.renderer.render();
-
+        LevelManager.render(cameraManager.getCamera());
 
         GdxAI.getTimepiece().update(delta);
         entityManager.update(delta);
         if (light) rayHandler.updateAndRender();
         hud.update(delta);
+
 
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).update(delta);
@@ -182,16 +181,9 @@ public class PlayScreen implements Screen {
         if (gameOver) {
             gameOverTimer += Gdx.graphics.getDeltaTime();
             alpha += Gdx.graphics.getDeltaTime() / 1.5;
-            Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-            Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-            shapeRenderer.setColor(0, 0, 0, alpha);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            shapeRenderer.end();
+            ColorDrawer.drawColor(shapeRenderer, 0, 0, 0, alpha);
         }
         if (gameOverTimer > 3) resetGame();
-
-        System.out.println(coins);
     }
 
 
@@ -199,6 +191,7 @@ public class PlayScreen implements Screen {
     public void resize(int width, int height) {
         cameraManager.resize(width, height, false);
         hud.resize(width, height);
+        rayHandler.resizeFBO(width, height);
         pauseMenu.resize(width, height);
         if (Gdx.app.getType() == Application.ApplicationType.Android)
             ((OnScreenController) controller).resize(width, height);
@@ -219,6 +212,7 @@ public class PlayScreen implements Screen {
             inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)) light = !light;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) resetGame();
     }
 
     public void gameOver() {
@@ -228,14 +222,22 @@ public class PlayScreen implements Screen {
 
     private void resetGame(){
         entityManager.reset();
-        rayHandler.removeAll();
 
+        paused        = false;
         gameOver      = false;
         gameOverTimer = 0f;
         alpha         = 0f;
 
+
+
         EntityManager.add(hud);
-        LevelManager.loadLevel(mapTitle);
+        LevelManager.generateLevel();
+        CoinSystem.coins =  PixelGame.coins;
+    }
+
+    public static void levelComplete(){
+        PixelGame.coins = CoinSystem.coins;
+        game.setScreen(PixelGame.LOADING_SCREEN, "maps/2.tmx");
     }
 
     @Override
@@ -249,23 +251,28 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resume() {
-
+        resetGame();
     }
 
     @Override
     public void hide() {
-        paused = true;
+
     }
+
+    public void exit(){
+        entityManager.reset();
+        engine.clearPools();
+        LevelManager.dispose();
+    }
+
 
     @Override
     public void dispose() {
-        System.out.println("dispose");
         entityManager.reset();
         engine.clearPools();
         hud.dispose();
         batch.dispose();
         LevelManager.dispose();
-        rayHandler.removeAll();
         rayHandler.dispose();
         world.dispose();
     }

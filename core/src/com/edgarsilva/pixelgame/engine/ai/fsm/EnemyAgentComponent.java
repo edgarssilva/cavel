@@ -121,8 +121,8 @@ public class EnemyAgentComponent implements Component, Updateable {
     }
 
     public void spawnDropables() {
-        if (random.nextFloat() > 0.7) {
-            EntitiesFactory.createCoin(body.getPosition());
+        if (random.nextInt(10) > 2) {
+            EntitiesFactory.createCoin(body.getPosition(), random.nextInt(10) + 10);
         }
     }
 }
