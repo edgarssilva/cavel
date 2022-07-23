@@ -1,12 +1,17 @@
 package com.edgarsilva.pixelgame.engine.ai.fsm;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 
-public enum EnemyState implements State<Entity> {
+public enum EnemyState implements State<EnemyAgentComponent> {
 
-    IDLE,
+    IDLE(){
+        @Override
+        public void update(EnemyAgentComponent agent
+        ) {
+
+        }
+    },
     Seeking,
     Attacking,
     Die,
@@ -16,22 +21,25 @@ public enum EnemyState implements State<Entity> {
     ;
 
     @Override
-    public void enter(Entity entity) {
+    public void enter(EnemyAgentComponent agent
+    ) {
 
     }
 
     @Override
-    public void update(Entity entity) {
+    public void update(EnemyAgentComponent agent
+    ) {
 
     }
 
     @Override
-    public void exit(Entity entity) {
+    public void exit(EnemyAgentComponent agent
+    ) {
 
     }
 
     @Override
-    public boolean onMessage(Entity entity, Telegram telegram) {
+    public boolean onMessage(EnemyAgentComponent agent, Telegram telegram) {
         return false;
     }
 }

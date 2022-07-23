@@ -4,8 +4,8 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -47,12 +47,11 @@ public class PlayScreen implements Screen {
     private EntityManager entityManager;
 
     //Utils
-
     private Controller controller;
 
 
     //Test
-    GraphPathImp resultPath;
+    public static GraphPathImp resultPath;
     TransformComponent tc;
 
     Vector3 mouse = new Vector3();
@@ -71,7 +70,7 @@ public class PlayScreen implements Screen {
         engine = new PooledEngine();
         entityManager = new EntityManager(this);
 
- //		Gdx.input.setCursorCatched(true); // remove mouse cursor
+        //		Gdx.input.setCursorCatched(true); // remove mouse cursor
 
         hud = new HUDManager("skin/glassy-ui.json", this);
 
@@ -99,7 +98,7 @@ public class PlayScreen implements Screen {
         LevelManager.loadLevel("Cave");
         LevelFactory.makeEntities(LevelManager.tiledMap,"Entities");
         LevelFactory.createPhysics(LevelManager.tiledMap,"Collisions");
-       // LevelFactory.makeObstacles(LevelManager.tiledMap,"Obstacles");
+        // LevelFactory.makeObstacles(LevelManager.tiledMap,"Obstacles");
 
 
         // EntityManager.add(hud);
@@ -116,13 +115,11 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         SoundManager.setMusic(GameAssetsManager.level1, true);
-        PathfindingDebugger.drawNodes(LevelManager.graph);
     }
 
     @Override
     public void render(float delta) {
         Gdx.graphics.setTitle("Pixel Game " + Gdx.graphics.getFramesPerSecond());
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
         //Gdx.gl.glClearColor(38/255f,32/255f,51/255f,1);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -133,49 +130,16 @@ public class PlayScreen implements Screen {
         batch.setProjectionMatrix(cameraManager.getCamera().combined);
 
 
-/*
         LevelManager.renderer.setView(cameraManager.getCamera());
         LevelManager.renderer.render();
 
         GdxAI.getTimepiece().update(delta);
         entityManager.update(delta);
         // hud.update(delta);
-        */
 
-
-
-            PathfindingDebugger.drawNodes(LevelManager.graph);
-
-
-            /*
-            //Test Code
-            if (resultPath.getCount() >= 1) {
-                //dresultPath.removeIndex(0);
-            }
-
-            Node start = LevelManager.graph.getNodeByXY(
-                    (int) (tc.position.x * RenderSystem.PPM),
-                    (int) (tc.position.y * RenderSystem.PPM)
-            );
-
-            mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cameraManager.getCamera().unproject(mouse).scl(RenderSystem.PPM);
-
-            Node end = LevelManager.graph.getNodeByXY(
-                    (int) mouse.x,
-                    (int) (tc.position.y * RenderSystem.PPM) - LevelManager.tilePixelHeight
-            );
-
-            resultPath.clear();
-            LevelManager.pathFinder.searchNodePath(start, end, new HeuristicImp(), resultPath);
-            try {
-               // resultPath.removeIndex(0);
-            } catch (Exception e) {
-            }
-
-        PathfindingDebugger.drawPath(resultPath);*/
-        }
+        PathfindingDebugger.drawPath(resultPath);
     }
+
 
     @Override
     public void resize(int width, int height) {

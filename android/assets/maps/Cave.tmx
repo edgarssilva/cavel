@@ -11,7 +11,7 @@
    </animation>
   </tile>
  </tileset>
- <layer name="Background" width="60" height="30" visible="0">
+ <layer name="Background" width="60" height="30">
   <data encoding="base64" compression="zlib">
    eJztwwENAAAMw6DOv+kLOSSsmqqqqqqqqvriARB9Bwk=
   </data>
@@ -21,17 +21,17 @@
    eJztlk0OgyAQhcdl7YplXdeuPESPxlE8CkdzsCZGgs2gQxxkvoRgzPDzfE+CAXBQCO+E2mZpIQbA8uwmPwPAl1r7R6/j2k9uhoRa9fdHbf4+0d8W+zbeW/we40NIBjj8pYyRknkOfyljatLbodZXJXq9r6ljOPD3in5tdmn+vaPOUZLeFB/3OJrnK87mK/XmPquC7M75/TDMK1Uvh5cxjurF+8gY3EM2z2fzLkkvhbP+F6jXUWsxC3MmelhzwvGvxpDgr8mw/h4S/L2DXkVRFEVRFKVuJt5jGoU=
   </data>
  </layer>
- <layer name="Enviroment" width="60" height="30" visible="0">
+ <layer name="Enviroment" width="60" height="30">
   <data encoding="base64" compression="zlib">
    eJztV0tOwzAQtaClrNlyBYTEhnUpKz4bKAKaZsGCg+QoHIWjcBTGqgceZmI7tet8mieN7DhTzzzPJ65SabE2MiS8O94t1PD4urCHfCubrysfuoSLAB2byxDr14W+8T3xPPuguS4S+dIH7GG/6jXfF5LXBvpS/R6mcycZJiRTeMb5cYN9bL60zyftPddjqO2zBva2xcSSbfliPk/NXlebsWKdGeiTTiXZ3DXY3lqwHRNfjes415IDz1vqNXV8T4U16Xsk8T2H+RHMc9d67LczJL6a32WknVSI4at7EvPFekC+mBPPSn1EmIvGDcktyZ21HnrH0nXP+Yw9oGv1q1FSn3yg8ZFk6dCr4859luNr8z1I5WgilOZ/HEvp0Zf85/zAHNF69yqsD838Kskg8SX5MvJWN+rfPhnh/OAcwbWl8p9hTth8dyHIt+07Zia+82yEPMgd37ZRkKyI82oz/swlvy2ditfwfdfjWwfmhn4XcPc35/RHt1D/z6Zr8fUBYtpIH5/xnNqE6y7QtXvCiBEjfvENoFRgLw==
   </data>
  </layer>
- <layer name="Enviroment2" width="60" height="30" visible="0">
+ <layer name="Enviroment2" width="60" height="30">
   <data encoding="base64" compression="zlib">
    eJztzjEJAAAIADCrif07mUEQfbYEiwAAgD35HThW3wEAAACAoQYE1wCF
   </data>
  </layer>
- <objectgroup name="Collisions" visible="0">
+ <objectgroup name="Collisions">
   <object id="1" x="8" y="40" width="72" height="32"/>
   <object id="3" x="0" y="0" width="8" height="40"/>
   <object id="4" x="56" y="72" width="8" height="16"/>
@@ -48,9 +48,9 @@
   <object id="41" x="296.125" y="72" width="55.875" height="8"/>
   <object id="42" x="344" y="0" width="8" height="72"/>
  </objectgroup>
- <objectgroup name="Entities" visible="0">
+ <objectgroup name="Entities">
   <object id="9" name="player" gid="97" x="75" y="112" width="37.5" height="27.75"/>
-  <object id="33" name="Skeleton" gid="2147483746" x="224" y="128" width="18" height="24"/>
-  <object id="46" name="Slime" gid="99" x="302.667" y="72" width="16" height="16"/>
+  <object id="33" name="Skeleton" gid="2147483746" x="216" y="128" width="18" height="24"/>
+  <object id="46" name="Slime" gid="99" x="296" y="72" width="16" height="16"/>
  </objectgroup>
 </map>

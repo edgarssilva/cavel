@@ -5,24 +5,25 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.ai.fsm.State;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.StateMachineComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
+import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
 
 public class AnimationSystem extends IteratingSystem {
 
     private ComponentMapper<TextureComponent> tm;
     private ComponentMapper<AnimationComponent> am;
-    private ComponentMapper<StateMachineComponent> smcm;
+    private ComponentMapper<EnemyAgentComponent> agentmap;
 
     public AnimationSystem(){
         super(Family.all(TextureComponent.class, AnimationComponent.class).get());
 
         tm = ComponentMapper.getFor(TextureComponent.class);
         am = ComponentMapper.getFor(AnimationComponent.class);
-        smcm = ComponentMapper.getFor(StateMachineComponent.class);
+        agentmap = ComponentMapper.getFor(EnemyAgentComponent.class);
     }
 
 
@@ -33,15 +34,15 @@ public class AnimationSystem extends IteratingSystem {
         TextureComponent tex = tm.get(entity);
 
 
-
-        if (smcm.has(entity)) {
-            StateMachineComponent state = smcm.get(entity);
-            if (ani.animations.containsKey(state.machine.getCurrentState())) {
-                tex.region = ani.animations.get(state.machine.getCurrentState()).getKeyFrame(ani.timer);
+        if (agentmap.has(entity)) {
+            EnemyAgentComponent state = agentmap.get(entity);
+            if (ani.animations.containsKey(state.stateMachine.getCurrentState())) {
+                tex.region = ani.animations.get(state.stateMachine.getCurrentState()).getKeyFrame(ani.timer);
                 ani.timer+=deltaTime;
             }
 
         }else{
+            if (entity != EntityManager.getPlayer()) return;
             State animState;
 
             if (PlayerAgent.attacking) {

@@ -24,15 +24,17 @@ public class GraphGenerator {
                 TiledMapTileLayer.Cell down = tiles.getCell(x, y-1);
                 TiledMapTileLayer.Cell left = tiles.getCell(x - 1, y);
                 TiledMapTileLayer.Cell leftDown = tiles.getCell(x - 1, y - 1);
+                TiledMapTileLayer.Cell leftUp = tiles.getCell(x - 1, y + 1);
                 TiledMapTileLayer.Cell right = tiles.getCell(x + 1, y - 1);
                 TiledMapTileLayer.Cell rightDown = tiles.getCell(x + 1, y - 1);
+                TiledMapTileLayer.Cell rightUp = tiles.getCell(x + 1, y + 1);
 
                 if (target == null){
 
                     if(down != null) {
-                        if (leftDown == null /*|| left != null*/) {
+                        if (leftDown == null || (left != null && leftUp != null)) {
                             node.type = Node.Type.LEFT;
-                        }else if (rightDown == null /*|| right != null*/) {
+                        }else if (rightDown == null || (right != null && rightUp != null)) {
                             node.type = Node.Type.RIGHT;
                         } else {
                             node.type = Node.Type.GROUND;

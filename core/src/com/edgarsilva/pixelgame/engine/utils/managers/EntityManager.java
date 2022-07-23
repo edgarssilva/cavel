@@ -13,7 +13,6 @@ import com.edgarsilva.pixelgame.engine.ecs.systems.HealthBarSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsDebugSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
-import com.edgarsilva.pixelgame.engine.ecs.systems.StateSystem;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
@@ -36,8 +35,6 @@ public class EntityManager {
             engine.addSystem(new PhysicsDebugSystem(screen.getWorld(), screen.getCameraManager().getCamera()));
         engine.addSystem(new AttachedSystem());
 
-        //Player & Enemies Systems
-        engine.addSystem(new StateSystem());
 
         //Map Objects Systems
         engine.addSystem(new DropperSystem());

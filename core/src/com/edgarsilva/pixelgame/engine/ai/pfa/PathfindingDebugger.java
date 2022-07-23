@@ -1,5 +1,6 @@
 package com.edgarsilva.pixelgame.engine.ai.pfa;
 
+import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -65,7 +66,7 @@ public class PathfindingDebugger {
     public static void drawNodes(GraphImp graph) {
         Iterator<Node> iterator = graph.nodes.iterator();
         shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
 
         while (iterator.hasNext()) {
             Node node = iterator.next();
@@ -73,7 +74,7 @@ public class PathfindingDebugger {
             int type = node.type;
             int index = node.getIndex();
 
-
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             if (type == Node.Type.GROUND)
                 shapeRenderer.setColor(10/255f, 200/255f, 1/255f, 1);
             else if (type == Node.Type.AIR)
@@ -92,9 +93,26 @@ public class PathfindingDebugger {
                     LevelManager.tilePixelHeight
 
             );
+            shapeRenderer.end();
+            if (node.getConnections().size > 0) {
+                Connection<Node> conn = node.getConnections().get(0);
+                Node from = conn.getFromNode();
+                Node to = conn.getToNode();
+                int fromIndex = from.getIndex();
+                int toIndex = to.getIndex();
+                drawPoint2Point(new Vector2(
+                                LevelManager.tilePixelWidth / 2f + (fromIndex % LevelManager.lvlTileWidth) * LevelManager.tilePixelWidth,
+                                LevelManager.tilePixelHeight / 2f + (fromIndex / LevelManager.lvlTileWidth) * LevelManager.tilePixelHeight
+                        ),
+                        new Vector2(
+                                LevelManager.tilePixelWidth / 2f + (toIndex % LevelManager.lvlTileWidth) * LevelManager.tilePixelWidth,
+                                LevelManager.tilePixelHeight / 2f + (toIndex / LevelManager.lvlTileWidth) * LevelManager.tilePixelHeight
+                        )
+                );
+            }
 
         }
-        shapeRenderer.end();
+
     }
 
 }
