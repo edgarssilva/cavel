@@ -54,13 +54,13 @@ public class LoginManager {
         parameters.put("username", user);
         parameters.put("password", password);
 
-        Net.HttpRequest httpGet = new Net.HttpRequest(Net.HttpMethods.POST);
-        // httpGet.setHeader();
-        httpGet.setUrl("http://altiagofaria.000webhostapp.com/inGame/login.php");
-        httpGet.setContent(HttpParametersUtils.convertHttpParameters(parameters));
+        Net.HttpRequest httpPost = new Net.HttpRequest(Net.HttpMethods.POST);
+        httpPost.setHeader("Access-Control-Allow-Methods","POST");
+        httpPost.setHeader("Access-Control-Allow-Origin", "*");
+        httpPost.setUrl("https://spaghettigames.ga/inGame/login.php");
+        httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
 
-        Gdx.net.sendHttpRequest(httpGet, httpResponseListener);
-
+        Gdx.net.sendHttpRequest(httpPost, httpResponseListener);
     }
 
 }

@@ -22,6 +22,10 @@ public class Node {
     }
 
     public static class Type {
-        public static final int REGULAR = 1;
+        public static final int AIR = 1;
+        public static final int LEFT = 2;
+        public static final int RIGHT = 3;
+        public static final int GROUND = 4;
+        public static final int WALL = 5;
     }
 }

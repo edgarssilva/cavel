@@ -60,4 +60,41 @@ public class PathfindingDebugger {
             priorNode = node;
         }
     }
+
+
+    public static void drawNodes(GraphImp graph) {
+        Iterator<Node> iterator = graph.nodes.iterator();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        while (iterator.hasNext()) {
+            Node node = iterator.next();
+
+            int type = node.type;
+            int index = node.getIndex();
+
+
+            if (type == Node.Type.GROUND)
+                shapeRenderer.setColor(10/255f, 200/255f, 1/255f, 1);
+            else if (type == Node.Type.AIR)
+                shapeRenderer.setColor(0/255f, 95/255f, 200/255f, 1);
+            else if (type == Node.Type.WALL)
+                shapeRenderer.setColor(200/255f, 0/255f, 0/255f, 1);
+            else if (type == Node.Type.LEFT)
+                shapeRenderer.setColor(255/255f, 250/255f, 7/255f, 1);
+            else if (type == Node.Type.RIGHT)
+                shapeRenderer.setColor(208/255f, 0/255f, 255/255f, 1);
+
+            shapeRenderer.rect(
+                    RenderSystem.PixelsToMeters(LevelManager.tilePixelWidth / 2f + (index % LevelManager.lvlTileWidth) * LevelManager.tilePixelWidth),
+                    RenderSystem.PixelsToMeters(LevelManager.tilePixelHeight / 2f + (index / LevelManager.lvlTileWidth) * LevelManager.tilePixelHeight),
+                    LevelManager.tilePixelWidth,
+                    LevelManager.tilePixelHeight
+
+            );
+
+        }
+        shapeRenderer.end();
+    }
+
 }

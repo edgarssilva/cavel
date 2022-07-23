@@ -11,33 +11,33 @@
    </animation>
   </tile>
  </tileset>
- <layer name="Background" width="60" height="30">
+ <layer name="Background" width="60" height="30" visible="0">
   <data encoding="base64" compression="zlib">
    eJztwwENAAAMw6DOv+kLOSSsmqqqqqqqqvriARB9Bwk=
   </data>
  </layer>
  <layer name="Walls" width="60" height="30">
   <data encoding="base64" compression="zlib">
-   eJztljEOgzAMRb0WpoztXDpxiB4tR+EoHA2DKqGiSITGTpzmPykKAzKY94nsiGaqhKdADUfkBcpkYSR6p9ZwFfkdBWrAr10k/Pbst+O9C++ev8d0M5IBCb8xWMm8hN8YWur3wb3eG+m3lNd1rhj25T9LHSs5zkmJsznXuRRC2/Ehu1t+X5oPPEG735IuQ/A8Mh3mkK/r1Lxb6/eMVP8V9jvH3stZ2DIx0J6Tkv/qL1zx6xTfIxdX/P5DvwAAAAAAoG0WMNoZRA==
+   eJztlkEOhCAMRetynBXLcT3OykPM0TiKR+FoVsfESHBStIQifUmDMQX5/q/BADgohHdEb7OWjwGwPLtJzwDwpfb+0eu49pOaIaJX/f1Rm79P9LfFsQ2PFt/H+BCSAQ5/KXOkZJ7DX8qcmvR2qPVVid5cvs7nin4ru9Z831HXKElvjI9HnM1zjn9zTr2pPfayu+T3w7CuVL0cXoY4qxfPI6N3DtldX827JL0UrvpfoF5H7cUsLJnoYcsJx7caQoK/JsHzj5Dg7x30KoqiKIqiKHUzAbgzGoM=
   </data>
  </layer>
- <layer name="Enviroment" width="60" height="30">
+ <layer name="Enviroment" width="60" height="30" visible="0">
   <data encoding="base64" compression="zlib">
    eJztV0tOwzAQtaClrNlyBYTEhnUpKz4bKAKaZsGCg+QoHIWjcBTGqgceZmI7tet8mieN7DhTzzzPJ65SabE2MiS8O94t1PD4urCHfCubrysfuoSLAB2byxDr14W+8T3xPPuguS4S+dIH7GG/6jXfF5LXBvpS/R6mcycZJiRTeMb5cYN9bL60zyftPddjqO2zBva2xcSSbfliPk/NXlebsWKdGeiTTiXZ3DXY3lqwHRNfjes415IDz1vqNXV8T4U16Xsk8T2H+RHMc9d67LczJL6a32WknVSI4at7EvPFekC+mBPPSn1EmIvGDcktyZ21HnrH0nXP+Yw9oGv1q1FSn3yg8ZFk6dCr4859luNr8z1I5WgilOZ/HEvp0Zf85/zAHNF69yqsD838Kskg8SX5MvJWN+rfPhnh/OAcwbWl8p9hTth8dyHIt+07Zia+82yEPMgd37ZRkKyI82oz/swlvy2ditfwfdfjWwfmhn4XcPc35/RHt1D/z6Zr8fUBYtpIH5/xnNqE6y7QtXvCiBEjfvENoFRgLw==
   </data>
  </layer>
- <layer name="Enviroment2" width="60" height="30">
+ <layer name="Enviroment2" width="60" height="30" visible="0">
   <data encoding="base64" compression="zlib">
    eJztzjEJAAAIADCrif07mUEQfbYEiwAAgD35HThW3wEAAACAoQYE1wCF
   </data>
  </layer>
- <objectgroup name="Collisions">
+ <objectgroup name="Collisions" visible="0">
   <object id="1" x="8" y="40" width="72" height="32"/>
   <object id="3" x="0" y="0" width="8" height="40"/>
   <object id="4" x="56" y="72" width="8" height="16"/>
   <object id="5" x="64" y="88" width="8" height="31.3333"/>
   <object id="23" x="64" y="112" width="72" height="40"/>
-  <object id="25" x="214.667" y="127.333" width="48" height="24"/>
+  <object id="25" x="216" y="128" width="48" height="24"/>
   <object id="26" x="256" y="96" width="48" height="32"/>
   <object id="28" x="296" y="80" width="8" height="23.6667"/>
   <object id="29" x="136" y="152" width="80" height="48">
@@ -48,7 +48,7 @@
   <object id="41" x="296.125" y="72" width="55.875" height="8"/>
   <object id="42" x="344" y="0" width="8" height="72"/>
  </objectgroup>
- <objectgroup name="Entities">
+ <objectgroup name="Entities" visible="0">
   <object id="9" name="player" gid="97" x="75" y="112" width="37.5" height="27.75"/>
   <object id="33" name="Skeleton" gid="2147483746" x="224" y="128" width="18" height="24"/>
   <object id="46" name="Slime" gid="99" x="302.667" y="72" width="16" height="16"/>

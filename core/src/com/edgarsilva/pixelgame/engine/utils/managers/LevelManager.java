@@ -3,6 +3,7 @@ package com.edgarsilva.pixelgame.engine.utils.managers;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.edgarsilva.pixelgame.engine.ai.pfa.GraphGenerator;
@@ -47,7 +48,7 @@ public class LevelManager {
         lvlMeterWidth = lvlPixelWidth * RenderSystem.PIXELS_TO_METERS;
         lvlMeterHeight = lvlPixelHeight * RenderSystem.PIXELS_TO_METERS;
 
-        graph = GraphGenerator.generateGroundGraph(LevelManager.tiledMap);
+        graph = GraphGenerator.gereneratePlatformGraph((TiledMapTileLayer) LevelManager.tiledMap.getLayers().get("Walls"));
         pathFinder = new IndexedAStarPathFinder<Node>(graph, false);
     }
 

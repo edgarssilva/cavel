@@ -31,6 +31,7 @@ public class MenuScreen implements Screen {
         table.setFillParent(true);
         table.setDebug(PixelGame.DEBUG);
         stage.addActor(table);
+        stage.setDebugAll(PixelGame.DEBUG);
 
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
