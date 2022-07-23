@@ -19,8 +19,6 @@ import com.edgarsilva.pixelgame.PixelGame;
 /**
  * Classe responsável por carregar os assets necessários e libertar os desnecessários
  * enquanto demonstra uma animação de espera.
- *
- *
  */
 public class LoadingScreen implements Screen {
 

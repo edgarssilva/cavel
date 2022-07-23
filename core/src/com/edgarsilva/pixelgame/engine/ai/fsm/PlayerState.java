@@ -111,24 +111,14 @@ public enum PlayerState implements State<PlayerAgent> {
     },
 
     Dying(){
-        boolean gameOver;
         @Override
         public void enter(PlayerAgent agent) {
             super.enter(agent);
-            gameOver = false;
         }
 
         @Override
         public void update(PlayerAgent agent) {
-            if (PlayerAgent.finishedAnimation) {
-                //PlayerAgent.stateMachine.changeState(Idle);
-                if (!gameOver) {
-                    gameOver = true;
-                    PlayScreen.gameOver();
-                }
 
-                // EntityManager.setToDestroy(EntityManager.getPlayer());
-            }
         }
 
         @Override

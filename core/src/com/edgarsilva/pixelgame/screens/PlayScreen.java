@@ -45,7 +45,6 @@ public class PlayScreen implements Screen {
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
 
-
     //Physics
     private World world;
 
@@ -57,43 +56,42 @@ public class PlayScreen implements Screen {
     private Controller controller;
     private InputMultiplexer inputMultiplexer;
 
+    //Pausing & Resting game variables
+    private float   gameOverTimer;
+    private float   alpha;
+    private boolean paused;
+    private boolean gameOver;
+    private String  mapTitle;
 
-    public static boolean paused = false;
-    public static boolean gameOver = false;
-    public float gameOverTimer = 0f;
-
-    private String mapTitle;
-
-    private float alpha = 0;
 
     public PlayScreen(PixelGame game, String map) {
-        this.mapTitle = map;
-        PlayScreen.game = game;
+        this.paused        = false;
+        this.gameOver      = false;
+        this.gameOverTimer = 0f;
+        this.alpha         = 0;
+        this.mapTitle      = map;
+        PlayScreen.game    = game;
 
-        inputMultiplexer = new InputMultiplexer();
 
         world = new World(new Vector2(0, -9.6f), true);
         world.setContactListener(new CollisionListener());
 
-        cameraManager = new CameraManager();
-        batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
+        batch          = new SpriteBatch();
+        cameraManager  = new CameraManager();
+        shapeRenderer  = new ShapeRenderer();
 
-        engine = new PooledEngine();
-        entityManager = new EntityManager(this);
+        engine         = new PooledEngine();
+        entityManager  = new EntityManager(this);
 
-        //		Gdx.input.setCursorCatched(true); // remove mouse cursor
 
-        hud = new HUDManager( this);
-        pauseMenu = new PauseManager(this);
-
-        //Graphics
-        cameraManager = new CameraManager();
-        //hud = new HUDManager("skin/glassy-ui.json", this);
+        //Managers
+        hud            = new HUDManager(this);
+        pauseMenu      = new PauseManager(this);
+        cameraManager  = new CameraManager();
 
         //Engine
-        engine =  new PooledEngine();
-        entityManager = new EntityManager(this);
+        engine         = new PooledEngine();
+        entityManager  = new EntityManager(this);
 
 
         if (Gdx.app.getType() == Application.ApplicationType.Desktop)
@@ -101,6 +99,7 @@ public class PlayScreen implements Screen {
         else if (Gdx.app.getType() == Application.ApplicationType.Android)
             controller = new OnScreenController(this);
 
+        inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
         inputMultiplexer.addProcessor(HUDManager.INPUT_INDEX, hud.getStage());
         Controllers.addListener(new JoystickController());
@@ -111,9 +110,6 @@ public class PlayScreen implements Screen {
         new LevelFactory(this);
 
         LevelManager.loadLevel(map);
-       // LevelFactory.makeEntities(LevelManager.tiledMap,"Entities");
-       // LevelFactory.createPhysics(LevelManager.tiledMap,"Collisions");
-       // LevelFactory.makeObstacles(LevelManager.tiledMap,"Obstacles");
     }
 
 
@@ -121,6 +117,7 @@ public class PlayScreen implements Screen {
     public void show() {
         SoundManager.setMusic(GameAssetsManager.level1, true);
         Gdx.input.setInputProcessor(inputMultiplexer);
+
     }
 
     @Override
@@ -134,7 +131,9 @@ public class PlayScreen implements Screen {
         if (!gameOver) checkChanges();
 
         // A definir o delta para 0 secs não há alteraçoes a fazer pois nao passou tempo desdo ultimo frame
-        if (paused) delta = 0;
+        if (paused)  delta = 0;
+
+        Gdx.input.setCursorCatched(!paused);
 
         cameraManager.update(delta);
         batch.setProjectionMatrix(cameraManager.getCamera().combined);
@@ -193,12 +192,13 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-
+        paused = true;
     }
+
 
     @Override
     public void resume() {
-
+        paused = false;
     }
 
     @Override
@@ -216,17 +216,19 @@ public class PlayScreen implements Screen {
         world.dispose();
     }
 
-    public static void gameOver() {
-        gameOver = true;
+    public void gameOver() {
+        this.gameOver = true;
     }
 
     private void resetGame(){
-        System.out.println("Game Reset");
         entityManager.reset();
-        LevelManager.loadLevel(mapTitle);
-        gameOver = false;
+
+        gameOver      = false;
         gameOverTimer = 0f;
-        alpha = 0f;
+        alpha         = 0f;
+
+        EntityManager.add(hud);
+        LevelManager.loadLevel(mapTitle);
     }
 
     //Getters and Setters

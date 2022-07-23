@@ -14,7 +14,6 @@ import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
-import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class EnemyAgentComponent implements Component, Updateable {
 
@@ -59,7 +58,7 @@ public class EnemyAgentComponent implements Component, Updateable {
 
     @Override
     public void update(float deltaTime) {
-        if (PlayScreen.gameOver) stateMachine.changeState(EnemyState.IDLE);
+       // if (PlayScreen.gameOver) stateMachine.changeState(EnemyState.IDLE);
         stateMachine.update();
 
         hasGroundLeft       =  collisionComp.numGroundLeft  >  0;

@@ -25,8 +25,8 @@ public class TransformComponent implements Component, Pool.Poolable {
 
     @Override
     public void reset() {
-       //this.position.set(0f,0f,0f);
-       //this.scale.set(0f, 0f);
+       this.position.set(0f,0f,0f);
+       this.scale.set(1f, 1f);
        this.rotation = 0f;
        this.isHidden = this.flipX = false;
        this.width = this.height = 16;

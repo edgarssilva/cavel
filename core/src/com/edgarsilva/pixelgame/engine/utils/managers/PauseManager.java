@@ -36,7 +36,7 @@ public class PauseManager {
         continueBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                screen.paused = false;
+                screen.resume();
             }
         });
 

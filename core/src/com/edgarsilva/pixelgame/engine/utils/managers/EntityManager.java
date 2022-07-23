@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.listeners.EntitiesListener;
 import com.edgarsilva.pixelgame.engine.ecs.systems.AnimationSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.AttachedSystem;
@@ -56,13 +55,9 @@ public class EntityManager {
     }
 
     public void reset(){
+        updateables.clear();
+        destroyEntities.clear();
         engine.removeAllEntities();
-
-        for (Updateable update : updateables) {
-           if (update.getClass().equals(PlayerAgent.class))
-               updateables.removeValue(update, false);
-        }
-
     }
 
     private static Array<Entity> destroyEntities = new Array<Entity>();

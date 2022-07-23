@@ -67,9 +67,11 @@ public class HUDManager implements Updateable, Disposable {
     @Override
     public void update(float deltaTime) {
         //Se o player estiver vivo atualizar a barra de hp
-        if (stats.has(com.edgarsilva.pixelgame.engine.utils.managers.EntityManager.getPlayer()))
-
-            healthBar.setValue(stats.get(EntityManager.getPlayer()).health);
+        if (stats.has(EntityManager.getPlayer())) {
+            int health = stats.get(EntityManager.getPlayer()).health;
+            healthBar.setValue(health);
+            if (health <= 0 ) screen.gameOver();
+        }
 
         //Update HUD
         stage.act(deltaTime);
