@@ -5,11 +5,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ecs.comparators.ZComparator;
-import com.edgarsilva.pixelgame.engine.ecs.components.SpriteComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.HealthBarComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 
@@ -25,16 +26,17 @@ public class RenderSystem extends SortedIteratingSystem {
     public static final float FRUSTUM_WIDTH = PixelGame.WIDTH / PPM;
     public static final float FRUSTUM_HEIGHT = PixelGame.HEIGHT /PPM;
 
-    private ComponentMapper<TextureComponent> textureM;
+    private ComponentMapper<TextureComponent>   textureM;
     private ComponentMapper<TransformComponent> transformM;
-
+    private ComponentMapper<HealthBarComponent> healthM;
     public RenderSystem(SpriteBatch batch, OrthographicCamera camera) {
-        super(Family.all(TransformComponent.class).one(TextureComponent.class, SpriteComponent.class).get(), new ZComparator());
+        super(Family.all(TransformComponent.class).one(TextureComponent.class).get(), new ZComparator());
         this.batch = batch;
-        this.cam = camera;
+        this.cam   = camera;
 
-        textureM = ComponentMapper.getFor(TextureComponent.class);
-        transformM = ComponentMapper.getFor(TransformComponent.class);
+        textureM    = ComponentMapper.getFor(TextureComponent.class);
+        transformM  = ComponentMapper.getFor(TransformComponent.class);
+        healthM     = ComponentMapper.getFor(HealthBarComponent.class);
         renderQueue = new Array<Entity>();
     }
 
@@ -67,6 +69,23 @@ public class RenderSystem extends SortedIteratingSystem {
                     PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
                     t.rotation);
 
+            if (healthM.has(entity) && healthM.get(entity).show) {
+
+                HealthBarComponent healthBar = healthM.get(entity);
+
+                float width  = PixelsToMeters(30f);
+                float height = PixelsToMeters(4f);
+
+                Texture texture    = healthBar.texture;
+                Texture damage     = healthBar.damage;
+                Texture background = healthBar.background;
+
+                batch.draw(background, t.position.x - width / 2, t.position.y + height * 3.5f, width, height);
+                batch.draw(damage, t.position.x - width / 2, t.position.y + height * 3.5f, width * healthBar.damagedHealth, height);
+                batch.draw(texture, t.position.x - width / 2, t.position.y + height * 3.5f, width * healthBar.scale, height);
+
+            }
+
         }
 
         batch.end();
@@ -75,7 +94,7 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-            renderQueue.add(entity);
+        renderQueue.add(entity);
     }
 
     public static float PixelsToMeters(float pixelValue){

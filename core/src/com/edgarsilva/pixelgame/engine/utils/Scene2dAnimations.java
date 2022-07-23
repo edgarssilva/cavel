@@ -30,7 +30,7 @@ public final static int
      */
     static boolean screenSelector = false;
     /**
-     * Specific region on which animation have to perform
+     * Specific texture on which animation have to perform
      */
     Image imageRegion;
 

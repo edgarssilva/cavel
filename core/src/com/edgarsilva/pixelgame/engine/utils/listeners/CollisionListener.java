@@ -10,19 +10,16 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 
 public class CollisionListener implements ContactListener {
 
     private ComponentMapper<PlayerCollisionComponent> sensorMap;
     private ComponentMapper<EnemyCollisionComponent> enemyMap;
-    private ComponentMapper<TypeComponent> typeMap;
     private ComponentMapper<AttackCollisionComponent> acm;
 
     public CollisionListener() {
         sensorMap = ComponentMapper.getFor(PlayerCollisionComponent.class);
-        typeMap = ComponentMapper.getFor(TypeComponent.class);
         acm = ComponentMapper.getFor(AttackCollisionComponent.class);
         enemyMap = ComponentMapper.getFor(EnemyCollisionComponent.class);
     }

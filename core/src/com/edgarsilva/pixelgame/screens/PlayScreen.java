@@ -188,11 +188,26 @@ public class PlayScreen implements Screen {
 
     }
 
+    public void gameOver() {
+        this.gameOver = true;
+        MessageManager.getInstance().dispatchMessage(0);
+    }
+
+    private void resetGame(){
+        entityManager.reset();
+
+        gameOver      = false;
+        gameOverTimer = 0f;
+        alpha         = 0f;
+
+        EntityManager.add(hud);
+        LevelManager.loadLevel(mapTitle);
+    }
+
     @Override
     public void pause() {
         paused = true;
     }
-
 
     @Override
     public void resume() {
@@ -214,21 +229,6 @@ public class PlayScreen implements Screen {
         world.dispose();
     }
 
-    public void gameOver() {
-        this.gameOver = true;
-        MessageManager.getInstance().dispatchMessage(0);
-    }
-
-    private void resetGame(){
-        entityManager.reset();
-
-        gameOver      = false;
-        gameOverTimer = 0f;
-        alpha         = 0f;
-
-        EntityManager.add(hud);
-        LevelManager.loadLevel(mapTitle);
-    }
 
     //Getters and Setters
     public PooledEngine getEngine() {

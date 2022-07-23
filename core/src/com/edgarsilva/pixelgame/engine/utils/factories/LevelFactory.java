@@ -21,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.ecs.systems.RenderSystem;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
@@ -80,15 +79,12 @@ public class LevelFactory {
 
             // All collisions need an entity, and all entities need a type to handle collisions
             Entity levelEntity = engine.createEntity();
-            TypeComponent type = engine.createComponent(TypeComponent.class);
 
 
             Body body = world.createBody(bodyDef);
 
             body.setUserData(levelEntity);
 
-            type.type = TypeComponent.SCENERY;
-            levelEntity.add(type);
             body.createFixture(fixtureDef).setUserData(levelEntity);
 
 
@@ -147,7 +143,6 @@ public class LevelFactory {
                 fixtureDef.shape = null;
                 shape.dispose();
 
-                TypeComponent type = engine.createComponent(TypeComponent.class);
                 BodyComponent bc = engine.createComponent(BodyComponent.class);
                 TextureComponent tc = engine.createComponent(TextureComponent.class);
                 TransformComponent tfc = engine.createComponent(TransformComponent.class);
@@ -156,13 +151,11 @@ public class LevelFactory {
                 tfc.width = 16;
                 tfc.height = 16;
 
-                //tc.region = new TextureRegion(new Texture("sprites/swoosh.png"));
+                //tc.texture = new TextureRegion(new Texture("sprites/swoosh.png"));
 
-                type.type = TypeComponent.SCENERY;
                 bc.body = body;
 
                 levelEntity
-                        .add(type)
                         .add(bc)
                         .add(tc)
                         .add(tfc);
@@ -210,15 +203,12 @@ public class LevelFactory {
 
                 // All collisions need an entity, and all entities need a type to handle collisions
                 Entity levelEntity = engine.createEntity();
-                TypeComponent type = engine.createComponent(TypeComponent.class);
 
 
                 Body body = world.createBody(bodyDef);
 
                 body.setUserData(levelEntity);
 
-                type.type = TypeComponent.SCENERY;
-                levelEntity.add(type);
                 body.createFixture(fixtureDef).setUserData(levelEntity);
 
 

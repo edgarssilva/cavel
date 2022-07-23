@@ -66,7 +66,6 @@ public class PlayerAgent implements Updateable {
     }
 
 
-
     @Override
     public void update(float deltaTime) {
         this.deltaTime = deltaTime;

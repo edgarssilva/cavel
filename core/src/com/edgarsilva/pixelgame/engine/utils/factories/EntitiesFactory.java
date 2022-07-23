@@ -27,11 +27,11 @@ import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.HealthBarComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TextureComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyEditorLoader;
 import com.edgarsilva.pixelgame.engine.utils.generators.BodyGenerator;
@@ -68,7 +68,6 @@ public class EntitiesFactory {
         TransformComponent       transform  = engine.createComponent(TransformComponent.class);
         TextureComponent         texture    = engine.createComponent(TextureComponent.class);
         AnimationComponent       animation  = engine.createComponent(AnimationComponent.class);
-        TypeComponent            type       = engine.createComponent(TypeComponent.class);
         StatsComponent           sc         = engine.createComponent(StatsComponent.class);
         PlayerCollisionComponent sensorComp = engine.createComponent(PlayerCollisionComponent.class);
         AttackComponent          attackComp = engine.createComponent(AttackComponent.class);
@@ -221,7 +220,6 @@ public class EntitiesFactory {
         );
 
 
-        type.type = TypeComponent.PLAYER;
         // stateCom.set(PlayerStates.STATE_NORMAL);
         b2dbody.body.setUserData(entity);
 
@@ -231,7 +229,6 @@ public class EntitiesFactory {
                 .add(texture)
                 .add(animation)
                 .add(attackComp)
-                .add(type)
                 .add(sensorComp)
                 .add(sc);
         // entity.add(stateCom)
@@ -319,15 +316,17 @@ public class EntitiesFactory {
         TransformComponent transform = engine.createComponent(TransformComponent.class);
         TextureComponent texture = engine.createComponent(TextureComponent.class);
         AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-        TypeComponent type = engine.createComponent(TypeComponent.class);
         //EnemyComponent enemyCom = engine.createComponent(EnemyComponent.class);
         StatsComponent sc = engine.createComponent(StatsComponent.class);
         EnemyCollisionComponent collisionComp = engine.createComponent(EnemyCollisionComponent.class);
         EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
-
+        HealthBarComponent healthBarComp = engine.createComponent(HealthBarComponent.class);
 
         StatsGenerator.generateStats(Gdx.files.internal("entities/stats/skeletonStats.json"), sc);
 
+        healthBarComp.texture    = new Texture("raw/healthbar.png");
+        healthBarComp.damage     = new Texture("raw/healthbar_damage.png");
+        healthBarComp.background = new Texture("raw/healthbar_background.png");
 
         b2dbody.body = BodyGenerator.bodyHelper(entity,
                 position,
@@ -456,7 +455,6 @@ public class EntitiesFactory {
         );
 
 
-        type.type = TypeComponent.ENEMY;
         b2dbody.body.setUserData(entity);
 
 
@@ -465,9 +463,8 @@ public class EntitiesFactory {
         entity.add(b2dbody);
         entity.add(transform);
         entity.add(texture);
-        entity.add(animation);
-        entity.add(type)
-                .add(sc).add(collisionComp);
+        entity.add(animation)
+                .add(sc).add(collisionComp).add(healthBarComp);
 
 
         agentComp = new EnemyAgentComponent(entity);
@@ -489,9 +486,12 @@ public class EntitiesFactory {
         StatsComponent           statsComp   =  engine.createComponent(StatsComponent.class);
         TextureComponent         textComp    =  engine.createComponent(TextureComponent.class);
         TransformComponent       transfComp  =  engine.createComponent(TransformComponent.class);
-        TypeComponent            typeComp    =  engine.createComponent(TypeComponent.class);
         EnemyAgentComponent      agentComp   =  engine.createComponent(EnemyAgentComponent.class);
+        HealthBarComponent       healthComp  =  engine.createComponent(HealthBarComponent.class);
 
+        healthComp.texture    = new Texture("raw/healthbar.png");
+        healthComp.damage     = new Texture("raw/healthbar_damage.png");
+        healthComp.background = new Texture("raw/healthbar_background.png");
 
 
         TextureAtlas atlas = assets.manager.get(GameAssetsManager.slimeAtlas, TextureAtlas.class);
@@ -565,16 +565,11 @@ public class EntitiesFactory {
         bodyComp.flippable = true;
 
 
-        statsComp.health    = 40;
-        statsComp.damage    = 10;
-        statsComp.maxHealth = 50;
-
         transfComp.width  = 16;
         transfComp.height = 16;
         transfComp.position.set(position.x, position.y, 2);
         transfComp.scale.set(-1, 1);
 
-        typeComp.type = TypeComponent.ENEMY;
 
 
         entity.add(animComp)
@@ -583,7 +578,7 @@ public class EntitiesFactory {
                 .add(statsComp)
                 .add(textComp)
                 .add(transfComp)
-                .add(typeComp)
+                .add(healthComp)
         ;//.add(pathComp);
 
         agentComp = new EnemyAgentComponent(entity);
@@ -604,7 +599,6 @@ public class EntitiesFactory {
         StatsComponent     statsComp = engine.createComponent(StatsComponent.class);
         TextureComponent   textComp  = engine.createComponent(TextureComponent.class);
         TransformComponent transComp = engine.createComponent(TransformComponent.class);
-        TypeComponent      typeComp  = engine.createComponent(TypeComponent.class);
 
         Texture region = assets.manager.get(GameAssetsManager.witchTexture, Texture.class);
 
