@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
@@ -187,7 +186,7 @@ public class OnScreenController extends Controller implements Updateable, Dispos
         stage.addActor(leftImage);
         stage.addActor(rightImage);
         stage.addActor(attackImage);
-        EntityManager.add(this);
+        //EntityManager.add(this);
 
     }
 

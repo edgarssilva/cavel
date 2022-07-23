@@ -143,9 +143,13 @@ public class PlayScreen implements Screen {
         LevelManager.renderer.setView(cameraManager.getCamera());
         LevelManager.renderer.render();
 
+
+
         GdxAI.getTimepiece().update(delta);
         entityManager.update(delta);
         hud.update(delta);
+        if (Gdx.app.getType() == Application.ApplicationType.Android)
+            ((OnScreenController) controller).update(delta);
 
         if (paused) pauseMenu.render();
         if (gameOver) {
