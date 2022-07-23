@@ -25,6 +25,6 @@ public class PhysicsConstants {
     public static final short   ENEMY_ATTACK_SENSOR     = 40;
 
     //Neutral
-    public static final short   COIN_BITS               = 42;
     public static final short   HEART_BITS              = 44;
+    public static final short   COIN_BITS               = 48;
 }

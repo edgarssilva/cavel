@@ -271,7 +271,7 @@ public class EntitiesFactory {
         cc.value = value;
 
 
-        float randomX = random.nextInt(1) / 10f + 0.5f;
+        float randomX = random.nextInt(5) / 10f + 0.5f;
         float randomY = random.nextInt(2) / 10f + 2f;
         if (random.nextBoolean()) randomX = -randomX;
         bc.body.setLinearVelocity(randomX, randomY);
@@ -362,8 +362,8 @@ public class EntitiesFactory {
         //healthComp.scale = 10f;
         healthComp.y  = 1.5f;
 
-        statsComp.maxHealth = 200;
-        statsComp.health    = 200;
+        statsComp.maxHealth = 20;
+        statsComp.health    = 20;
 
         Body body;
         BodyDef bdef = new BodyDef();

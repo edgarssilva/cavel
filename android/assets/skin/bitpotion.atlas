@@ -6,71 +6,94 @@ filter: Linear,Linear
 repeat: none
 BitPotionExt_0
   rotate: false
-  xy: 1, 327
+  xy: 1, 441
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 BitPotionExt_Black_0
   rotate: false
-  xy: 1, 69
+  xy: 1, 183
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
+black
+  rotate: false
+  xy: 75, 46
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
 button2
   rotate: false
-  xy: 1, 1
+  xy: 131, 149
   size: 72, 32
   orig: 72, 32
   offset: 0, 0
   index: -1
 button_hover
   rotate: false
-  xy: 259, 533
+  xy: 1, 19
   size: 72, 32
   orig: 72, 32
   offset: 0, 0
   index: -1
 button_pressed2
   rotate: false
-  xy: 1, 35
+  xy: 389, 665
   size: 72, 32
   orig: 72, 32
   offset: 0, 0
   index: -1
 checkbox
   rotate: false
-  xy: 75, 35
+  xy: 259, 517
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 checkbox_selected
   rotate: false
-  xy: 259, 499
+  xy: 389, 631
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 knob
   rotate: false
-  xy: 389, 567
+  xy: 463, 681
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 knob_hover
   rotate: false
-  xy: 333, 549
+  xy: 1, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 slider
   rotate: false
-  xy: 259, 567
+  xy: 259, 681
   size: 128, 16
   orig: 128, 16
+  offset: 0, 0
+  index: -1
+textfield
+  rotate: false
+  xy: 1, 53
+  size: 128, 128
+  split: 12, 12, 12, 12
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 259, 551
+  size: 128, 128
+  split: 12, 12, 13, 12
+  orig: 128, 128
   offset: 0, 0
   index: -1

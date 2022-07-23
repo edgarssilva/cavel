@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -34,11 +35,13 @@ public class SettingsScreen implements Screen{
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
 
-    private final  Slider volumeMusicSlider;
-    private final  Slider soundMusicSlider;
-    private final  CheckBox soundEffectsCheckbox;
-    private final  CheckBox musicCheckbox;
-    private final  TextButton backButton;
+    private final Slider  volumeMusicSlider;
+    private final Slider    soundMusicSlider;
+    private final CheckBox   soundEffectsCheckbox;
+    private final CheckBox   musicCheckbox;
+    private final TextButton backButton;
+    private final CheckBox   lightCheckBox;
+    private final TextButton resetButton;
 
     private int screen;
 
@@ -107,7 +110,33 @@ public class SettingsScreen implements Screen{
             }
         });
 
+        lightCheckBox = new CheckBox(null, skin);
+        lightCheckBox.setChecked(PlayScreen.light);
+        lightCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                PlayScreen.light = lightCheckBox.isChecked();
+            }
+        });
 
+        resetButton = new TextButton("ResetGame", skin);
+        resetButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                new Dialog("Confirm", skin){
+                    @Override
+                    protected void result(Object object) {
+                        if ((Boolean) object) {
+                            //TODO Reset Saves
+                        }
+                    }
+                }.
+                        text("Are you sure you want to RESET ?")
+                        .button("No", false)
+                        .button("Yes", true)
+                        .show(stage);
+            }
+        });
 
         titleLabel = new Label("Preferences", skin);
         audioLabel = new Label("Audio", skin);
@@ -141,21 +170,21 @@ public class SettingsScreen implements Screen{
         right.add(videoLabel).expandX();
         right.row().pad(10,10,10,10);
         right.add(new Label("Light Effects", skin));
-        right.add(new CheckBox(null, skin)).expandX();
+        right.add(lightCheckBox).expandX();
         right.row().pad(10,10,10,10);
         right.add(new Label("Game", skin)).expandX();
         right.row().pad(10,10,10,10);
-        right.add(new TextButton("Reset Game", skin)).width(150);
+        right.add(resetButton).width(150);
         right.row().pad(10,10,10,10);
         right.add(new TextButton("Credits", skin)).width(150);
 
-        table.center().center();
-        table.add(titleLabel).colspan(24);
+        table.center();
+        table.add(titleLabel).fill().center();
         table.row().padTop(30);
-        table.add(left).colspan(6);
-        table.add(right).colspan(24);
+        table.add(left).fill();
+        table.add(right).fill();
         table.row().pad(10,10,10,10);
-        table.add(backButton).colspan(24);
+        table.add(backButton).fill().center();
     }
 
     @Override

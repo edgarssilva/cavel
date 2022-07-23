@@ -1,9 +1,13 @@
 package com.edgarsilva.pixelgame.engine.utils.managers;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
 import com.edgarsilva.pixelgame.PixelGame;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
 import com.edgarsilva.pixelgame.engine.ecs.listeners.EntitiesListener;
 import com.edgarsilva.pixelgame.engine.ecs.systems.AnimationSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.AttachedSystem;
@@ -24,6 +28,8 @@ public class EntityManager {
 
     private static Entity player;
     private static PooledEngine engine;
+
+    private static ComponentMapper<EnemyAgent> enemyAgentComp = ComponentMapper.getFor(EnemyAgent.class);
 
     public EntityManager(PlayScreen screen) {
         engine = screen.getEngine();
@@ -65,6 +71,13 @@ public class EntityManager {
             } catch (Exception ex) {System.err.println(ex);}
 
         destroyEntities.clear();
+    }
+
+    public static void destroyAllEnemies(){
+        for (Entity entity : engine.getEntitiesFor(Family.all(EnemyAgent.class).get())) {
+            enemyAgentComp.get(entity).stateMachine.changeState(EnemyState.Dying);
+        }
+
     }
 
     public void reset(){

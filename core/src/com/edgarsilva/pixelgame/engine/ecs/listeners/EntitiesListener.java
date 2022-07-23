@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.BossComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.CoinComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
@@ -21,7 +20,7 @@ public class EntitiesListener implements EntityListener {
     private ComponentMapper<DropComponent>  dcm  = ComponentMapper.getFor(DropComponent.class);
     private ComponentMapper<CoinComponent>  ccm  = ComponentMapper.getFor(CoinComponent.class);
     private ComponentMapper<LightComponent> lcm  = ComponentMapper.getFor(LightComponent.class);
-    private ComponentMapper<BossComponent>  bscm = ComponentMapper.getFor(BossComponent.class);
+  //  private ComponentMapper<BossComponent>  bscm = ComponentMapper.getFor(BossComponent.class);
 
     public EntitiesListener(PlayScreen screen) {
         this.screen = screen;
@@ -42,6 +41,6 @@ public class EntitiesListener implements EntityListener {
             CoinSystem.coins += ccm.get(entity).value;
         }
         if (lcm.has(entity)) lcm.get(entity).light.remove(true);
-        if (bscm.has(entity)) PlayScreen.levelComplete();
+       // if (bscm.has(entity) && PlayerAgent.getCurrentState() != PlayerState.Dying) PlayScreen.levelComplete();
     }
 }

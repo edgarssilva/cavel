@@ -1,10 +1,12 @@
 package com.edgarsilva.pixelgame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -27,6 +29,9 @@ public class LoginScreen implements Screen {
     private TextButton exit;
     private TextButton signUp;
 
+    public static Dialog successDialog;
+    public static Dialog errorDialog;
+
     public LoginScreen(final PixelGame game) {
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
         stage.setDebugAll(PixelGame.DEBUG);
@@ -36,11 +41,37 @@ public class LoginScreen implements Screen {
         table.setDebug(true);
         stage.addActor(table);
 
+        successDialog = new Dialog("Login", PixelGame.assets.getSkin()){
+            @Override
+            protected void result(Object object) {
+                if ((Boolean) object) {
+                    game.setScreen(PixelGame.MENU_SCREEN);
+                }
+            }
+        };
+        successDialog.text("Success");
+        successDialog.button("OK",true);
+        successDialog.key(Input.Keys.ENTER, true);
+
+        errorDialog = new Dialog("Login", PixelGame.assets.getSkin()){
+            @Override
+            protected void result(Object object) {
+                if ((Boolean) object) {
+                    game.setScreen(PixelGame.MENU_SCREEN);
+                }
+            }
+        };
+        //errorDialog.text("Error");
+        errorDialog.button("OK",true);
+        errorDialog.key(Input.Keys.ENTER, true);
+
+
         username = new TextField("", game.assets.getSkin());
         password = new TextField("", game.assets.getSkin());
         submit = new TextButton("Login", game.assets.getSkin());
         exit = new TextButton("Back", game.assets.getSkin());
         signUp = new TextButton("Signup", game.assets.getSkin());
+
 
         submit.addListener(new ChangeListener() {
             @Override
@@ -69,7 +100,7 @@ public class LoginScreen implements Screen {
         game.assets.getSkin().getFont("BitPotionExt").getData().setScale(2f);
 
         submit.setScale(2f);
-        submit.getLabel().setFontScale(1.5f);
+        submit.getLabel().setFontScale(3f);
 
         signUp.setScale(2f);
         signUp.getLabel().setFontScale(1.5f);

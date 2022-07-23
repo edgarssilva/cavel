@@ -11,7 +11,6 @@ import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TransformComponent;
 import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
-import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public class WitchAgent extends Agent {
 
@@ -25,6 +24,10 @@ public class WitchAgent extends Agent {
 
     public float lastHit = 0f;
     public boolean leftSide = true;
+
+    public int coins = 0;
+    public boolean died = false;
+
     public WitchAgent() {}
 
     public WitchAgent(Entity witch) {
@@ -39,11 +42,12 @@ public class WitchAgent extends Agent {
 
     @Override
     public void update(float deltaTime) {
-        if (statsComp.health > 0) {
+        if (!died) {
             stateMachine.update();
             animationState = stateMachine.getCurrentState();
             lastHit += deltaTime;
         }
+        if (coins > 0) spawnDropables();
     }
 
 
@@ -58,10 +62,19 @@ public class WitchAgent extends Agent {
             lastHit = 0f;
             statsComp.health -= 20;
             if (statsComp.health <= 0) {
+                coins = 100 + random.nextInt(50);
                 EntityManager.setToDestroy(attack);
+                EntityManager.destroyAllEnemies();
                 EntityManager.setToDestroy(owner);
-                PlayScreen.levelComplete();
+                died = true;
             }
         }
+    }
+
+    public void spawnDropables() {
+        EntitiesFactory.createCoin(
+                body.getPosition().add(random.nextInt(5) - 3, random.nextInt(4) - 2),
+                random.nextInt(10) + 10);
+        coins --;
     }
 }

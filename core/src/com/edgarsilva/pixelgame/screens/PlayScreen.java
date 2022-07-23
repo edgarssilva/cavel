@@ -73,7 +73,7 @@ public class PlayScreen implements Screen {
     private boolean       gameOver;
 
     //Test
-    private boolean light = true;
+    public static boolean light = true;
     private String map;
 
 

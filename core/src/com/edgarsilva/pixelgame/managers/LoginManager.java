@@ -1,7 +1,6 @@
 package com.edgarsilva.pixelgame.managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.HttpParametersUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -18,54 +17,55 @@ public class LoginManager {
     public static final int WRONG_CREDENTIALS = 2;
     public static final int WRONG_DATA        = 3;
 
+    private static Dialog dialog;
 
     public static final Net.HttpResponseListener DEFAULT_LISTENER = new Net.HttpResponseListener() {
         @Override
         public void handleHttpResponse(Net.HttpResponse httpResponse) {
             String output = httpResponse.getResultAsString();
             System.out.println(output);
-
+            dialog.remove();
             try {
                 switch (Integer.parseInt(output)) {
                     case LoginManager.WRONG_DATA:
+                        LoginScreen.errorDialog.text("Username or Password not set !");
+                        LoginScreen.errorDialog.show(LoginScreen.stage);
                         System.out.println("Username or Password not set !");
                         break;
                     case LoginManager.SUCCESS:
                         System.out.println("Success !");
+                        LoginScreen.successDialog.show(LoginScreen.stage);
                         break;
                     case LoginManager.WRONG_CREDENTIALS:
+                        LoginScreen.errorDialog.text("Wrong Credentials !");
+                        LoginScreen.errorDialog.show(LoginScreen.stage);
                         System.out.println("Wrong Credentials !");
                         break;
                     case LoginManager.FAILED_SAVING:
+                        LoginScreen.errorDialog.text("Attempt to Login Failed !");
+                        LoginScreen.errorDialog.show(LoginScreen.stage);
                         System.out.println("Attempt to Login Failed !");
                         break;
                     default:
                         System.out.println("Error Connection with Server !");
+                        LoginScreen.errorDialog.text("Error Connection !");
+                        LoginScreen.errorDialog.show(LoginScreen.stage);
                         break;
                 }
 
-                Dialog dialog = new Dialog("Login", PixelGame.assets.getSkin()){
-                    @Override
-                    protected void result(Object object) {
-                        System.out.println("result"+object);
-                    }
-                };
-                dialog.text("Loading");
-                dialog.button("OK",true);
-                dialog.key(Input.Keys.ENTER, true);
-                dialog.pack();
-                dialog.show(LoginScreen.stage);
+
+
 
             } catch (NumberFormatException ex) {
                 System.out.println("Error Connection with Server !");
             }
-
-
         }
 
         @Override
         public void failed(Throwable t) {
             System.out.println(t);
+            LoginScreen.errorDialog.text("Error");
+            LoginScreen.errorDialog.show(LoginScreen.stage);
         }
 
         @Override
@@ -88,6 +88,14 @@ public class LoginManager {
         httpPost.setContent(HttpParametersUtils.convertHttpParameters(parameters));
 
         Gdx.net.sendHttpRequest(httpPost, httpResponseListener);
+        dialog = new Dialog("Login", PixelGame.assets.getSkin());
+        dialog.scaleBy(2f);
+        dialog.text("Loading");
+        dialog.setMovable(false);
+        // dialog.button("OK",true);
+        // dialog.key(Input.Keys.ENTER, true);
+        // dialog.pack();
+        dialog.show(LoginScreen.stage);
     }
 
     public static void save(String user, String password, String save, Net.HttpResponseListener httpResponseListener ) {
