@@ -3,7 +3,6 @@ package com.edgarsilva.pixelgame.engine.utils.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -411,7 +410,6 @@ public class EntitiesFactory {
 
 
         agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
-        agentComp.stateMachine = new DefaultStateMachine<EnemyAgentComponent, EnemyState>(agentComp, EnemyState.IDLE);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -478,7 +476,6 @@ public class EntitiesFactory {
         ;//.add(pathComp);
 
         agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
-        agentComp.stateMachine = new DefaultStateMachine<EnemyAgentComponent, EnemyState>(agentComp, EnemyState.IDLE);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 

@@ -45,8 +45,10 @@ public class PhysicsSystem extends IteratingSystem {
         tfm.rotation = body.getAngle() * MathUtils.radiansToDegrees;
 
         //Inverter a texture dependendo pra que lado está a andar
-        if (body.getLinearVelocity().x != 0)
-            tfm.flipX = body.getLinearVelocity().x < 0;
+        if(body.getLinearVelocity().x != 0) {
+            if (body.getLinearVelocity().x > 1) tfm.flipX = false;
+            if (body.getLinearVelocity().x < -1) tfm.flipX = true;
+        }
 
         //Remove the Entity in case it went over the ground
         if (body.getPosition().y < 0) EntityManager.setToDestroy(entity);

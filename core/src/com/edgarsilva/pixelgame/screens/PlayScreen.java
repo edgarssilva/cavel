@@ -4,6 +4,7 @@ package com.edgarsilva.pixelgame.screens;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,6 +28,7 @@ import com.edgarsilva.pixelgame.engine.utils.managers.CameraManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.HUDManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
+import com.edgarsilva.pixelgame.engine.utils.managers.PauseManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 
@@ -36,6 +38,7 @@ public class PlayScreen implements Screen {
 
     //Graphics
     private HUDManager hud;
+    private PauseManager pause;
     private SpriteBatch batch;
     private CameraManager cameraManager;
 
@@ -49,6 +52,7 @@ public class PlayScreen implements Screen {
     //Utils
     private Controller controller;
 
+    public boolean paused = false;
 
     //Test
     public static GraphPathImp resultPath;
@@ -126,7 +130,15 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.graphics.setTitle("Pixel Game " + Gdx.graphics.getFramesPerSecond());
+        Gdx.graphics.setTitle("Cavel " + Gdx.graphics.getFramesPerSecond());
+
+
+        //Parar o jogo
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK))
+            paused = !paused;
+        //Verificar se o jogo está parado
+        if (paused) delta = 0;
+
         //Gdx.gl.glClearColor(38/255f,32/255f,51/255f,1);
         //Gdx.gl.glClearColor(33/255f,38/255f,63/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -145,6 +157,12 @@ public class PlayScreen implements Screen {
         // hud.update(delta);
 
         //PathfindingDebugger.drawPath(resultPath);
+
+        if (paused) {
+
+        }
+
+
     }
 
 

@@ -11,7 +11,17 @@ public enum EnemyState implements State<EnemyAgentComponent> {
 
         }
     },
-    Seeking,
+    Seeking(){
+        @Override
+        public void update(EnemyAgentComponent agent) {
+            /*if (agent.target == null) return;
+            if (agent.target.type == Node.Type.LEFT) {
+                agent.moveLeft();
+            }if (agent.target.type == Node.Type.RIGHT) {
+                agent.moveRight();
+            }*/
+        }
+    },
     Attacking,
     Die,
     Hit,
@@ -20,20 +30,20 @@ public enum EnemyState implements State<EnemyAgentComponent> {
     ;
 
     @Override
-    public void enter(EnemyAgentComponent agent
-    ) {
+    public void enter(EnemyAgentComponent agent) {
 
     }
 
     @Override
-    public void update(EnemyAgentComponent agent
-    ) {
-
+    public void update(EnemyAgentComponent agent) {
+       /* if (agent.node.type == Node.Type.LEFT || agent.node.type == Node.Type.RIGHT) {
+            agent.target = agent.node.getConnections().get(0).getToNode();
+            System.out.println("Entrou");
+        }*/
     }
 
     @Override
-    public void exit(EnemyAgentComponent agent
-    ) {
+    public void exit(EnemyAgentComponent agent) {
 
     }
 
