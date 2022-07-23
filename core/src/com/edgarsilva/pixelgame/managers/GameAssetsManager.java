@@ -2,6 +2,7 @@ package com.edgarsilva.pixelgame.managers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -24,8 +25,11 @@ public class GameAssetsManager {
 
 
     // Sounds
-    public static final  String boingSound = "";
-    public static final String pingSound = "";
+    public static final String attack1 = "entities/sounds/attack1.ogg";
+    public static final String attack2 = "entities/sounds/attack2.ogg";
+    public static final String attack3 = "entities/sounds/attack3.ogg";
+    public static final String jump = "entities/sounds/jump.ogg";
+    public static final String doublejump = "entities/sounds/doublejump.ogg";
 
     // Music
     public final String playingSong = "";
@@ -52,8 +56,11 @@ public class GameAssetsManager {
     }
 
     public void queueAddSounds(){
-        //manager.load(boingSound,Sound.class);
-        //manager.load(pingSound,Sound.class);
+        manager.load(attack1, Sound.class);
+        manager.load(attack2, Sound.class);
+        manager.load(attack3, Sound.class);
+        manager.load(jump, Sound.class);
+        manager.load(doublejump, Sound.class);
     }
 
     public void queueAddMusic(){

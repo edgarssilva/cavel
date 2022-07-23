@@ -2,6 +2,9 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.audio.Sound;
+import com.edgarsilva.pixelgame.managers.GameAssetsManager;
+import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public enum PlayerState implements State<PlayerAgent> {
 
@@ -27,9 +30,10 @@ public enum PlayerState implements State<PlayerAgent> {
     },
 
     Walking() {
+        Sound sound;
         @Override
         public void enter(PlayerAgent agent) {
-            super.enter(agent);
+          //  sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.)
         }
 
         @Override
@@ -45,12 +49,16 @@ public enum PlayerState implements State<PlayerAgent> {
                     PlayerAgent.stateMachine.changeState(Idle);
             }
         }
+
+
     },
 
     Jumping() {
         @Override
         public void enter(PlayerAgent agent) {
-            super.enter(agent);
+            Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.jump, Sound.class);
+
+           sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
         }
 
         @Override
@@ -61,12 +69,17 @@ public enum PlayerState implements State<PlayerAgent> {
             /* else if (agent.jumpOnAir())
                 agent.stateMachine.changeState(DoubleJumping);*/
         }
+
+
+
     },
 
     DoubleJumping() {
         @Override
         public void enter(PlayerAgent agent) {
-            super.enter(agent);
+            Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.doublejump, Sound.class);
+
+            sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
         }
 
         @Override

@@ -10,6 +10,11 @@ public class EnemyCollisionComponent implements CollisionComponent, Pool.Poolabl
 
     private ComponentMapper<EnemyAgentComponent> agentMap = ComponentMapper.getFor(EnemyAgentComponent.class);
 
+    public int numGroundLeft  =  0;
+    public int numGroundRight =  0;
+    public int numWallLeft    =  0;
+    public int numWallRight   =  0;
+
     @Override
     public void handleCollision(Entity owner, Entity collider) {
        /* if (EntityManager.getPlayer().equals(collider)) {
@@ -20,6 +25,9 @@ public class EnemyCollisionComponent implements CollisionComponent, Pool.Poolabl
 
     @Override
     public void reset() {
-
+        numGroundLeft  = 0;
+        numGroundRight = 0;
+        numWallLeft    = 0;
+        numWallRight   = 0;
     }
 }

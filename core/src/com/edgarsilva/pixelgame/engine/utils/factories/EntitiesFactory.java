@@ -353,11 +353,11 @@ public class EntitiesFactory {
         bodyDef.gravityScale = 1;
 
         //bodyDef.gravityScale = 0.5f;
-        bodyDef.position.set(position.x + (18 / 2f * RenderSystem.PIXELS_TO_METERS), position.y + (24 / 2f * RenderSystem.PIXELS_TO_METERS));
+        bodyDef.position.set(position.x + (8 / 2f * RenderSystem.PIXELS_TO_METERS), position.y + (16 / 2f * RenderSystem.PIXELS_TO_METERS));
         body = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(18 / 2f * RenderSystem.PIXELS_TO_METERS, 24 / 2f * RenderSystem.PIXELS_TO_METERS);
+        box.setAsBox(16 / 2f * RenderSystem.PIXELS_TO_METERS, 22 / 2f * RenderSystem.PIXELS_TO_METERS);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = box;
@@ -371,6 +371,42 @@ public class EntitiesFactory {
         body.setUserData(entity);
         b2dbody.body = body;
 
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 6 / 2f * RenderSystem.PIXELS_TO_METERS,
+                new Vector2(body.getLocalCenter().x - 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y - 15 * RenderSystem.PIXELS_TO_METERS  )
+                , 0f);
+        fdef.shape = shape;
+        fdef.isSensor = true;
+        fdef.filter.categoryBits = PhysicsConstants.LEFT_GROUND_SENSOR;
+        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+
+        body.createFixture(fdef);
+
+        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 6 / 2f * RenderSystem.PIXELS_TO_METERS,
+                new Vector2(body.getLocalCenter().x + 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y - 15 * RenderSystem.PIXELS_TO_METERS  )
+                , 0f);
+        fdef.filter.categoryBits = PhysicsConstants.RIGHT_GROUND_SENSOR;
+        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+        body.createFixture(fdef);
+
+        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 8 / 2f * RenderSystem.PIXELS_TO_METERS,
+                new Vector2(body.getLocalCenter().x + 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y + 2 * RenderSystem.PIXELS_TO_METERS  )
+                , 0f);
+        fdef.filter.categoryBits = PhysicsConstants.WALL_RIGHT_SENSOR;
+        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+        body.createFixture(fdef);
+
+        shape.setAsBox(2 / 2f * RenderSystem.PIXELS_TO_METERS, 8 / 2f * RenderSystem.PIXELS_TO_METERS,
+                new Vector2(body.getLocalCenter().x - 10 * RenderSystem.PIXELS_TO_METERS,body.getLocalCenter().y + 2 * RenderSystem.PIXELS_TO_METERS  )
+                , 0f);
+        fdef.filter.categoryBits = PhysicsConstants.WALL_LEFT_SENSOR;
+        fdef.filter.maskBits = PhysicsConstants.LEVEL_BITS;
+        body.createFixture(fdef);
+        shape.dispose();
+
+        for (Fixture fix : body.getFixtureList()) {
+            fix.setUserData(entity);
+        }
 
         // set object position (x,y,z) z used to define draw order 0 first drawn
         transform.position.set(position.x, position.y,2);
@@ -521,6 +557,7 @@ public class EntitiesFactory {
         ;//.add(pathComp);
 
         agentComp = new EnemyAgentComponent(entity, new GroundSteering(entity));
+        agentComp.stateMachine.changeState(EnemyState.Attacking);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 

@@ -39,7 +39,7 @@ public class PlayerAgent implements Updateable {
     public static boolean attacking = false;
 
     public static boolean finishedAnimation = false;
-    public long lastAttack = 0l;
+    public long lastAttack = 0;
     public static float timer = 0.0f;
 
     public Entity attack;
@@ -53,6 +53,7 @@ public class PlayerAgent implements Updateable {
 
         stateMachine = new DefaultStateMachine<PlayerAgent, PlayerState>(this, PlayerState.Idle);
         attackStateMachine = new DefaultStateMachine<PlayerAgent, PlayerAttackState>(this, PlayerAttackState.NONE);
+        lastAttack = 0;
     }
 
     @Override

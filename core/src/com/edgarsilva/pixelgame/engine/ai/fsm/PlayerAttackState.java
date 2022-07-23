@@ -2,7 +2,10 @@ package com.edgarsilva.pixelgame.engine.ai.fsm;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.audio.Sound;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
+import com.edgarsilva.pixelgame.managers.GameAssetsManager;
+import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 public enum PlayerAttackState implements State<PlayerAgent> {
 
@@ -21,7 +24,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
                 PlayerAttackState nextState;
                 PlayerAttackState previousState = PlayerAgent.attackStateMachine.getPreviousState();
 
-                if (System.currentTimeMillis() - agent.lastAttack > 150 || previousState == null)
+                if (System.currentTimeMillis() - agent.lastAttack > 200 || previousState == null)
                     previousState = NONE;
 
                 if (agent.isTouchingGround) {
@@ -66,6 +69,13 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
     Attack1() {
         @Override
+        public void enter(PlayerAgent agent) {
+           Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.attack1, Sound.class);
+
+           sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+        }
+
+        @Override
         public void update(PlayerAgent agent) {
             super.update(agent);
         }
@@ -74,6 +84,12 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
     Attack2() {
         @Override
+        public void enter(PlayerAgent agent) {
+            Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.attack2, Sound.class);
+
+            sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+        }
+        @Override
         public void update(PlayerAgent agent) {
             super.update(agent);
         }
@@ -81,6 +97,12 @@ public enum PlayerAttackState implements State<PlayerAgent> {
     },
 
     Attack3() {
+        @Override
+        public void enter(PlayerAgent agent) {
+            Sound sound = PlayScreen.getGame().assets.manager.get(GameAssetsManager.attack3, Sound.class);
+
+            sound.play(PlayScreen.getGame().getPreferences().sound.getSoundVolume());
+        }
         @Override
         public void update(PlayerAgent agent) {
             super.update(agent);

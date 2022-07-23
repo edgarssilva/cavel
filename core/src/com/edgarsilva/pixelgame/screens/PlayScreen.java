@@ -45,7 +45,7 @@ public class PlayScreen implements Screen {
 
     //Graphics
     private SpriteBatch batch;
-    private ShapeRenderer shapeRenderer;
+    public static ShapeRenderer shapeRenderer;
 
 
     //Physics
@@ -245,7 +245,7 @@ public class PlayScreen implements Screen {
     public SpriteBatch getBatch() {
         return batch;
     }
-    public PixelGame getGame() {
+    public static PixelGame getGame() {
         return game;
     }
 }

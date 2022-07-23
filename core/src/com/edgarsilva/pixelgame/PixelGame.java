@@ -15,7 +15,7 @@ public class PixelGame extends Game {
     public static final float WIDTH = 960;
     public static final float HEIGHT = 540;
 
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     private GamePreferences preferences;
 

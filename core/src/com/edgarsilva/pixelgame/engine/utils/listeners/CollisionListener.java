@@ -2,8 +2,13 @@ package com.edgarsilva.pixelgame.engine.utils.listeners;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.TypeComponent;
 import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
@@ -11,6 +16,7 @@ import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 public class CollisionListener implements ContactListener {
 
     private ComponentMapper<PlayerCollisionComponent> sensorMap;
+    private ComponentMapper<EnemyCollisionComponent> enemyMap;
     private ComponentMapper<TypeComponent> typeMap;
     private ComponentMapper<AttackCollisionComponent> acm;
 
@@ -18,6 +24,7 @@ public class CollisionListener implements ContactListener {
         sensorMap = ComponentMapper.getFor(PlayerCollisionComponent.class);
         typeMap = ComponentMapper.getFor(TypeComponent.class);
         acm = ComponentMapper.getFor(AttackCollisionComponent.class);
+        enemyMap = ComponentMapper.getFor(EnemyCollisionComponent.class);
     }
 
     @Override
@@ -51,35 +58,68 @@ public class CollisionListener implements ContactListener {
 
 
 
-        if (!sensorMap.has(actorA) && !sensorMap.has(actorB))
-            return;
+        if (sensorMap.has(actorA) || sensorMap.has(actorB)) {
 
-        PlayerCollisionComponent data;
-        short categoryBits;
+            PlayerCollisionComponent data;
+            short categoryBits;
 
-        if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
-            data = sensorMap.get(actorA);
-            categoryBits = fa.getFilterData().categoryBits;
-        } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
-            data = sensorMap.get(actorB);
-            categoryBits = fb.getFilterData().categoryBits;
-        } else {
-            return;
+            if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = sensorMap.get(actorA);
+                categoryBits = fa.getFilterData().categoryBits;
+            } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = sensorMap.get(actorB);
+                categoryBits = fb.getFilterData().categoryBits;
+            } else {
+                return;
+            }
+
+
+            switch (categoryBits) {
+                case PhysicsConstants.FOOT_SENSOR:
+                    data.numFoot++;
+                    break;
+                case PhysicsConstants.RIGHT_WALL_SENSOR:
+                    data.numRightWall++;
+                    break;
+                case PhysicsConstants.LEFT_WALL_SENSOR:
+                    data.numLeftWall++;
+                    break;
+            }
         }
 
+        if (enemyMap.has(actorA) || enemyMap.has(actorB)) {
 
-        switch (categoryBits) {
-            case PhysicsConstants.FOOT_SENSOR:
-                data.numFoot++;
-                break;
-            case PhysicsConstants.RIGHT_WALL_SENSOR:
-                data.numRightWall++;
-                break;
-            case PhysicsConstants.LEFT_WALL_SENSOR:
-                data.numLeftWall++;
-                break;
+            EnemyCollisionComponent data;
+            short categoryBits;
+
+
+            if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = enemyMap.get(actorA);
+                categoryBits = fa.getFilterData().categoryBits;
+            } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = enemyMap.get(actorB);
+                categoryBits = fb.getFilterData().categoryBits;
+            } else {
+                return;
+            }
+
+
+            switch (categoryBits) {
+
+                case PhysicsConstants.LEFT_GROUND_SENSOR:
+                    data.numGroundLeft++;
+                    break;
+                case PhysicsConstants.RIGHT_GROUND_SENSOR:
+                    data.numGroundRight++;
+                    break;
+                case PhysicsConstants.WALL_LEFT_SENSOR:
+                    data.numWallLeft++;
+                    break;
+                case PhysicsConstants.WALL_RIGHT_SENSOR:
+                    data.numWallRight++;
+                    break;
+            }
         }
-
     }
 
     private void entityCollision(Entity ent, Fixture fb) {
@@ -168,36 +208,67 @@ public class CollisionListener implements ContactListener {
         Entity actorA = (Entity) fa.getUserData();
         Entity actorB = (Entity) fb.getUserData();
 
-        if (actorA == null || actorB == null)
-            return;
-        if (!sensorMap.has(actorA) && !sensorMap.has(actorB))
-            return;
+        if (actorA == null || actorB == null) return;
 
-        PlayerCollisionComponent data;
-        short categoryBits;
+        if (sensorMap.has(actorA) || sensorMap.has(actorB)) {
+            PlayerCollisionComponent data;
+            short categoryBits;
 
-        if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
-            data = sensorMap.get(actorA);
-            categoryBits = fa.getFilterData().categoryBits;
-        } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
-            data = sensorMap.get(actorB);
-            categoryBits = fb.getFilterData().categoryBits;
-        } else {
-            return;
+            if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = sensorMap.get(actorA);
+                categoryBits = fa.getFilterData().categoryBits;
+            } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = sensorMap.get(actorB);
+                categoryBits = fb.getFilterData().categoryBits;
+            } else {
+                return;
+            }
+
+
+            switch (categoryBits) {
+                case PhysicsConstants.FOOT_SENSOR:
+                    data.numFoot--;
+                    break;
+                case PhysicsConstants.RIGHT_WALL_SENSOR:
+                    data.numRightWall--;
+                    break;
+                case PhysicsConstants.LEFT_WALL_SENSOR:
+                    data.numLeftWall--;
+                    break;
+            }
         }
 
+        if (enemyMap.has(actorA) || enemyMap.has(actorB)) {
+            EnemyCollisionComponent data;
+            short categoryBits;
 
-        switch (categoryBits) {
-            case PhysicsConstants.FOOT_SENSOR:
-                data.numFoot--;
-                break;
-            case PhysicsConstants.RIGHT_WALL_SENSOR:
-                data.numRightWall--;
-                break;
-            case PhysicsConstants.LEFT_WALL_SENSOR:
-                data.numLeftWall--;
-                break;
+            if (fa.isSensor() && fb.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = enemyMap.get(actorA);
+                categoryBits = fa.getFilterData().categoryBits;
+            } else if (fb.isSensor() && fa.getFilterData().categoryBits == PhysicsConstants.LEVEL_BITS) {
+                data = enemyMap.get(actorB);
+                categoryBits = fb.getFilterData().categoryBits;
+            } else {
+                return;
+            }
+
+
+            switch (categoryBits) {
+                case PhysicsConstants.LEFT_GROUND_SENSOR:
+                    data.numGroundLeft--;
+                    break;
+                case PhysicsConstants.RIGHT_GROUND_SENSOR:
+                    data.numGroundRight--;
+                    break;
+                case PhysicsConstants.WALL_LEFT_SENSOR:
+                    data.numWallLeft--;
+                    break;
+                case PhysicsConstants.WALL_RIGHT_SENSOR:
+                    data.numWallRight--;
+                    break;
+            }
         }
+
     }
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {

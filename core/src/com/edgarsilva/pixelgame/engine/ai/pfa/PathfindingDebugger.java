@@ -67,14 +67,14 @@ public class PathfindingDebugger {
         Iterator<Node> iterator = graph.nodes.iterator();
         shapeRenderer.setProjectionMatrix(camera.combined);
 
-
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         while (iterator.hasNext()) {
             Node node = iterator.next();
 
             int type = node.type;
             int index = node.getIndex();
 
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
             if (type == Node.Type.GROUND)
                 shapeRenderer.setColor(10/255f, 200/255f, 1/255f, 1);
             else if (type == Node.Type.AIR)
@@ -93,7 +93,7 @@ public class PathfindingDebugger {
                     LevelManager.tilePixelHeight
 
             );
-            shapeRenderer.end();
+
             if (node.getConnections().size > 0) {
                 Connection<Node> conn = node.getConnections().get(0);
                 Node from = conn.getFromNode();
@@ -110,7 +110,7 @@ public class PathfindingDebugger {
                         )
                 );
             }
-
+            shapeRenderer.end();
         }
 
     }

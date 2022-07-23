@@ -8,13 +8,24 @@ public enum EnemyState implements State<EnemyAgentComponent> {
     IDLE(){
         @Override
         public void update(EnemyAgentComponent agent) {
-
+           
         }
     },
     Seeking(){
         @Override
         public void update(EnemyAgentComponent agent) {
-            System.out.println(agent.node.type);
+            if  (agent.isTouchingWallRight  || !agent.hasGroundRight ){
+                agent.moveToLeft = true;
+            }else if  (agent.isTouchingWallLeft || !agent.hasGroundLeft){
+                agent.moveToLeft = false;
+            }
+
+            if (agent.moveToLeft){
+                agent.moveLeft();
+            }else{
+                agent.moveRight();
+            }
+
             /*if (agent.target == null) return;
             if (agent.target.type == Node.Type.LEFT) {
                 agent.moveLeft();
