@@ -47,7 +47,7 @@ public class GameAssetsManager {
     public static final String level1 = "raw/audio/music/Level-1.ogg";
     public static final String ending = "raw/audio/music/Ending.ogg";
 
-    public static final String skin = "skin/glassy-ui.json";
+    public static final String skin = "skin/bitpotion.json";
     public static final String BitPotion = "bitmaps/BitPotionExt.fnt";
 
 

@@ -5,28 +5,28 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.edgarsilva.pixelgame.engine.utils.managers.CameraManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 
-public enum EnemyState implements State<EnemyAgentComponent> {
+public enum EnemyState implements State<EnemyAgent> {
 
 
     IDLE(){
         @Override
-        public void enter(EnemyAgentComponent agent) {
+        public void enter(EnemyAgent agent) {
             super.enter(agent);
         }
 
         @Override
-        public void update(EnemyAgentComponent agent) {
+        public void update(EnemyAgent agent) {
         }
     },
 
     Seeking(){
         @Override
-        public void enter(EnemyAgentComponent agent) {
+        public void enter(EnemyAgent agent) {
             super.enter(agent);
         }
 
         @Override
-        public void update(EnemyAgentComponent agent) {
+        public void update(EnemyAgent agent) {
 
             if (agent.attackable()) agent.stateMachine.changeState(Attacking);
 
@@ -55,15 +55,15 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         boolean attack = false;
 
         @Override
-        public void enter(EnemyAgentComponent agent) {
+        public void enter(EnemyAgent agent) {
             super.enter(agent);
         }
 
         @Override
-        public void update(EnemyAgentComponent agent) {
-            if (agent.anim.isAnimationFinished(agent.timer * 2)) {
+        public void update(EnemyAgent agent) {
+            if (agent.finishedAnimation) {
                 if (!attack){ agent.attack(); attack = true; }
-                if (agent.anim.isAnimationFinished(agent.timer)) {
+                if (agent.finishedAnimation) {
                     if (agent.attackable()) {
                         attack = false;
                         agent.timer = 0;
@@ -73,41 +73,41 @@ public enum EnemyState implements State<EnemyAgentComponent> {
         }
 
         @Override
-        public void exit(EnemyAgentComponent agent) {
+        public void exit(EnemyAgent agent) {
 
         }
     },
 
     Dying(){
         @Override
-        public void enter(EnemyAgentComponent agent) {
+        public void enter(EnemyAgent agent) {
             super.enter(agent);
             CameraManager.shake(250, 450);
         }
 
         @Override
-        public void update(EnemyAgentComponent agent) {
-            if (agent.anim.isAnimationFinished(agent.timer)) {
+        public void update(EnemyAgent agent) {
+            if (agent.finishedAnimation) {
                 agent.stateMachine.changeState(IDLE);
                 agent.spawnDropables();
-                EntityManager.setToDestroy(agent.entity);
+                EntityManager.setToDestroy(agent.owner);
             }
         }
 
         @Override
-        public void exit(EnemyAgentComponent agent) {
+        public void exit(EnemyAgent agent) {
         }
     },
 
     Hit(){
         @Override
-        public void enter(EnemyAgentComponent agent) {
+        public void enter(EnemyAgent agent) {
             super.enter(agent);
         }
 
         @Override
-        public void update(EnemyAgentComponent agent) {
-            if (agent.anim.isAnimationFinished(agent.timer)) {
+        public void update(EnemyAgent agent) {
+            if (agent.finishedAnimation) {
                 agent.stateMachine.changeState(Seeking);
             }
         }
@@ -115,12 +115,12 @@ public enum EnemyState implements State<EnemyAgentComponent> {
     ;
 
     @Override
-    public void enter(EnemyAgentComponent agent) {
+    public void enter(EnemyAgent agent) {
         agent.timer = 0f;
     }
 
     @Override
-    public void update(EnemyAgentComponent agent) {
+    public void update(EnemyAgent agent) {
        /* if (agent.node.type == Node.Type.LEFT || agent.node.type == Node.Type.RIGHT) {
             agent.target = agent.node.getConnections().get(0).getToNode();
             System.out.println("Entrou");
@@ -128,12 +128,12 @@ public enum EnemyState implements State<EnemyAgentComponent> {
     }
 
     @Override
-    public void exit(EnemyAgentComponent agent) {
+    public void exit(EnemyAgent agent) {
 
     }
 
     @Override
-    public boolean onMessage(EnemyAgentComponent agent, Telegram telegram) {
+    public boolean onMessage(EnemyAgent agent, Telegram telegram) {
         if (telegram.message == 0) {
             agent.attackableEntities.clear();
             return true;

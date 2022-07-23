@@ -146,7 +146,7 @@ public enum PlayerState implements State<PlayerAgent> {
 
         @Override
         public void update(PlayerAgent agent) {
-            if (PlayerAgent.finishedAnimation) {
+            if (agent.finishedAnimation) {
                 PlayerAgent.stateMachine.changeState(Idle);
             }
         }
@@ -155,7 +155,7 @@ public enum PlayerState implements State<PlayerAgent> {
 
     @Override
     public void enter(PlayerAgent agent) {
-        if (!PlayerAgent.attacking) PlayerAgent.timer = 0f;
+        if (!PlayerAgent.attacking) agent.timer = 0f;
     }
 
     @Override

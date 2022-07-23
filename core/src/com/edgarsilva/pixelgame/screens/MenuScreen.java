@@ -63,7 +63,7 @@ public class MenuScreen implements Screen {
         stage.addActor(table);
         stage.setDebugAll(PixelGame.DEBUG);
 
-        skin = pixelGame.assets.getSkin();
+        skin = game.assets.getSkin();
 
         BitmapFont bitPotion = game.assets.manager.get(GameAssetsManager.BitPotion, BitmapFont.class);
 

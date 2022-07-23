@@ -16,7 +16,6 @@ import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
 import com.edgarsilva.pixelgame.engine.utils.managers.LevelManager;
-import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 import com.edgarsilva.pixelgame.screens.PlayScreen;
 
 /**
@@ -25,10 +24,7 @@ import com.edgarsilva.pixelgame.screens.PlayScreen;
  *
  * @autor: Edgar Silva
  */
-public class PlayerAgent implements Updateable {
-
-
-    private Entity player;
+public class PlayerAgent extends Agent {
 
     protected Body body;
 
@@ -50,16 +46,17 @@ public class PlayerAgent implements Updateable {
     public boolean isTouchingWallRight = false;
     public static boolean attacking = false;
 
-    public static boolean finishedAnimation = false;
     public long lastAttack = 0l;
-    public static float timer = 0.0f;
 
     public Entity attack;
 
     public float deltaTime;
 
-    public PlayerAgent(Entity player,  PlayerState state, PlayerAttackState attackState) {
-        this.player = player;
+    public PlayerAgent() {
+    }
+
+    public PlayerAgent(Entity player, PlayerState state, PlayerAttackState attackState) {
+        this.owner = player;
 
         statsCompMap = ComponentMapper.getFor(StatsComponent.class);
         bodyComp = player.getComponent(BodyComponent.class);
@@ -69,7 +66,7 @@ public class PlayerAgent implements Updateable {
         sensors = player.getComponent(PlayerCollisionComponent.class);
         attackComp = player.getComponent(AttackComponent.class);
         animComp = player.getComponent(StateAnimationComponent.class);
-        statsComp = statsCompMap.get(EntityManager.getPlayer());
+        statsComp = statsCompMap.get(player);
 
         stateMachine = new DefaultStateMachine<PlayerAgent, PlayerState>(this, state);
         attackStateMachine = new DefaultStateMachine<PlayerAgent, PlayerAttackState>(this, attackState);
@@ -81,6 +78,7 @@ public class PlayerAgent implements Updateable {
     public void update(float deltaTime) {
         this.deltaTime = deltaTime;
 
+
         isTouchingGround = (sensors.numFoot > 0);
         isTouchingWallLeft = (sensors.numLeftWall > 0);
         isTouchingWallRight = (sensors.numRightWall > 0);
@@ -88,7 +86,12 @@ public class PlayerAgent implements Updateable {
         stateMachine.update();
         attackStateMachine.update();
 
-        if (bodyComp == null && bodyCompMap.has(player)) bodyComp = bodyCompMap.get(player);
+        if (attackStateMachine.getCurrentState() != PlayerAttackState.NONE)
+            animationState = attackStateMachine.getCurrentState();
+        else
+            animationState = stateMachine.getCurrentState();
+
+        if (bodyComp == null && bodyCompMap.has(owner)) bodyComp = bodyCompMap.get(owner);
         if (body.getPosition().x > LevelManager.lvlMeterWidth) PlayScreen.levelComplete();
     }
 
@@ -96,7 +99,6 @@ public class PlayerAgent implements Updateable {
         EntityManager.getPlayer().getComponent(BodyComponent.class).body.setTransform(position, 0f);
         stateMachine.setGlobalState(PlayerState.Walking);
         attackStateMachine.setGlobalState(PlayerAttackState.NONE);
-        timer = 0f;
     }
 
     public static PlayerState getCurrentState() {
@@ -114,9 +116,9 @@ public class PlayerAgent implements Updateable {
 
     public static void hit(StatsComponent enemyStats) {
         //Proteção para não contar o ataque mais que uma vez
-        if (stateMachine.isInState(PlayerState.Hit) || stateMachine.isInState(PlayerState.Dying)) {
-            if (timer < 0.05f || stateMachine.isInState(PlayerState.Dying)) return;
-        }
+          if (stateMachine.isInState(PlayerState.Hit) || stateMachine.isInState(PlayerState.Dying)) {
+              if (/*timer < 0.05f ||*/ stateMachine.isInState(PlayerState.Dying)) return;
+          }
 
         if (statsComp.health - enemyStats.damage <= 0) {
             stateMachine.changeState(PlayerState.Dying);
@@ -195,5 +197,10 @@ public class PlayerAgent implements Updateable {
 
     public void die() {
         statsComp.health = 0;
+    }
+
+    @Override
+    public void hit() {
+
     }
 }

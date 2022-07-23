@@ -57,7 +57,11 @@ public class EntityManager {
         engine.update(deltaTime);
         for (Updateable agent : updateables) agent.update(deltaTime);
 
-        for (Entity entity : destroyEntities) engine.removeEntity(entity);
+        for (Entity entity : destroyEntities)
+            try {
+                engine.removeEntity(entity);
+            } catch (Exception ex) {System.err.println(ex);}
+
         destroyEntities.clear();
     }
 

@@ -56,11 +56,31 @@ public class LevelManager {
     }
 
     public static void generateLevel(){
-        LevelFactory.createPhysics(tiledMap,"Collisions");
-        LevelFactory.makeObstacles(tiledMap,"Obstacles");
-        LevelFactory.makeLights(tiledMap,"Light");
-        LevelFactory.makeMessages(tiledMap, "Messages");
-        LevelFactory.makeHiddenWalls(tiledMap, "HiddenCollisions");
+        try {
+            LevelFactory.createPhysics(tiledMap, "Collisions");
+        } catch (Exception ex) {
+
+        }
+        try {
+            LevelFactory.makeObstacles(tiledMap, "Obstacles");
+        } catch (Exception ex) {
+
+        }
+        try {
+            LevelFactory.makeLights(tiledMap, "Light");
+        } catch (Exception ex) {
+
+        }
+        try {
+            LevelFactory.makeMessages(tiledMap, "Messages");
+        } catch (Exception ex) {
+
+        }
+        try {
+            LevelFactory.makeHiddenWalls(tiledMap, "HiddenCollisions");
+        } catch (Exception ex) {
+
+        }
     }
 
     public static void generateEntities(){

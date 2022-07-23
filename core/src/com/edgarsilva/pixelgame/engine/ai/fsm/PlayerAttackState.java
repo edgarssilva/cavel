@@ -61,7 +61,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
                 agent.makeAttackFixture(nextState);
                 agent.bodyComp.flippable = false;
-                PlayerAgent.timer = 0f;
+                agent.timer = 0f;
                 PlayerAgent.attacking = true;
                 PlayerAgent.attackStateMachine.changeState(nextState);
             }
@@ -126,7 +126,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
             if (!Controller.attack) PlayerAgent.attackStateMachine.changeState(NONE);
 
             if (agent.isTouchingGround) {
-                PlayerAgent.timer = 0f;
+                agent.timer = 0f;
                 PlayerAgent.attackStateMachine.changeState(FallAttack);
             }
         }
@@ -154,7 +154,7 @@ public enum PlayerAttackState implements State<PlayerAgent> {
 
     @Override
     public void update(PlayerAgent agent) {
-        if (PlayerAgent.finishedAnimation) {
+        if (agent.finishedAnimation) {
             PlayerAgent.attackStateMachine.changeState(NONE);
             agent.destroyAttackFixture();
         }

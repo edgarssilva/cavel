@@ -27,7 +27,7 @@ public class LevelScreen implements Screen {
     public LevelScreen(final PixelGame game) {
         this.game = game;
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
-        skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        skin = game.assets.getSkin();
 
         Gdx.input.setInputProcessor(stage);
 

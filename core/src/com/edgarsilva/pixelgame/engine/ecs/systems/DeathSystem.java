@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 
 public class DeathSystem extends IteratingSystem {
@@ -12,7 +12,7 @@ public class DeathSystem extends IteratingSystem {
     private ComponentMapper<StatsComponent> sm;
 
     public DeathSystem() {
-        super(Family.all(com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent.class).exclude(EnemyAgentComponent.class).get(), 10);
+        super(Family.all(com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent.class).exclude(EnemyAgent.class).get(), 10);
         sm = ComponentMapper.getFor(com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent.class);
     }
 

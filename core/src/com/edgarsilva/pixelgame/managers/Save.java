@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.edgarsilva.pixelgame.PixelGame;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
@@ -51,11 +51,11 @@ public class Save{
             ));
         }
 
-        ImmutableArray<Entity> enemies = screen.getEngine().getEntitiesFor(Family.all(EnemyAgentComponent.class).get());
+        ImmutableArray<Entity> enemies = screen.getEngine().getEntitiesFor(Family.all(EnemyAgent.class).get());
 
         for (Entity enemy : enemies) {
             TransformComponent  tfc = enemy.getComponent(TransformComponent.class);
-            EnemyAgentComponent ec  = enemy.getComponent(EnemyAgentComponent.class);
+            EnemyAgent ec  = enemy.getComponent(EnemyAgent.class);
 
             enemySaves.add(new EnemySave(
                     tfc.position.x,

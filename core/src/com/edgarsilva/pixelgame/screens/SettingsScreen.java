@@ -50,9 +50,8 @@ public class SettingsScreen implements Screen{
 
         table.setFillParent(true);
         table.setDebug(PixelGame.DEBUG);
-
-
-        skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        
+        skin = game.assets.getSkin();
 
         volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
         volumeMusicSlider.setValue(game.getPreferences().sound.getMusicVolume() );

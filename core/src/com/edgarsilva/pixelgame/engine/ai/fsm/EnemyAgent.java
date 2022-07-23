@@ -1,12 +1,10 @@
 package com.edgarsilva.pixelgame.engine.ai.fsm;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
@@ -14,13 +12,11 @@ import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
 import com.edgarsilva.pixelgame.engine.utils.factories.EntitiesFactory;
 import com.edgarsilva.pixelgame.engine.utils.managers.EntityManager;
-import com.edgarsilva.pixelgame.engine.utils.objects.Updateable;
 
 import java.util.Random;
 
-public class EnemyAgentComponent implements Component, Updateable {
+public class EnemyAgent extends Agent {
 
-    public Entity entity;
     public Enemies enemyType;
     public Body body;
     //public Node node = null;
@@ -34,12 +30,10 @@ public class EnemyAgentComponent implements Component, Updateable {
     public Array<Entity> attackableEntities = new Array<Entity>();
     public boolean moveToLeft = false;
 
-    public float timer = 1f;
-    public Animation anim;
 
     private Random random;
 
-    public StateMachine<EnemyAgentComponent, EnemyState> stateMachine;
+    public StateMachine<EnemyAgent, EnemyState> stateMachine;
 
     private EnemyCollisionComponent collisionComp;
     public StatsComponent statsComp;
@@ -48,12 +42,12 @@ public class EnemyAgentComponent implements Component, Updateable {
     // private IndexedAStarPathFinder<Node> pathFinder;
     // private GraphPathImp resultPath = new GraphPathImp();
 
-    public EnemyAgentComponent() {
+    public EnemyAgent() {
 
     }
 
-    public EnemyAgentComponent(Entity entity, Enemies type) {
-        this.entity   =  entity;
+    public EnemyAgent(Entity entity, Enemies type) {
+        this.owner   =  entity;
         this.enemyType = type;
         random = new Random();
 
@@ -63,7 +57,7 @@ public class EnemyAgentComponent implements Component, Updateable {
         body          =  bodyCompMap.get(entity).body;
         collisionComp =  entity.getComponent(EnemyCollisionComponent.class);
 
-        stateMachine  =  new DefaultStateMachine<EnemyAgentComponent, EnemyState>(this, EnemyState.Seeking);
+        stateMachine  =  new DefaultStateMachine<EnemyAgent, EnemyState>(this, EnemyState.Seeking);
         MessageManager.getInstance().addListener(stateMachine, 0);
     }
 
@@ -72,6 +66,7 @@ public class EnemyAgentComponent implements Component, Updateable {
     public void update(float deltaTime) {
         // if (PlayScreen.gameOver) stateMachine.changeState(EnemyState.IDLE);
         stateMachine.update();
+        animationState = stateMachine.getCurrentState();
 
         hasGroundLeft       =  collisionComp.numGroundLeft  >  0;
         hasGroundRight      =  collisionComp.numGroundRight >  0;

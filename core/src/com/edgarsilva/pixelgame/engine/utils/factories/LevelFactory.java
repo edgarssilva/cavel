@@ -102,7 +102,6 @@ public class LevelFactory {
     }
 
     public static void makeEntities(TiledMap map, String layerName){
-
         MapObjects objects =  map.getLayers().get(layerName).getObjects();
         Vector2 position, dimension;
         for (MapObject object : objects) {
@@ -117,6 +116,8 @@ public class LevelFactory {
                 EntitiesFactory.createSkeleton(position);
             if (name.equalsIgnoreCase("Slime"))
                 EntitiesFactory.createSlime(position);
+            if (name.equalsIgnoreCase("Witch"))
+                EntitiesFactory.createWitch(position);
         }
 
         if (EntityManager.getPlayer() == null)

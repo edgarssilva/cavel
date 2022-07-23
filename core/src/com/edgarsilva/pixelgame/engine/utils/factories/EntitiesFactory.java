@@ -3,6 +3,7 @@ package com.edgarsilva.pixelgame.engine.utils.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.btree.utils.BehaviorTreeParser;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,16 +17,20 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAttackState;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerState;
+import com.edgarsilva.pixelgame.engine.ai.fsm.boss.WitchAgent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.boss.WitchState;
 import com.edgarsilva.pixelgame.engine.ecs.components.AnimationComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttachedComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.AttackComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.BehaviorComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
+import com.edgarsilva.pixelgame.engine.ecs.components.BossComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.CoinComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.HealthBarComponent;
@@ -68,21 +73,21 @@ public class EntitiesFactory {
         random = new Random();
     }
 
-    public static void createPlayer(Vector2 position, PlayerState state, PlayerAttackState attackState){
+    public static void createPlayer(Vector2 position, PlayerState state, PlayerAttackState attackState) {
 
         Entity entity = engine.createEntity();
 
-        BodyComponent            b2dbody    = engine.createComponent(BodyComponent.class);
-        TransformComponent       transform  = engine.createComponent(TransformComponent.class);
-        TextureComponent         texture    = engine.createComponent(TextureComponent.class);
-        StateAnimationComponent animation  = engine.createComponent(StateAnimationComponent.class);
-        StatsComponent           sc         = engine.createComponent(StatsComponent.class);
+        BodyComponent b2dbody = engine.createComponent(BodyComponent.class);
+        TransformComponent transform = engine.createComponent(TransformComponent.class);
+        TextureComponent texture = engine.createComponent(TextureComponent.class);
+        StateAnimationComponent animation = engine.createComponent(StateAnimationComponent.class);
+        StatsComponent sc = engine.createComponent(StatsComponent.class);
         PlayerCollisionComponent sensorComp = engine.createComponent(PlayerCollisionComponent.class);
-        AttackComponent          attackComp = engine.createComponent(AttackComponent.class);
+        AttackComponent attackComp = engine.createComponent(AttackComponent.class);
 
         StatsGenerator.generateStats(Gdx.files.internal("entities/stats/playerStats.json"), sc);
 
-        transform.position.set(position.x, position.y,0);
+        transform.position.set(position.x, position.y, 0);
         transform.width = 37.50f;
         transform.height = 27.75f;
 
@@ -231,6 +236,7 @@ public class EntitiesFactory {
         // stateCom.set(PlayerStates.STATE_NORMAL);
         b2dbody.body.setUserData(entity);
 
+
         // add the components to the entity
         entity.add(b2dbody)
                 .add(transform)
@@ -239,17 +245,20 @@ public class EntitiesFactory {
                 .add(attackComp)
                 .add(sensorComp)
                 .add(sc);
+        PlayerAgent agent = new PlayerAgent(entity, state, attackState);
+        entity.add(agent);
         // entity.add(stateCom)
 
 
         // add the entity to the engine
         engine.addEntity(entity);
         EntityManager.setPlayer(entity);
-        EntityManager.add(new PlayerAgent(entity, state, attackState));
+        EntityManager.add(agent);
     }
 
     public static Entity createAttack(PlayerAttackState state) {
         Entity attack = engine.createEntity();
+
         BodyComponent bodyComp = engine.createComponent(BodyComponent.class);
         AttackCollisionComponent collComp = engine.createComponent(AttackCollisionComponent.class);
         AttachedComponent attachComp = engine.createComponent(AttachedComponent.class);
@@ -317,7 +326,7 @@ public class EntitiesFactory {
         return attack;
     }
 
-    public static Entity createSkeleton(Vector2 position){
+    public static Entity createSkeleton(Vector2 position) {
         Entity entity = engine.createEntity();
 
         BodyComponent b2dbody = engine.createComponent(BodyComponent.class);
@@ -327,13 +336,13 @@ public class EntitiesFactory {
         //EnemyComponent enemyCom = engine.createComponent(EnemyComponent.class);
         StatsComponent sc = engine.createComponent(StatsComponent.class);
         EnemyCollisionComponent collisionComp = engine.createComponent(EnemyCollisionComponent.class);
-        EnemyAgentComponent      agentComp   =   engine.createComponent(EnemyAgentComponent.class);
+        EnemyAgent agentComp = engine.createComponent(EnemyAgent.class);
         HealthBarComponent healthBarComp = engine.createComponent(HealthBarComponent.class);
 
         StatsGenerator.generateStats(Gdx.files.internal("entities/stats/skeletonStats.json"), sc);
 
-        healthBarComp.texture    = new Texture("raw/healthbar.png");
-        healthBarComp.damage     = new Texture("raw/healthbar_damage.png");
+        healthBarComp.texture = new Texture("raw/healthbar.png");
+        healthBarComp.damage = new Texture("raw/healthbar_damage.png");
         healthBarComp.background = new Texture("raw/healthbar_background.png");
 
         b2dbody.body = BodyGenerator.bodyHelper(entity,
@@ -373,7 +382,7 @@ public class EntitiesFactory {
 
 
         // set object position (x,y,z) z used to define draw order 0 first drawn
-        transform.position.set(position.x, position.y,2);
+        transform.position.set(position.x, position.y, 2);
         transform.width = 18;
         transform.height = 24;
         transform.flipX = true;
@@ -466,7 +475,6 @@ public class EntitiesFactory {
         b2dbody.body.setUserData(entity);
 
 
-
         // add the components to the entity
         entity.add(b2dbody);
         entity.add(transform);
@@ -475,7 +483,7 @@ public class EntitiesFactory {
                 .add(sc).add(collisionComp).add(healthBarComp);
 
 
-        agentComp = new EnemyAgentComponent(entity, Enemies.SKELETON);
+        agentComp = new EnemyAgent(entity, Enemies.SKELETON);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -484,21 +492,21 @@ public class EntitiesFactory {
         return entity;
     }
 
-    public static Entity createSlime(Vector2 position){
+    public static Entity createSlime(Vector2 position) {
         Entity entity = engine.createEntity();
 
-        StateAnimationComponent animComp    =  engine.createComponent(StateAnimationComponent.class);
-        BodyComponent            bodyComp    =  engine.createComponent(BodyComponent.class);
-        EnemyCollisionComponent  collComp    =  engine.createComponent(EnemyCollisionComponent.class);
+        StateAnimationComponent animComp = engine.createComponent(StateAnimationComponent.class);
+        BodyComponent bodyComp = engine.createComponent(BodyComponent.class);
+        EnemyCollisionComponent collComp = engine.createComponent(EnemyCollisionComponent.class);
 
-        StatsComponent           statsComp   =  engine.createComponent(StatsComponent.class);
-        TextureComponent         textComp    =  engine.createComponent(TextureComponent.class);
-        TransformComponent       transfComp  =  engine.createComponent(TransformComponent.class);
-        EnemyAgentComponent      agentComp   =  engine.createComponent(EnemyAgentComponent.class);
-        HealthBarComponent       healthComp  =  engine.createComponent(HealthBarComponent.class);
+        StatsComponent statsComp = engine.createComponent(StatsComponent.class);
+        TextureComponent textComp = engine.createComponent(TextureComponent.class);
+        TransformComponent transfComp = engine.createComponent(TransformComponent.class);
+        EnemyAgent agentComp = engine.createComponent(EnemyAgent.class);
+        HealthBarComponent healthComp = engine.createComponent(HealthBarComponent.class);
 
-        healthComp.texture    = new Texture("raw/healthbar.png");
-        healthComp.damage     = new Texture("raw/healthbar_damage.png");
+        healthComp.texture = new Texture("raw/healthbar.png");
+        healthComp.damage = new Texture("raw/healthbar_damage.png");
         healthComp.background = new Texture("raw/healthbar_background.png");
 
 
@@ -542,7 +550,6 @@ public class EntitiesFactory {
         );
 
 
-
         bodyComp.body = BodyGenerator.bodyHelper(
                 entity,
                 position,
@@ -573,11 +580,10 @@ public class EntitiesFactory {
         bodyComp.flippable = true;
 
 
-        transfComp.width  = 16;
+        transfComp.width = 16;
         transfComp.height = 16;
         transfComp.position.set(position.x, position.y, 2);
         transfComp.scale.set(-1, 1);
-
 
 
         entity.add(animComp)
@@ -589,7 +595,7 @@ public class EntitiesFactory {
                 .add(healthComp)
         ;//.add(pathComp);
 
-        agentComp = new EnemyAgentComponent(entity, Enemies.SLIME);
+        agentComp = new EnemyAgent(entity, Enemies.SLIME);
         EntityManager.add(agentComp);
         entity.add(agentComp);
 
@@ -602,21 +608,21 @@ public class EntitiesFactory {
     public static Entity createCoin(Vector2 position, int value) {
         Entity entity = engine.createEntity();
 
-        BodyComponent      bc  = engine.createComponent(BodyComponent.class);
+        BodyComponent bc = engine.createComponent(BodyComponent.class);
         TransformComponent tfc = engine.createComponent(TransformComponent.class);
-        TextureComponent   tc  = engine.createComponent(TextureComponent.class);
-        CoinComponent      cc  = engine.createComponent(CoinComponent.class);
-        AnimationComponent ac  = engine.createComponent(AnimationComponent.class);
+        TextureComponent tc = engine.createComponent(TextureComponent.class);
+        CoinComponent cc = engine.createComponent(CoinComponent.class);
+        AnimationComponent ac = engine.createComponent(AnimationComponent.class);
 
         Body body;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.active = true;
-        bodyDef.position.set(position.x + (6.4f / 2f * RenderSystem.PIXELS_TO_METERS),position.y + (7.6f / 2f * RenderSystem.PIXELS_TO_METERS));
+        bodyDef.position.set(position.x + (6.4f / 2f * RenderSystem.PIXELS_TO_METERS), position.y + (7.6f / 2f * RenderSystem.PIXELS_TO_METERS));
 
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(6.4f / 2f * RenderSystem.PIXELS_TO_METERS,7.6f / 2f * RenderSystem.PIXELS_TO_METERS);
+        box.setAsBox(6.4f / 2f * RenderSystem.PIXELS_TO_METERS, 7.6f / 2f * RenderSystem.PIXELS_TO_METERS);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = box;
@@ -666,28 +672,18 @@ public class EntitiesFactory {
         engine.addEntity(entity);
         return entity;
     }
-}
 
-
-
-
-
-
-
-
-
-
-/*
-    public static Entity createWitch(Vector2 pos){
+    public static Entity createWitch(Vector2 pos) {
         Entity entity = engine.createEntity();
 
-        StateAnimationComponent animComp  = engine.createComponent(StateAnimationComponent.class);
-        BodyComponent      bodyComp  = engine.createComponent(BodyComponent.class);
-        StatsComponent     statsComp = engine.createComponent(StatsComponent.class);
-        TextureComponent   textComp  = engine.createComponent(TextureComponent.class);
-        TransformComponent transComp = engine.createComponent(TransformComponent.class);
-
-
+        StateAnimationComponent animComp     = engine.createComponent(StateAnimationComponent.class);
+        BodyComponent           bodyComp     = engine.createComponent(BodyComponent.class);
+        StatsComponent          statsComp    = engine.createComponent(StatsComponent.class);
+        TextureComponent        textComp     = engine.createComponent(TextureComponent.class);
+        TransformComponent      transComp    = engine.createComponent(TransformComponent.class);
+        BossComponent           bossComp     = engine.createComponent(BossComponent.class);
+        BehaviorComponent       behaviorComp = engine.createComponent(BehaviorComponent.class);
+        WitchAgent              agentComp    = engine.createComponent(WitchAgent.class);
 
         Body body;
         BodyDef bdef = new BodyDef();
@@ -711,9 +707,9 @@ public class EntitiesFactory {
 
         Texture region = assets.manager.get(GameAssetsManager.witchTexture, Texture.class);
 
-        TextureRegion[][] regions = TextureRegion.split(region, 200 ,200);
+        TextureRegion[][] regions = TextureRegion.split(region, 200, 200);
 
-        animComp.add(EnemyState.Attacking, frameDuration, Animation.PlayMode.NORMAL,
+        animComp.add(WitchState.Attacking, fastFrameDuration, Animation.PlayMode.NORMAL,
                 regions[0][0],
                 regions[0][1],
                 regions[0][2],
@@ -728,31 +724,81 @@ public class EntitiesFactory {
 
         transComp.position.x = pos.x;
         transComp.position.y = pos.y;
-        transComp.position.z = 1;
+        transComp.position.z = -1;
         transComp.width = 120;
         transComp.height = 120;
         transComp.paddingBottom = 5;
 
+
         textComp.region = regions[0][0];
+        BehaviorTreeParser<Entity> parser = new BehaviorTreeParser<Entity>(BehaviorTreeParser.DEBUG_HIGH);
+        behaviorComp.bTree = parser.parse(Gdx.files.internal("entities/behavior/witch.tree").reader(), entity);
+        // behaviorComp.bTree.start();
+
+
+
         //textComp.region = new TextureRegion(region);
-        entity//.add(animComp)
-                 .add(bodyComp)
+        entity.add(animComp)
+                .add(bodyComp)
                 .add(statsComp)
                 .add(textComp)
                 .add(transComp)
-        .add(new BossComponent());
+                .add(bossComp)
+                .add(behaviorComp);
+
+        agentComp = new WitchAgent(entity);
+        EntityManager.add(agentComp);
+        entity.add(agentComp);
 
         engine.addEntity(entity);
-
         return entity;
     }
-*/
 
 
+    public static Entity createWitchAttack(Entity witch){
+        Entity attack = engine.createEntity();
+
+        BodyComponent            bodyComp   = engine.createComponent(BodyComponent.class);
+        AttackCollisionComponent collComp   = engine.createComponent(AttackCollisionComponent.class);
+        AttachedComponent        attachComp = engine.createComponent(AttachedComponent.class);
 
 
+        attachComp.attachTo = witch;
 
+        Body body;
 
+        BodyDef bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.gravityScale = 0f;
+        bdef.active = true;
+        body = world.createBody(bdef);
+
+        FixtureDef f = new FixtureDef();
+        //f.shape = shape;
+        f.isSensor = false;
+        f.filter.categoryBits = PhysicsConstants.ENEMY_ATTACK_SENSOR;
+        f.filter.maskBits = PhysicsConstants.FRIENDLY_BITS;
+
+        PolygonShape shape = new PolygonShape();
+
+        shape.setAsBox(
+                RenderSystem.PixelsToMeters(24),
+                RenderSystem.PixelsToMeters(24)
+        );
+
+        f.shape = shape;
+
+        body.createFixture(f).setUserData(attack);
+        body.setUserData(attack);
+        shape.dispose();
+
+        bodyComp.body = body;
+
+        attack.add(bodyComp).add(collComp).add(attachComp);
+        engine.addEntity(attack);
+        return attack;
+    }
+}
 
 /*
     public static void createDropper(float odd, float x, float y, float width, float height){

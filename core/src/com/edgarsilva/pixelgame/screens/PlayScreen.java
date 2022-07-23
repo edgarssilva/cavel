@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.PixelGame;
 import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
-import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgentComponent;
+import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyAgent;
 import com.edgarsilva.pixelgame.engine.ai.fsm.EnemyState;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAttackState;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerState;
@@ -180,8 +180,8 @@ public class PlayScreen implements Screen {
                 stats.damage = enemy.stats.damage;
 
                 entity.getComponent(TransformComponent.class).flipX = enemy.flipX;
-                entity.getComponent(EnemyAgentComponent.class).stateMachine.changeState(EnemyState.valueOf(enemy.stateName));
-                entity.getComponent(EnemyAgentComponent.class).moveToLeft = enemy.moveToLeft;
+                entity.getComponent(EnemyAgent.class).stateMachine.changeState(EnemyState.valueOf(enemy.stateName));
+                entity.getComponent(EnemyAgent.class).moveToLeft = enemy.moveToLeft;
             }
         }
 
