@@ -256,6 +256,10 @@ public class LevelFactory {
                     mc.message = MessageComponent.TutorialMessages.Jump;
                 }else if(message.equalsIgnoreCase("doublejump")){
                     mc.message = MessageComponent.TutorialMessages.DoubleJump;
+                }else if(message.equalsIgnoreCase("attack")){
+                    mc.message = MessageComponent.TutorialMessages.Attack;
+                }else if(message.equalsIgnoreCase("fallattack")){
+                    mc.message = MessageComponent.TutorialMessages.FallAttack;
                 }
 
                 entity.add(bc).add(mc);//.add(tc);
@@ -266,8 +270,13 @@ public class LevelFactory {
 
     public static void makeLights(TiledMap tiledMap, String layerName){
         MapObjects objects =  tiledMap.getLayers().get(layerName).getObjects();
+       // Filter filter = new Filter();
+       // filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS;
         for (MapObject object : objects){
-            new PointLight(rayHandler,180, Color.valueOf("#f96d09"), 10f , getObjectPosition(object).x, getObjectPosition(object).y).setSoftnessLength(2f);
+          PointLight light =  new PointLight(rayHandler,180, Color.valueOf("#f96d09"), getObjectDimension(object).x / 1.7f, getObjectPosition(object).x, getObjectPosition(object).y);
+          light.setSoftnessLength(getObjectDimension(object).x / 10 );
+          light.setXray(false);
+         // light.setContactFilter(filter);
         }
     }
 

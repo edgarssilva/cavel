@@ -69,6 +69,11 @@ public class MessageSystem extends IteratingSystem {
                         font.draw(screen.getBatch(), "Press", position.x - width * 17.5f, position.y + 0.75f);
                         font.draw(screen.getBatch(), " SpaceBar key 2 times to jump.", (position.x - width * 17.5f + width * 6), position.y + 0.75f);
                         break;
+
+                    case Attack:
+                        font.draw(screen.getBatch(), "Press", position.x - width * 11f, position.y + 0.75f);
+                        font.draw(screen.getBatch(), " K key to attack.", (position.x - width * 11f + width * 6), position.y + 0.75f);
+                        break;
                 }
                 screen.getBatch().end();
 

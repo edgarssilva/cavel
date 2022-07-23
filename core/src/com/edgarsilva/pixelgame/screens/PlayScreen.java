@@ -14,8 +14,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.edgarsilva.pixelgame.PixelGame;
+import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAgent;
+import com.edgarsilva.pixelgame.engine.utils.PhysicsConstants;
 import com.edgarsilva.pixelgame.engine.utils.controllers.Controller;
 import com.edgarsilva.pixelgame.engine.utils.controllers.JoystickController;
 import com.edgarsilva.pixelgame.engine.utils.controllers.KeyboardController;
@@ -33,6 +36,7 @@ import com.edgarsilva.pixelgame.engine.utils.managers.PauseManager;
 import com.edgarsilva.pixelgame.managers.GameAssetsManager;
 import com.edgarsilva.pixelgame.managers.SoundManager;
 
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 public class PlayScreen implements Screen {
@@ -80,11 +84,20 @@ public class PlayScreen implements Screen {
         world          = new World(new Vector2(0, -9.6f), true);
         world.setContactListener(new CollisionListener());
         rayHandler     = new RayHandler(world);
-        rayHandler.setAmbientLight(0.6f, 0.6f, 0.6f, 0.5f);
+        rayHandler.setAmbientLight(0.6f, 0.6f, 0.6f, 0.6f);
         rayHandler.setBlurNum(5);
         rayHandler.setShadows(true);
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
+
+
+        Filter filter = new Filter();
+        filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.ENEMY_BITS;
+
+        PointLight.setGlobalContactFilter(filter);
+
+
+
 
         batch          = new SpriteBatch();
         cameraManager  = new CameraManager();
@@ -130,7 +143,8 @@ public class PlayScreen implements Screen {
     public void show() {
         SoundManager.setMusic(GameAssetsManager.level1, true);
         Gdx.input.setInputProcessor(inputMultiplexer);
-
+        if (PlayerAgent.getCurrentState() == null || EntityManager.getPlayer() == null)
+            resetGame();
     }
 
     @Override
@@ -203,7 +217,6 @@ public class PlayScreen implements Screen {
             inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)) light = !light;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.O)) RayHandler.useDiffuseLight(!RayHandler.isDiffuse);
     }
 
     public void gameOver() {
@@ -213,6 +226,7 @@ public class PlayScreen implements Screen {
 
     private void resetGame(){
         entityManager.reset();
+        rayHandler.removeAll();
 
         gameOver      = false;
         gameOverTimer = 0f;
@@ -227,6 +241,10 @@ public class PlayScreen implements Screen {
         paused = true;
     }
 
+    public void unPause() {
+        paused = false;
+    }
+
     @Override
     public void resume() {
 
@@ -239,11 +257,13 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        engine.removeAllEntities();
+        entityManager.reset();
         engine.clearPools();
         hud.dispose();
         batch.dispose();
         LevelManager.dispose();
+        rayHandler.removeAll();
+        rayHandler.dispose();
         world.dispose();
     }
 

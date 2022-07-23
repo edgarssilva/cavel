@@ -33,10 +33,11 @@ public class PauseManager {
         table.setFillParent(true);
 
         TextButton continueBtn = new TextButton("Continue", screen.getGame().assets.getSkin());
+
         continueBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                screen.resume();
+                screen.unPause();
             }
         });
 
