@@ -105,12 +105,16 @@ public class LevelFactory {
             position = getObjectPosition(object);
             dimension = getObjectDimension(object);
 
-            if (object.getProperties().containsKey("player") || object.getName().equalsIgnoreCase("Player"))
-                EntitiesFactory.createPlayer(position.x, position.y, dimension.x, dimension.y);
-            if (object.getProperties().containsKey("enemy") || object.getName().equalsIgnoreCase("Enemy"))
-                EntitiesFactory.createEnemy(position.x, position.y, dimension.x, dimension.y);
+            String name = object.getName();
 
+            if (name.equalsIgnoreCase("Player"))
+                EntitiesFactory.createPlayer(position);
+            if (name.equalsIgnoreCase("Skeleton"))
+                EntitiesFactory.createSkeleton(position);
+            if (name.equalsIgnoreCase("Slime"))
+                EntitiesFactory.createSlime(position);
         }
+
         if (EntityManager.getPlayer() == null)
             System.out.println("Player spawn point is undefined in the level !");
     }

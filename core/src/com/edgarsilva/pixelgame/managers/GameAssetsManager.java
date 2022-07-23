@@ -16,6 +16,7 @@ public class GameAssetsManager {
     public static final String hudImage = "hud/ui_upscaled.png";
     public static final String playerAtlas = "entities/sprites/Player.atlas";
     public static final String skeletonAtlas = "entities/sprites/Skeleton.atlas";
+    public static final String slimeAtlas = "entities/sprites/slime.atlas";
     public static final String gameOverImage = "raw/textures/gameover.jpg";
 
     // Sounds
@@ -40,6 +41,7 @@ public class GameAssetsManager {
         manager.load(hudImage, Texture.class);
         manager.load(playerAtlas, TextureAtlas.class);
         manager.load(skeletonAtlas, TextureAtlas.class);
+        manager.load(slimeAtlas, TextureAtlas.class);
         manager.load(gameOverImage, Texture.class);
     }
 
@@ -66,6 +68,5 @@ public class GameAssetsManager {
             manager.unload(asset);
         }
     }
-
 
 }

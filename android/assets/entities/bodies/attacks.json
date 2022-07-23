@@ -2,7 +2,7 @@
   "rigidBodies": [
     {
       "name": "attack1",
-      "imagePath": "../Transferências/player/Adventurer-1.5/Individual Sprites/adventurer-attack1-02.png",
+      "imagePath": "",
       "origin": {
         "x": 0.4,
         "y": 0.1

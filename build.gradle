@@ -1,6 +1,5 @@
 buildscript {
     
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -11,13 +10,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        
-
     }
 }
 
 allprojects {
-    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = '1.0'
@@ -53,7 +49,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 
@@ -93,7 +89,7 @@ project(":android") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
-        
+
     }
 }
 
@@ -112,10 +108,6 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.4"
-        
-    }
-}
 
-tasks.eclipse.doLast {
-    delete ".project"
+    }
 }

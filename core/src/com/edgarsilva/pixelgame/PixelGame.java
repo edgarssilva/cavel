@@ -1,5 +1,6 @@
 package com.edgarsilva.pixelgame;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -77,6 +78,10 @@ public class PixelGame extends Game {
         System.out.println(Gdx.graphics.getGLVersion().getMajorVersion());*/
         preferences = new GamePreferences();
         new SoundManager(preferences.sound, assets);
+
+        if (Gdx.app.getType() == Application.ApplicationType.Android)
+            Gdx.input.setCatchBackKey(true);
+
 
         loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);

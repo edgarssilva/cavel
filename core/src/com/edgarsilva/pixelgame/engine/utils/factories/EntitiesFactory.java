@@ -27,7 +27,6 @@ import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.DropperComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.EnemyCollisionComponent;
-import com.edgarsilva.pixelgame.engine.ecs.components.EnemyComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.PlayerCollisionComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StateMachineComponent;
 import com.edgarsilva.pixelgame.engine.ecs.components.StatsComponent;
@@ -63,7 +62,7 @@ public class EntitiesFactory {
         EntitiesFactory.assets = screen.getGame().assets;
     }
 
-    public static void createPlayer(float x, float y, float width, float height){
+    public static void createPlayer(Vector2 position){
 
         Entity entity = engine.createEntity();
 
@@ -82,13 +81,12 @@ public class EntitiesFactory {
         sc.armor = 10;
         sc.damage = 20;
         sc.magic = 0;
-        sc.mana = 100;
 
 
         // set object position (x,y,z) z used to define draw order 0 first drawn
-        transform.position.set(x, y,0);
-        transform.width = width;
-        transform.height = height;
+        transform.position.set(position.x, position.y,0);
+        transform.width = 37.50f;
+        transform.height = 27.75f;
 
         transform.paddingRight = 0f;
         transform.paddingBottom = 10f;
@@ -101,7 +99,7 @@ public class EntitiesFactory {
                 */
 
         b2dbody.body = BodyGenerator.bodyHelper(entity,
-                new Vector2(transform.position.x, transform.position.y),
+                position,
                 new Vector2(transform.width, transform.height),
                 Gdx.files.internal("entities/bodies/player.json"),
                 PhysicsConstants.FRIENDLY_BITS);
@@ -110,7 +108,7 @@ public class EntitiesFactory {
         TextureAtlas atlas = assets.manager.get(GameAssetsManager.playerAtlas, TextureAtlas.class);
 
         animation.add(PlayerState.Idle,
-               frameDuration,
+                frameDuration,
                 Animation.PlayMode.LOOP,
                 atlas.findRegion("adventurer-idle-00"),
                 atlas.findRegion("adventurer-idle-01")
@@ -241,7 +239,7 @@ public class EntitiesFactory {
 */
 
         type.type = TypeComponent.PLAYER;
-       // stateCom.set(PlayerStates.STATE_NORMAL);
+        // stateCom.set(PlayerStates.STATE_NORMAL);
         b2dbody.body.setUserData(entity);
 
         // add the components to the entity
@@ -330,16 +328,16 @@ public class EntitiesFactory {
         return attack;
     }
 
-    public static Entity createEnemy(float x, float y, float width, float height){
+    public static Entity createSkeleton(Vector2 position){
         Entity entity = engine.createEntity();
 
         BodyComponent b2dbody = engine.createComponent(BodyComponent.class);
-        TransformComponent position = engine.createComponent(TransformComponent.class);
+        TransformComponent transform = engine.createComponent(TransformComponent.class);
         TextureComponent texture = engine.createComponent(TextureComponent.class);
         AnimationComponent animation = engine.createComponent(AnimationComponent.class);
         TypeComponent type = engine.createComponent(TypeComponent.class);
         StateMachineComponent stateCom = engine.createComponent(StateMachineComponent.class);
-        EnemyComponent enemyCom = engine.createComponent(EnemyComponent.class);
+        //EnemyComponent enemyCom = engine.createComponent(EnemyComponent.class);
         StatsComponent sc = engine.createComponent(StatsComponent.class);
         EnemyCollisionComponent collisionComp = engine.createComponent(EnemyCollisionComponent.class);
 
@@ -349,7 +347,6 @@ public class EntitiesFactory {
         sc.armor = 0;
         sc.damage = 20;
         sc.magic = 0;
-        sc.mana = 0;
 
         Body body;
         BodyDef bodyDef = new BodyDef();
@@ -357,11 +354,11 @@ public class EntitiesFactory {
         bodyDef.active = true;
 
         //bodyDef.gravityScale = 0.5f;
-        bodyDef.position.set(x + (width / 2f * RenderSystem.PIXELS_TO_METERS), y + (height / 2f * RenderSystem.PIXELS_TO_METERS));
+        bodyDef.position.set(position.x + (18 / 2f * RenderSystem.PIXELS_TO_METERS), position.y + (24 / 2f * RenderSystem.PIXELS_TO_METERS));
         body = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(width / 2f * RenderSystem.PIXELS_TO_METERS, height / 2f * RenderSystem.PIXELS_TO_METERS);
+        box.setAsBox(18 / 2f * RenderSystem.PIXELS_TO_METERS, 24 / 2f * RenderSystem.PIXELS_TO_METERS);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = box;
@@ -376,10 +373,10 @@ public class EntitiesFactory {
 
 
         // set object position (x,y,z) z used to define draw order 0 first drawn
-        position.position.set(x, y,0);
-        position.width = width;
-        position.height = height;
-        position.flipX = true;
+        transform.position.set(position.x, position.y,0);
+        transform.width = 18;
+        transform.height = 24;
+        transform.flipX = true;
         //position.paddingBottom = 3.5f;
 
         TextureAtlas atlas = assets.manager.get(GameAssetsManager.skeletonAtlas, TextureAtlas.class);
@@ -403,73 +400,83 @@ public class EntitiesFactory {
 
         // add the components to the entity
         entity.add(b2dbody);
-        entity.add(position);
+        entity.add(transform);
         entity.add(texture);
         entity.add(animation);
         entity.add(type);
-        entity.add(enemyCom).add(sc).add(stateCom).add(collisionComp);
+        entity//.add(enemyCom)
+                .add(sc).add(stateCom).add(collisionComp);
 
         // add the entity to the engine
         engine.addEntity(entity);
 
         EntityManager.add(new EnemySteering(entity));
-
-/*
-        //Create HealthBar Entity
-        Entity healthBar = engine.createEntity();
-
-        AttachedComponent attachedComponent = engine.createComponent(AttachedComponent.class);
-        attachedComponent.attachTo = entity;
-
-        TransformComponent pos = engine.createComponent(TransformComponent.class);
-        pos.position = position.position;
-        pos.position.z = 3f;
-        pos.width = position.width;
-        pos.height = 3;
-
-
-        HealthBarComponent healthBarComponent = engine.createComponent(HealthBarComponent.class);
-
-        Texture raw = new Texture("hud/healthBar.png");
-        TextureRegion background = new TextureRegion(raw, 40, 72, 60, 6);
-        TextureRegion foreground = new TextureRegion(raw, 40, 84, 60, 6);
-        TextureRegion outline    = new TextureRegion(raw, 32, 114, 82, 8);
-
-        //TextureComponent textComp = engine.createComponent(TextureComponent.class);
-        //textComp.region = foreground;
-
-
-        SpriteComponent spriteComponent = engine.createComponent(SpriteComponent.class);
-        spriteComponent.addTextures(background, foreground, outline);
-
-
-
-        for (Sprite sprite : spriteComponent.sprites) {
-            sprite.setOrigin(0, 0);
-            sprite.setSize(position.width, 2f);
-            sprite.setScale(RenderSystem.PIXELS_TO_METERS);
-            sprite.setPosition(pos.position.x, pos.position.y);
-        }
-
-        Sprite sprite = spriteComponent.sprites.get(2);
-        sprite.setSize(position.width + 10, 2.5f);
-
-
-        healthBar.add(attachedComponent)
-                .add(pos)
-                //.add(textComp)
-                .add(spriteComponent)
-                .add(healthBarComponent);
-
-        engine.addEntity(healthBar);
-*/
         return entity;
     }
 
-    public static void createDropper(float odd, float x, float y, float width, float height){
-       Entity dropper = engine.createEntity();
+    public static Entity createSlime(Vector2 position){
+        Entity entity = engine.createEntity();
 
-       DropperComponent dc = engine.createComponent(DropperComponent.class);
+        AnimationComponent       animComp    =  engine.createComponent(AnimationComponent.class);
+        BodyComponent            bodyComp    =  engine.createComponent(BodyComponent.class);
+        EnemyCollisionComponent  collComp  =  engine.createComponent(EnemyCollisionComponent.class);
+        StateMachineComponent    stateComp   =  engine.createComponent(StateMachineComponent.class);
+        StatsComponent           statsComp   =  engine.createComponent(StatsComponent.class);
+        TextureComponent         textComp    =  engine.createComponent(TextureComponent.class);
+        TransformComponent       transfComp  =  engine.createComponent(TransformComponent.class);
+        TypeComponent            typeComp    =  engine.createComponent(TypeComponent.class);
+
+        TextureAtlas atlas = assets.manager.get(GameAssetsManager.slimeAtlas, TextureAtlas.class);
+
+        animComp.add(EnemyState.IDLE, frameDuration, Animation.PlayMode.LOOP,
+                atlas.findRegion("slime-idle-0"),
+                atlas.findRegion("slime-idle-1"),
+                atlas.findRegion("slime-idle-2"),
+                atlas.findRegion("slime-idle-3")
+        );
+
+
+        bodyComp.body = BodyGenerator.bodyHelper(
+                entity,
+                position,
+                new Vector2(16, 16),
+                Gdx.files.internal("entities/bodies/slime.json"),
+                PhysicsConstants.ENEMY_BITS
+        );
+
+        bodyComp.flippable = true;
+
+        stateComp.machine = new DefaultStateMachine<Entity, EnemyState>(entity, EnemyState.IDLE);
+
+        statsComp.health    = 50;
+        statsComp.damage    = 10;
+        statsComp.health    = 10;
+        statsComp.maxHealth = 50;
+
+        transfComp.width  = 16;
+        transfComp.height = 16;
+        transfComp.position.set(position.x, position.y, 2);
+
+        typeComp.type = TypeComponent.ENEMY;
+
+        entity.add(animComp)
+                .add(bodyComp)
+                .add(collComp)
+                .add(stateComp)
+                .add(statsComp)
+                .add(textComp)
+                .add(transfComp)
+                .add(typeComp);
+
+        engine.addEntity(entity);
+        return entity;
+    }
+
+
+    public static void createDropper(float odd, float x, float y, float width, float height){
+        Entity dropper = engine.createEntity();
+
+        DropperComponent dc = engine.createComponent(DropperComponent.class);
 
         dc.odd = odd;
         dc.tile = 0;
@@ -480,7 +487,7 @@ public class EntitiesFactory {
 
         dropper.add(dc);
 
-       engine.addEntity(dropper);
+        engine.addEntity(dropper);
     }
 
     public static void createDrop(float x, float y, float width, float height, Entity dropper) {

@@ -44,7 +44,7 @@ public class BodyGenerator {
         JsonReader jsonReader   = new JsonReader();
         JsonValue root         = jsonReader.parse(rawJson);
 
-        short maskingBits = (short) ((PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_BITS | PhysicsConstants.NEUTRAL_BITS | PhysicsConstants.LEVEL_BITS) ^ filterCategory);
+        //short maskingBits = (short) ((PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.ENEMY_BITS | PhysicsConstants.NEUTRAL_BITS | PhysicsConstants.LEVEL_BITS) ^ filterCategory);
 
         BodyDef bodyDef = new BodyDef();
 
@@ -109,7 +109,16 @@ public class BodyGenerator {
             } else {
                 fixtureDef.friction = fixture.getFloat("friction");
                 fixtureDef.filter.categoryBits = filterCategory;
-                fixtureDef.filter.maskBits = maskingBits;
+
+                switch (filterCategory) {
+                    case PhysicsConstants.ENEMY_BITS:
+                        fixtureDef.filter.maskBits =
+                                PhysicsConstants.ATTACK_SENSOR | PhysicsConstants.LEVEL_BITS;
+                        break;
+                    case PhysicsConstants.FRIENDLY_BITS:
+                        fixtureDef.filter.maskBits =
+                                PhysicsConstants.ENEMY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.FRIENDLY_BITS;
+                }
             }
             body.createFixture(fixtureDef).setUserData(owner);
             shape.dispose();

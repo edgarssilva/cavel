@@ -1,0 +1,22 @@
+{
+  "BodyDef": {
+    "fixedRotation" : true,
+    "type": "DynamicBody",
+    "gravityScale": 1,
+    "bullet": false
+  },
+  "Fixtures" : [
+    {
+      "description": "body",
+      "isSensor": false,
+      "type": "CircleShape",
+      "radius": 6,
+      "density": 4,
+      "friction": 1.0,
+      "restitution": 0.0,
+      "x": 0,
+      "y": 0
+    }
+  ]
+
+}

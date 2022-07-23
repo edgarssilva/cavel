@@ -74,7 +74,7 @@ public class MenuScreen implements Screen {
         connect.setTransform(true);
         connect.setScale(0.4f);
         connect.setOrigin(Align.right, Align.bottom);
-        connect.setPosition(PixelGame.WIDTH - 150, 20f);
+        connect.setPosition(PixelGame.WIDTH - 150f, 20f);
         stage.addActor(connect);
 
         table.add(newGame).fillX().uniformX();
