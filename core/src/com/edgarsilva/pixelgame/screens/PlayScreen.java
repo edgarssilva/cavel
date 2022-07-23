@@ -105,7 +105,6 @@ public class PlayScreen implements Screen {
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
 
-
         Filter filter = new Filter();
         filter.maskBits = PhysicsConstants.FRIENDLY_BITS | PhysicsConstants.LEVEL_BITS | PhysicsConstants.ENEMY_BITS;
 
@@ -261,7 +260,8 @@ public class PlayScreen implements Screen {
             inputMultiplexer.addProcessor(Controller.INPUT_INDEX, controller.getInputProcessor());
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)) light = !light;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) resetGame();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)){ resetGame(); generateGame();}
+
         if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.S)) new Save(this);
         }

@@ -25,7 +25,7 @@ public class Shake {
 
             pos.x = (random.nextFloat() - 0.5f) * 2 * currentPower;
             pos.y = (random.nextFloat() - 0.5f) * 2 * currentPower;
-            pos.z = (random.nextFloat() - 0.5f) * currentPower;
+            pos.z = (random.nextFloat() - 0.5f) * 1.3f * currentPower;
             currentTime += delta;
         } else {
             time = 0;

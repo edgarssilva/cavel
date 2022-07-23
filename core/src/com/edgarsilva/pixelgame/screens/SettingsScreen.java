@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.edgarsilva.pixelgame.PixelGame;
 
 public class SettingsScreen implements Screen{
@@ -27,6 +27,8 @@ public class SettingsScreen implements Screen{
     private Skin skin;
 
     private Label titleLabel;
+    private Label audioLabel;
+    private Label videoLabel;
     private Label volumeMusicLabel;
     private Label volumeSoundLabel;
     private Label musicOnOffLabel;
@@ -38,19 +40,19 @@ public class SettingsScreen implements Screen{
     private final  CheckBox musicCheckbox;
     private final  TextButton backButton;
 
-    int screen = 0;
+    private int screen;
 
     public SettingsScreen(final PixelGame game, int screen) {
         this.game = game;
         this.screen = screen;
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
 
         table = new Table();
 
         table.setFillParent(true);
         table.setDebug(PixelGame.DEBUG);
-        
+
         skin = game.assets.getSkin();
 
         volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
@@ -100,36 +102,60 @@ public class SettingsScreen implements Screen{
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-              changeScreen();
-              game.sound.update();
+                changeScreen();
+                game.sound.update();
             }
         });
 
 
 
-        titleLabel = new Label( "Preferences", skin );
-        volumeMusicLabel = new Label( "Music Volume", skin );
-        volumeSoundLabel = new Label( "Sounds Volume", skin );
-        musicOnOffLabel = new Label( "Music", skin );
-        soundOnOffLabel = new Label( "Sounds", skin );
+        titleLabel = new Label("Preferences", skin);
+        audioLabel = new Label("Audio", skin);
+        videoLabel = new Label("Video", skin);
+        volumeMusicLabel = new Label("Music Volume", skin);
+        volumeSoundLabel = new Label("Sounds Volume", skin);
+        musicOnOffLabel = new Label("Music", skin);
+        soundOnOffLabel = new Label("Sounds", skin);
+        backButton.scaleBy(4);
 
+        skin.getFont("BitPotionExt").getData().setScale(2);
+        Table left = new Table();
+        left.setDebug(PixelGame.DEBUG);
+        left.add(audioLabel).colspan(12);
+        left.row();
+        left.row().pad(10,10,10,10);
+        left.add(volumeMusicLabel);
+        left.add(volumeMusicSlider);
+        left.row().pad(10,10,10,10);
+        left.add(musicOnOffLabel);
+        left.add(musicCheckbox);
+        left.row().pad(10,10,10,10);
+        left.add(volumeSoundLabel);
+        left.add(soundMusicSlider);
+        left.row().pad(10,10,10,10);
+        left.add(soundOnOffLabel);
+        left.add(soundEffectsCheckbox);
 
-        table.add(titleLabel).colspan(2);
-        table.row().pad(10,10,10,10);
-        table.add(volumeMusicLabel);
-        table.add(volumeMusicSlider);
-        table.row().pad(10,10,10,10);
-        table.add(musicOnOffLabel);
-        table.add(musicCheckbox);
-        table.row().pad(10,10,10,10);
-        table.add(volumeSoundLabel);
-        table.add(soundMusicSlider);
-        table.row().pad(10,10,10,10);
-        table.add(soundOnOffLabel);
-        table.add(soundEffectsCheckbox);
-        table.row().pad(10,10,10,10);
-        table.add(backButton).colspan(2);
+        Table right = new Table();
+        right.setDebug(PixelGame.DEBUG);
+        right.add(videoLabel).expandX();
+        right.row().pad(10,10,10,10);
+        right.add(new Label("Light Effects", skin));
+        right.add(new CheckBox(null, skin)).expandX();
+        right.row().pad(10,10,10,10);
+        right.add(new Label("Game", skin)).expandX();
+        right.row().pad(10,10,10,10);
+        right.add(new TextButton("Reset Game", skin)).width(150);
+        right.row().pad(10,10,10,10);
+        right.add(new TextButton("Credits", skin)).width(150);
 
+        table.center().center();
+        table.add(titleLabel).colspan(24);
+        table.row().padTop(30);
+        table.add(left).colspan(6);
+        table.add(right).colspan(24);
+        table.row().pad(10,10,10,10);
+        table.add(backButton).colspan(24);
     }
 
     @Override
@@ -143,10 +169,10 @@ public class SettingsScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            game.setScreen(PixelGame.MENU_SCREEN);
-        }
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.BACK))
+            changeScreen();
+
+        Gdx.gl.glClearColor(24 / 255f, 32 / 255f, 61 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();

@@ -1,0 +1,78 @@
+{
+BitmapFont: {
+	BitPotionExt: {
+		file: BitPotionExt.fnt
+	}
+	BitPotionExt_Black: {
+		file: BitPotionExt_Black.fnt
+	}
+}
+Color: {
+	white: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+ButtonStyle: {
+	default: {
+		up: button2
+		down: button_pressed2
+		over: button_hover
+	}
+}
+CheckBoxStyle: {
+	default: {
+		checkboxOn: checkbox_selected
+		checkboxOff: checkbox
+		font: BitPotionExt
+	}
+}
+ImageButtonStyle: {
+	default: {
+		imageUp: button2
+		imageDown: button_pressed2
+		imageOver: button_hover
+	}
+}
+ImageTextButtonStyle: {
+	default: {
+		imageUp: button2
+		imageDown: button_pressed2
+		imageOver: button_hover
+		font: BitPotionExt
+	}
+}
+LabelStyle: {
+	default: {
+		font: BitPotionExt
+	}
+}
+SliderStyle: {
+	default-horizontal: {
+		knobDown: knob_hover
+		background: slider
+		knob: knob
+	}
+}
+TextButtonStyle: {
+	default: {
+		font: BitPotionExt
+		up: button2
+		down: button_pressed2
+		over: button_hover
+	}
+}
+TextFieldStyle: {
+	default: {
+		font: BitPotionExt
+		fontColor: white
+	}
+}
+TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}

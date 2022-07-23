@@ -33,6 +33,10 @@ public class MenuScreen implements Screen {
     private float playerY = 0f;
     private float playerA = 0f;
 
+    private Texture background;
+    private Texture cavel;
+    private float backgroundPos = 0f;
+
     public MenuScreen(PixelGame pixelGame) {
         this.game = pixelGame;
         stage = new Stage(new FitViewport(PixelGame.WIDTH, PixelGame.HEIGHT));
@@ -40,6 +44,10 @@ public class MenuScreen implements Screen {
         TextureRegion frame1 = new TextureRegion(game.assets.manager.get(GameAssetsManager.menuFrame1, Texture.class));
         TextureRegion frame2 = new TextureRegion(game.assets.manager.get(GameAssetsManager.menuFrame2, Texture.class));
 
+        background = new Texture("teste.png");
+        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        cavel = new Texture("Cavel.png");
 
         anim = new Animation<TextureRegion>( 1 / 8f, frame1, frame2);
         stage.setDebugAll(PixelGame.DEBUG);
@@ -98,9 +106,12 @@ public class MenuScreen implements Screen {
             }
         });
 
+        TextButton shop = new TextButton("Shop", skin);
+
+
         connect.setTransform(true);
         connect.setScale(1.2f);
-        connect.getLabel().setFontScale(2f);
+        connect.getLabel().setFontScale(1.8f);
         connect.setPosition(stage.getWidth() - 90f, stage.getHeight() - 45f);
 
 
@@ -114,6 +125,11 @@ public class MenuScreen implements Screen {
         preferences.getLabel().setFontScale(1f, 2f);
         preferences.setPosition(10f, 10f);
 
+        shop.setTransform(true);
+        shop.setScale(1.5f, 1f);
+        shop.getLabel().setFontScale(1f, 1.5f);
+        shop.setPosition(10f, 50f);
+
         exit.setTransform(true);
         exit.setScale(.7f);
         exit.getLabel().setFontScale(2f);
@@ -122,6 +138,7 @@ public class MenuScreen implements Screen {
         stage.addActor(connect);
         stage.addActor(newGame);
         stage.addActor(preferences);
+        stage.addActor(shop);
         stage.addActor(exit);
     }
 
@@ -133,7 +150,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(33 / 255f, 38 / 255f, 63 / 255f, 1);
+       // Gdx.gl.glClearColor(33 / 255f, 38 / 255f, 63 / 255f, 1);
+         Gdx.gl.glClearColor(24 / 255f, 32 / 255f, 61 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Shake.getShakeTimeLeft() > 0){
@@ -142,15 +160,19 @@ public class MenuScreen implements Screen {
             playerY = MathUtils.lerp(playerY, Shake.getPos().y, delta);
             playerA = MathUtils.lerp(playerA, Shake.getPos().z, delta);
         }else{
-            Shake.shake(100, 300f);
+            Shake.shake(100, 400f);
         }
 
+        backgroundPos += delta * 3000;
+
         stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, 0, (int) backgroundPos, (int) stage.getViewport().getWorldWidth(), (int) stage.getViewport().getWorldHeight());
+        stage.getBatch().draw(cavel, stage.getWidth() / 2 - cavel.getWidth() / 1.9f + playerY, stage.getHeight() - cavel.getHeight() + 30 + playerX);
         stage.getBatch().draw((TextureRegion) anim.getKeyFrame(frame += delta, true),
-                playerX, playerY,
+                playerX - 20, playerY - 70,
                 stage.getWidth() / 2, stage.getHeight() / 2,
                 stage.getWidth(), stage.getHeight(),
-                1, 1,
+                0.8f, 0.8f,
                 playerA
         );
         stage.getBatch().end();

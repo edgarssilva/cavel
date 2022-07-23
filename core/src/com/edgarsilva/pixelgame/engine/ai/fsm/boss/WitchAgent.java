@@ -17,10 +17,9 @@ public class WitchAgent extends Agent {
 
     private StatsComponent statsComp;
     private ComponentMapper<StatsComponent> statsMap;
-    private StateMachine<WitchAgent, WitchState> stateMachine;
+    public StateMachine<WitchAgent, WitchState> stateMachine;
 
-    public WitchAgent() {
-    }
+    public WitchAgent() {}
 
     public WitchAgent(Entity witch) {
         this.owner = witch;

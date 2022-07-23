@@ -11,6 +11,7 @@ import com.edgarsilva.pixelgame.engine.ecs.systems.CoinSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.DeathSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.DropperSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.HealthBarSystem;
+import com.edgarsilva.pixelgame.engine.ecs.systems.LightSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.MessageSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsDebugSystem;
 import com.edgarsilva.pixelgame.engine.ecs.systems.PhysicsSystem;
@@ -37,6 +38,7 @@ public class EntityManager {
 
         //Physics Systems
         engine.addSystem(new PhysicsSystem(screen.getWorld()));
+        engine.addSystem(new LightSystem());
         if (PixelGame.DEBUG)
             engine.addSystem(new PhysicsDebugSystem(screen.getWorld(), screen.getCameraManager().getCamera()));
         engine.addSystem(new AttachedSystem());

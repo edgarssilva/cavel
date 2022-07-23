@@ -1,5 +1,6 @@
 package com.edgarsilva.pixelgame.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.edgarsilva.pixelgame.PixelGame;
@@ -11,6 +12,7 @@ public class DesktopLauncher {
 		config.setInitialVisible(true);
 		config.setWindowedMode((int) PixelGame.WIDTH, (int) PixelGame.HEIGHT);
 		config.useVsync(false);
+		config.setWindowIcon(Files.FileType.Internal, "icon_launcher.png");
 		config.setIdleFPS(60);
 		new Lwjgl3Application(new PixelGame(), config);
 

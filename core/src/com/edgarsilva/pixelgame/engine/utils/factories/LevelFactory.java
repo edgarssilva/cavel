@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.edgarsilva.pixelgame.engine.ai.fsm.Enemies;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerAttackState;
 import com.edgarsilva.pixelgame.engine.ai.fsm.PlayerState;
 import com.edgarsilva.pixelgame.engine.ecs.components.BodyComponent;
@@ -113,9 +114,10 @@ public class LevelFactory {
             if (name.equalsIgnoreCase("Player"))
                 EntitiesFactory.createPlayer(position, PlayerState.Idle, PlayerAttackState.NONE);
             if (name.equalsIgnoreCase("Skeleton"))
-                EntitiesFactory.createSkeleton(position);
+                  EntitiesFactory.createSkeleton(position);
             if (name.equalsIgnoreCase("Slime"))
-                EntitiesFactory.createSlime(position);
+                //EntitiesFactory.createSlime(position);
+                EntitiesFactory.createEnemy(Enemies.SLIME, position);
             if (name.equalsIgnoreCase("Witch"))
                 EntitiesFactory.createWitch(position);
         }

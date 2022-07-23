@@ -23,14 +23,11 @@ public class GameAssetsManager {
 
     // Textures
     public static final String hudImage      = "hud/ui_upscaled.png";
-    public static final String playerAtlas   = "entities/sprites/Player.atlas";
-    public static final String skeletonAtlas = "entities/sprites/Skeleton.atlas";
-    public static final String slimeAtlas    = "entities/sprites/slime.atlas";
     public static final String gameOverImage = "raw/textures/gameover.jpg";
-    public static final String witchTexture  = "entities/sprites/witch.png";
     public static final String splashAtlas   = "raw/textures/splash.atlas";
     public static final String menuFrame1    = "raw/frame1.png";
     public static final String menuFrame2    = "raw/frame2.png";
+    public static final String atlas       = "entities/sprites/cavel.atlas";
 
     //Keyboard
     public HashMap<String, Animation<TextureRegion>> keyboard = new HashMap<String, Animation<TextureRegion>>();
@@ -67,11 +64,8 @@ public class GameAssetsManager {
 
     public void queueAddTextures(){
         manager.load(hudImage, Texture.class);
-        manager.load(playerAtlas, TextureAtlas.class);
-        manager.load(skeletonAtlas, TextureAtlas.class);
-        manager.load(slimeAtlas, TextureAtlas.class);
         manager.load(gameOverImage, Texture.class);
-        manager.load(witchTexture, Texture.class);
+        manager.load(atlas, TextureAtlas.class);
     }
 
     public void queueAddSounds(){

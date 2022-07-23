@@ -1,0 +1,76 @@
+
+bitpotion.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BitPotionExt_0
+  rotate: false
+  xy: 1, 327
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+BitPotionExt_Black_0
+  rotate: false
+  xy: 1, 69
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+button2
+  rotate: false
+  xy: 1, 1
+  size: 72, 32
+  orig: 72, 32
+  offset: 0, 0
+  index: -1
+button_hover
+  rotate: false
+  xy: 259, 533
+  size: 72, 32
+  orig: 72, 32
+  offset: 0, 0
+  index: -1
+button_pressed2
+  rotate: false
+  xy: 1, 35
+  size: 72, 32
+  orig: 72, 32
+  offset: 0, 0
+  index: -1
+checkbox
+  rotate: false
+  xy: 75, 35
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+checkbox_selected
+  rotate: false
+  xy: 259, 499
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 389, 567
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+knob_hover
+  rotate: false
+  xy: 333, 549
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+slider
+  rotate: false
+  xy: 259, 567
+  size: 128, 16
+  orig: 128, 16
+  offset: 0, 0
+  index: -1

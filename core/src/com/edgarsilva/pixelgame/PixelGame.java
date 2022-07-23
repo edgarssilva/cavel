@@ -94,6 +94,7 @@ public class PixelGame extends Game {
                 break;
             case PLAY_SCREEN:
                 if (playScreen == null) playScreen = new PlayScreen(this);
+                else setScreen(playScreen);
                 break;
             case LEVEL_SCREEN:
                 if (levelScreen == null) levelScreen = new LevelScreen(this);
@@ -126,6 +127,7 @@ public class PixelGame extends Game {
     }
 
     public void setSave(int screen, Save save) {
+        playScreen = null;
         setScreen(screen);
         switch (screen) {
             case LOADING_SCREEN:
